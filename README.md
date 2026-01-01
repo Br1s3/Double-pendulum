@@ -21,11 +21,11 @@ $ play_video
 ```
 ## Exemple en image du double pendule avec Raylib
 
-[![Double-pendule](./Double-pendule.png)](/picture)
+[![Double-pendule](./picture/Double-pendule.png)](/picture)
 
 ## Exemple en image du double pendule en mode console
 
-[![Double-pendule-console](./Double-pendule-console.png)](/picture)
+[![Double-pendule-console](./picture/Double-pendule-console.png)](/picture)
 
 <!-- TODO: -->
 <!-- ## Exemple en image du double pendule en mode vidéo -->
