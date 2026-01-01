@@ -27,16 +27,16 @@ double equ_psi_2(double th1, double th2, double ph1, double ph2, double g, doubl
     return (2.f*sin(th1 - th2)*(ph1*ph1*l1*(m1 + m2) + g*(m1 + m2)*cos(th1) + ph2*ph2*l2*m2*cos(th1 - th2)))/(l2*(2.f*m1 + m2 - m2*cos(2.f*th1 - 2.f*th2)));
 }
 
-double equ_1_moi_meme(double th1, double th2, double ph1, double ph2, double g, double l1, double l2, double m1, double m2)
+/// EQUATIONS FAITES SANS SIMPLIFICATION
+double equ_psi_1_main(double th1, double th2, double ph1, double ph2, double g, double l1, double l2, double m1, double m2)
 {
     return (l2*m2*(l2*m2*ph2*ph2*sin(th1 - th2) + (m1 + m2)*g*sin(th1)) + l2*m2*cos(th1 - th2)*(l1*m2*ph1*ph1*sin(th1 - th2) - m2*g*sin(th2))) / (l1*l2*m2*m2*cos(th1 - th2)*cos(th1 - th2) - l1*l2*m2*(m1 + m2));
 }
-
-double equ_2_moi_meme(double th1, double th2, double ph1, double ph2, double g, double l1, double l2, double m1, double m2)
+double equ_psi_2_main(double th1, double th2, double ph1, double ph2, double g, double l1, double l2, double m1, double m2)
 {
     return (-l1*(m1 + m2)*(l1*m2*ph1*ph1*sin(th1 - th2) - m2*g*sin(th2)) - l1*m2*cos(th1 - th2)*(l2*m2*ph2*ph2*sin(th1 - th2) + (m1 + m2)*g*sin(th1))) / (l1*l2*m2*m2*cos(th1 - th2)*cos(th1 - th2) - l1*l2*m2*(m1 + m2));
 }
-
+///
 
 typedef struct
 {
@@ -84,17 +84,17 @@ typedef struct
 	UNUSED(y);							\
 	return equ_psi_2(Var_Dp2.theta_1, th2, Var_Dp2.phi_1, Var_Dp2.phi_2, Var_Dp2.g, Var_Dp2.l1, Var_Dp2.l2, Var_Dp2.m1, Var_Dp2.m2); \
     }									\
-    double equ_1_moi_meme_var2(double x, double th1, double y)		\
+    double equ_psi_1_var2_main(double x, double th1, double y)		\
     {									\
 	UNUSED(x);							\
 	UNUSED(y);							\
-	return equ_1_moi_meme(th1, Var_Dp2.theta_2, Var_Dp2.phi_1, Var_Dp2.phi_2, Var_Dp2.g, Var_Dp2.l1, Var_Dp2.l2, Var_Dp2.m1, Var_Dp2.m2); \
+	return equ_psi_1_main(th1, Var_Dp2.theta_2, Var_Dp2.phi_1, Var_Dp2.phi_2, Var_Dp2.g, Var_Dp2.l1, Var_Dp2.l2, Var_Dp2.m1, Var_Dp2.m2); \
     }									\
-    double equ_2_moi_meme_var2(double x, double th2, double y)		\
+    double equ_psi_2_var2_main(double x, double th2, double y)		\
     {									\
 	UNUSED(x);							\
 	UNUSED(y);							\
-	return equ_2_moi_meme(Var_Dp2.theta_1, th2, Var_Dp2.phi_1, Var_Dp2.phi_2, Var_Dp2.g, Var_Dp2.l1, Var_Dp2.l2, Var_Dp2.m1, Var_Dp2.m2); \
+	return equ_psi_1_main(Var_Dp2.theta_1, th2, Var_Dp2.phi_1, Var_Dp2.phi_2, Var_Dp2.g, Var_Dp2.l1, Var_Dp2.l2, Var_Dp2.m1, Var_Dp2.m2); \
     }									\
     do{}while(0)							\
 
@@ -251,9 +251,10 @@ void tracage_double_pendule(int i, Double_pendule *Dp, Color cl, Var_Dp VDp)
 
 int main()
 {
+#ifdef SAUVEGARDE_ENERGIE
     FILE *fichier = fichier = fopen(FILEPATH, "w");
     if(!fichier) fprintf(stderr, "Erreur d'écriture sur fichier\n");
-
+#endif
     Var_Dp Var_Dp1 = {.l1       = 1.0f,
     		      .l2       = 1.0f,
     		      .m1       = 1.f,
@@ -288,7 +289,7 @@ int main()
     double dt1 = 1.f/(IPS);
     double dt2 = 1.f/(IPS);
 
-    double epsilon1 = 0.01f;
+    double epsilon1 = 0.001f;
     double epsilon2 = 0.001f;
     double t = 0;
     
@@ -305,49 +306,21 @@ int main()
 	BeginDrawing();
 	ClearBackground(BLACK);
 
-	// if (methode_RK_adaptative_pendule(dt1, epsilon1, &Var_Dp1, equ_psi_1_var1, equ_psi_2_var1, methode_RK4) < 0)
-	//     DrawText(tab, WIDTH/2-200, 10, 50, RED);
-
-	// if (methode_RK_adaptative_pendule(dt2, epsilon2, &Var_Dp2, equ_psi_1_var2, equ_psi_2_var2, methode_RK4) < 0)
-	//     DrawText(tab, WIDTH/2-200, 10, 50, RED);
-
-	if (methode_RK(dt2, Var_Dp2.t, &Var_Dp2.theta_1, &Var_Dp2.phi_1, equ_psi_1_var2) < 0)
-	    DrawText(tab, WIDTH/2-200, 10, 50, RED);
-	if (methode_RK(dt2, Var_Dp2.t, &Var_Dp2.theta_2, &Var_Dp2.phi_2, equ_psi_2_var2) < 0)
+	// Méthode adaptative utilisé sur myphysicslab
+	if (methode_RK_adaptative_pendule(dt1, epsilon1, &Var_Dp1, equ_psi_1_var1, equ_psi_2_var1, methode_RK4) < 0)
 	    DrawText(tab, WIDTH/2-200, 10, 50, RED);
 
-	    
-	if (methode_RK4(dt1, Var_Dp1.t, &Var_Dp1.theta_1, &Var_Dp1.phi_1, equ_psi_1_var1) < 0)
+	// Méthode explicite classique
+	if (methode_DOPRI45(dt2, &t, epsilon2, &Var_Dp2.theta_1, &Var_Dp2.phi_1, equ_psi_1_var2) < 0)
 	    DrawText(tab, WIDTH/2-200, 10, 50, RED);
-	if (methode_RK4(dt1, Var_Dp1.t, &Var_Dp1.theta_2, &Var_Dp1.phi_2, equ_psi_2_var1) < 0)
+	if (methode_DOPRI45(dt2, &t, epsilon2, &Var_Dp2.theta_2, &Var_Dp2.phi_2, equ_psi_2_var2) < 0)
 	    DrawText(tab, WIDTH/2-200, 10, 50, RED);
 
-	// if (methode_euler_simpletique(dt1, &Var_Dp1.theta_1, &Var_Dp1.phi_1, equ_1_balese_var1) < 0)
-	//     DrawText(tab, WIDTH/2-200, 10, 50, RED);
-	// if (methode_euler_simpletique(dt1, &Var_Dp1.theta_2, &Var_Dp1.phi_2, equ_2_balese_var1) < 0)
-	//     DrawText(tab, WIDTH/2-200, 10, 50, RED);
-
-	// if (methode_Verlet(dt2, t, &Var_Dp2.theta_1, &Var_Dp2.phi_1, equ_1_balese_var2) < 0)
-	//     DrawText(tab, WIDTH/2-200, 10, 50, RED);
-	// if (methode_Verlet(dt2, t, &Var_Dp2.theta_2, &Var_Dp2.phi_2, equ_2_balese_var2) < 0)
-	//     DrawText(tab, WIDTH/2-200, 10, 50, RED);
-
-	// if (methode_DOPRI45(dt2, &t, epsilon2, &Var_Dp2.theta_1, &Var_Dp2.phi_1, equ_1_balese_var2) < 0)
-	//     DrawText(tab, WIDTH/2-200, 10, 50, RED);
-	// if (methode_DOPRI45(dt2, &t, epsilon2, &Var_Dp2.theta_2, &Var_Dp2.phi_2, equ_2_balese_var2) < 0)
-	//     DrawText(tab, WIDTH/2-200, 10, 50, RED);
-
-
-	// if ((t - (int)t) <= dt2) {
-	    float E_TOT_1 = get_energie_pendule(Var_Dp1);
-	    float E_TOT_2 = get_energie_pendule(Var_Dp2);
-	    // fprintf(fichier, "%lf,%.3f\n", Var_Dp2.t, E_TOT_2);
-	    fprintf(fichier, "%lf,%.3f,%.3f\n", t, E_TOT_1, E_TOT_2);
-	// }
-	// fprintf(fichier, "%f,%f\n", t, E_TOT_1);
-	// fprintf(fichier, "%f,%f\n", Dp1.boule_2.x/100.f, Dp1.boule_2.y/100.f);
-	// fprintf(fichier, "%lf,%lf,%lf\n", Var_Dp2.t, Var_Dp2.theta_1, Var_Dp2.theta_2);
-	// fprintf(fichier, "%f,%f\n", phi_1, phi_2);
+#ifdef SAUVEGARDE_ENERGIE
+	float E_TOT_1 = get_energie_pendule(Var_Dp1);
+	float E_TOT_2 = get_energie_pendule(Var_Dp2);
+	fprintf(fichier, "%lf,%.3f,%.3f\n", t, E_TOT_1, E_TOT_2);
+#endif
 	if (i < BUFFER_LENGTH_TRAINE) i++;
 	
 	tracage_double_pendule(i, &Dp1, BLUE, Var_Dp1);
@@ -359,7 +332,9 @@ int main()
 	DrawFPS(20, 20);
 	EndDrawing();
     }
+#ifdef SAUVEGARDE_ENERGIE
     fclose(fichier);
+#endif
     CloseWindow();
     return 0;
 }
