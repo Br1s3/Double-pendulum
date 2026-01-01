@@ -1,22 +1,36 @@
-# Programme simulant un double pendule
+# Programmes simulant un double pendule
 
 > [!WARNING]
-> Necessite la librairie graphique Raylib
+> Le programme "double_pendule" necessite la librairie graphique Raylib
 
-Programme permettant de résoudre numériquement l'équation du double pendule. 
+Programmes permettant de résoudre numériquement l'équation du double pendule. 
 Le programme embarque plusieurs solveur d'EDO comme: RK4, Verlet, Euler et DOPRI45.
-La visualisation de cette simulation est effectuée avec Raylib.
+La visualisation de cette simulation se fait de plusieurs manière selon les programmes.
+Le programme double\_pendule utilise la librairie graphique Raylib.
+Le programme double\_pendule\_
 
 ## Pour commencer
 
 ```console
-$ cc double_pendule.c resolveur_EDO.c -o double_pendule -Wall -Wextra -Wno-unused-function -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
-$ ./double_pendule
+$ make all
+$ ./project/double_pendule
+$ ./project/double_pendule_console
+$ make create_picture
+$ create_video
+$ play_video
 ```
-## Exemple en image 
+## Exemple en image du double pendule avec Raylib
 
-[![Double-pendule](./Double-pendule.png)](/)
+[![Double-pendule](./Double-pendule.png)](/picture)
 
+## Exemple en image du double pendule en mode console
+
+[![Double-pendule-console](./Double-pendule-console.png)](/picture)
+
+<!-- TODO: -->
+<!-- ## Exemple en image du double pendule en mode vidéo -->
+
+<!-- [![Double-pendule](./Double-pendule.png)](/picture) -->
 
 
 # Infos interessantes
