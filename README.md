@@ -31,7 +31,7 @@ $ play_video
 
 ## Exemple en vidéo du programme de Double\_pendule\_video
 
-[![Double-pendule-video](./picture/Double-pendule.mp4)](/picture)
+[![Double-pendule-video](./picture/Double-pendule-video.gif)](/picture)
 
 
 # Infos interessantes
