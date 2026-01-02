@@ -1,8 +1,6 @@
 *.csv
 *.sh
 
-simple_pendule.c
-
 stock
 project
 methode_DOP853
