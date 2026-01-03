@@ -11,14 +11,32 @@ Le programme double\_pendule\_console et double\_pendule\_console\_video n'utili
 
 ## Pour commencer
 
+_pour compiler tous les programmes_
+
 ```console
 $ make all
-$ ./project/double_pendule
+```
+_Pour lancer le programme en mode console_
+```console
 $ ./project/double_pendule_console
-$ ./project/double_pendule_video
-$ make create_picture
-$ create_video
-$ play_video
+```
+
+_Pour générer la vidéo_
+
+```console
+$ make play_video
+```
+
+_Pour lancer le programme avec Raylib_
+
+```console
+$ ./project/double_pendule
+```
+
+_Pour supprimer toutes les photos générées et les exécutables_
+
+```console
+$ make clean_all
 ```
 
 ## Exemple en image du double pendule avec Raylib
