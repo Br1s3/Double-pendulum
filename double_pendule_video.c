@@ -8,8 +8,8 @@
 
 #define IPS 60
 
-#define HEIGHT (9*100)
-#define WIDTH (16*100)
+#define HEIGHT (9*66)
+#define WIDTH (16*50)
 
 #define BUFFER_LENGTH_TRAINE 500
 #define FILEPATH "test.csv"

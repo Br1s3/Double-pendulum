@@ -4,8 +4,8 @@
 #include <stdlib.h>
 #include "resolveur_EDO.h"
 
-#define HEIGHT 800
-#define WIDTH 1000
+#define HEIGHT 600
+#define WIDTH 800
 #define IPS 600
 
 #define BUFFER_LENGTH_TRAINE 500
@@ -287,8 +287,8 @@ int main()
     double dt1 = 1.f/(IPS);
     double dt2 = 1.f/(IPS);
 
-    double epsilon1 = 0.001f;
-    double epsilon2 = 0.001f;
+    double epsilon1 = 0.01f;
+    double epsilon2 = 0.01f;
     double t = 0;
     
     Double_pendule Dp1;
