@@ -2,7 +2,7 @@ MD = mkdir
 RM = rm
 CC = cc
 
-EXE_DIR 	:= project
+BUILD_DIR 	:= project
 PICTURE_DIR 	:= stock
 
 PICTURE_DB_PENDULE := Double_pendule_%03d.ppm
@@ -21,56 +21,52 @@ RAY_FLAGS += 	\
 -lrt		\
 -lX11 		\
 
+.PHONY: test all clean_all help create_picture create_video play_video create_gif
 
-all: simple_pendule double_pendule double_pendule_console double_pendule_video
+all: $(BUILD_DIR)/simple_pendule $(BUILD_DIR)/double_pendule $(BUILD_DIR)/double_pendule_console $(BUILD_DIR)/double_pendule_video
 
-$(EXE_DIR):
-	$(MD) -p $(EXE_DIR)
+$(BUILD_DIR)/simple_pendule: simple_pendule.c
+	$(MD) -p $(BUILD_DIR)
+	$(CC) simple_pendule.c -o $(BUILD_DIR)/simple_pendule $(FLAGS) $(RAY_FLAGS)
 
-simple_pendule: simple_pendule.c $(EXE_DIR)
-	$(CC) simple_pendule.c -o $(EXE_DIR)/simple_pendule $(FLAGS) $(RAY_FLAGS)
+$(BUILD_DIR)/double_pendule: double_pendule.c
+	$(MD) -p $(BUILD_DIR)
+	$(CC) double_pendule.c resolveur_EDO.c -o $(BUILD_DIR)/double_pendule $(FLAGS) $(RAY_FLAGS)
 
-double_pendule: double_pendule.c $(EXE_DIR)
-	$(CC) double_pendule.c resolveur_EDO.c -o $(EXE_DIR)/double_pendule $(FLAGS) $(RAY_FLAGS)
+$(BUILD_DIR)/double_pendule_console: double_pendule_console.c
+	$(MD) -p $(BUILD_DIR)
+	$(CC) double_pendule_console.c resolveur_EDO.c graphique.c -o $(BUILD_DIR)/double_pendule_console $(FLAGS) -lm
 
-double_pendule_console: double_pendule_console.c $(EXE_DIR)
-	$(CC) double_pendule_console.c resolveur_EDO.c graphique.c -o $(EXE_DIR)/double_pendule_console $(FLAGS) -lm
-
-$(PICTURE_DIR):
+$(BUILD_DIR)/double_pendule_video: double_pendule_video.c
+	$(MD) -p $(BUILD_DIR)
 	$(MD) -p $(PICTURE_DIR)
+	$(CC) double_pendule_video.c resolveur_EDO.c graphique.c PPMfile.c -o $(BUILD_DIR)/double_pendule_video $(FLAGS) -lm
 
-double_pendule_video: double_pendule_video.c $(EXE_DIR) $(PICTURE_DIR)
-	$(CC) double_pendule_video.c resolveur_EDO.c graphique.c PPMfile.c -o $(EXE_DIR)/double_pendule_video $(FLAGS) -lm
 
-create_picture: double_pendule_video
-	./$(EXE_DIR)/double_pendule_video
 
-stock/Double_pendule_%03d.ppm: double_pendule_video
-	./$(EXE_DIR)/double_pendule_video
+play_video: $(PICTURE_DIR)/Double_pendule.mp4
+	mpv $(PICTURE_DIR)/Double_pendule.mp4 --loop-file=yes
 
-create_video: stock/Double_pendule_%03d.ppm
-	ffmpeg -i stock/Double_pendule_%03d.ppm -r 60 stock/Double_pendule.mp4
+create_gif: $(PICTURE_DIR)/Double_pendule.mp4
+	ffmpeg -i $(PICTURE_DIR)/Double_pendule.mp4 -vf "fps=15,scale=500:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" $(PICTURE_DIR)/Double_pendule.gif
 
-stock/Double_pendule.mp4: create_video
+create_video: $(PICTURE_DIR)/Double_pendule.mp4
 
-play_video: stock/Double_pendule.mp4
-	mpv stock/Double_pendule.mp4 --loop-file=yes
+$(PICTURE_DIR)/Double_pendule.mp4: $(PICTURE_DIR)/Double_pendule_000.ppm
+	ffmpeg -i $(PICTURE_DIR)/Double_pendule_%03d.ppm -r 60 $(PICTURE_DIR)/Double_pendule.mp4
 
-create_gif: $(PICTURE_DIR) stock/Double_pendule.mp4 
-	ffmpeg -i stock/Double_pendule.mp4 -vf "fps=15,scale=500:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" stock/Double_pendule.gif
+$(PICTURE_DIR)/Double_pendule_000.ppm: $(BUILD_DIR)/double_pendule_video
+	./$(BUILD_DIR)/double_pendule_video
 
 clean_all:
 	$(RM) -rf $(PICTURE_DIR)
-	$(RM) -rf $(EXE_DIR)
+	$(RM) -rf $(BUILD_DIR)
 
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean_all"
-	@echo "... simple_pendule"
-	@echo "... double_pendule"
-	@echo "... double_pendule_video"
-	@echo "... create_picture"
 	@echo "... create_video"
 	@echo "... play_video"
 	@echo "... create_gif"
+	@echo "... help"
