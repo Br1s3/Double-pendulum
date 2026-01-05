@@ -1,6 +1,6 @@
-MD = mkdir
-RM = rm
-CC = cc
+MD = mkdir -p
+RM = rm -rf
+CC = gcc
 
 BUILD_DIR 	:= project
 PICTURE_DIR 	:= stock
@@ -21,29 +21,40 @@ RAY_FLAGS += 	\
 -lrt		\
 -lX11 		\
 
-.PHONY: test all clean_all help create_picture create_video play_video create_gif
 
+<<<<<<< HEAD
 all: $(BUILD_DIR)/simple_pendule $(BUILD_DIR)/double_pendule $(BUILD_DIR)/double_pendule_console $(BUILD_DIR)/double_pendule_video
 	@echo BUILDING: $?
+=======
+>>>>>>> 84ad484bb12c0e6ba06931869846593acc169db0
 
-$(BUILD_DIR)/simple_pendule: simple_pendule.c
-	$(MD) -p $(BUILD_DIR)
+.PHONY: all clean_all help create_picture create_video play_video create_gif
+
+
+
+$(BUILD_DIR):
+	$(MD) $(BUILD_DIR)
+
+$(PICTURE_DIR):
+	$(MD) $(PICTURE_DIR)
+
+
+all: $(BUILD_DIR) $(PICTURE_DIR) $(BUILD_DIR)/simple_pendule $(BUILD_DIR)/double_pendule_console $(BUILD_DIR)/double_pendule_video $(BUILD_DIR)/double_pendule
+
+# $(BUILD_DIR)/simple_pendule $(BUILD_DIR)/double_pendule $(BUILD_DIR)/double_pendule_console $(BUILD_DIR)/double_pendule_video: | $(BUILD_DIR)
+# $(BUILD_DIR)/double_pendule_video: | $(PICTURE_DIR)
+
+$(BUILD_DIR)/simple_pendule: simple_pendule.c | $(BUILD_DIR)
 	$(CC) simple_pendule.c -o $(BUILD_DIR)/simple_pendule $(FLAGS) $(RAY_FLAGS)
 
-$(BUILD_DIR)/double_pendule: double_pendule.c
-	$(MD) -p $(BUILD_DIR)
+$(BUILD_DIR)/double_pendule: double_pendule.c | $(BUILD_DIR)
 	$(CC) double_pendule.c resolveur_EDO.c -o $(BUILD_DIR)/double_pendule $(FLAGS) $(RAY_FLAGS)
 
-$(BUILD_DIR)/double_pendule_console: double_pendule_console.c
-	$(MD) -p $(BUILD_DIR)
+$(BUILD_DIR)/double_pendule_console: double_pendule_console.c | $(BUILD_DIR)
 	$(CC) double_pendule_console.c resolveur_EDO.c graphique.c -o $(BUILD_DIR)/double_pendule_console $(FLAGS) -lm
 
-$(BUILD_DIR)/double_pendule_video: double_pendule_video.c
-	$(MD) -p $(BUILD_DIR)
-	$(MD) -p $(PICTURE_DIR)
+$(BUILD_DIR)/double_pendule_video: double_pendule_video.c | $(BUILD_DIR) $(PICTURE_DIR)
 	$(CC) double_pendule_video.c resolveur_EDO.c graphique.c PPMfile.c -o $(BUILD_DIR)/double_pendule_video $(FLAGS) -lm
-
-
 
 play_video: $(PICTURE_DIR)/Double_pendule.mp4
 	mpv $(PICTURE_DIR)/Double_pendule.mp4 --loop-file=yes
@@ -60,8 +71,8 @@ $(PICTURE_DIR)/Double_pendule_000.ppm: $(BUILD_DIR)/double_pendule_video
 	./$(BUILD_DIR)/double_pendule_video
 
 clean_all:
-	$(RM) -rf $(PICTURE_DIR)
-	$(RM) -rf $(BUILD_DIR)
+	$(RM) $(PICTURE_DIR)
+	$(RM) $(BUILD_DIR)
 
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
