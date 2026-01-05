@@ -320,7 +320,7 @@ int main(int argc, char *argv[])
     Double_pendule Dp1;
     Double_pendule Dp2;
 
-    InitWindow(WIDTH, HEIGHT, "Test double pendule");
+    InitWindow(WIDTH, HEIGHT, "Simulation double pendule");
     SetTargetFPS(IPS);
 
     for (int i = 0;!WindowShouldClose();) {
