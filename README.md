@@ -6,8 +6,9 @@
 Programmes permettant de résoudre numériquement l'équation du double pendule. 
 Le programme embarque plusieurs solveur d'EDO comme: RK4, Verlet, Euler et DOPRI45.
 La visualisation de cette simulation se fait de plusieurs manière selon les programmes.
-Le programme double\_pendule utilise la librairie graphique Raylib.
-Le programme double\_pendule\_console et double\_pendule\_console\_video n'utilise pas de librairie externe.
+Le programme double\_pendule\_console fonctionne sans prérequis.
+Le programme double\_pendule\_video créer un certains nombre de photo au format .ppm, nécessitera ffmpeg pour compiler toutes les photos en vidéo au format .mp4. il est aussi possible de lire la vidéo depuis une commande du Makefile avec mpv.
+Le programme double\_pendule utilise la librairie graphique Raylib.h
 
 ## Pour commencer
 
@@ -24,6 +25,8 @@ $ ./project/double_pendule_console
 _Pour générer la vidéo_
 
 ```console
+$ make create_video
+$ make create_gif
 $ make play_video
 ```
 
