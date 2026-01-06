@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
-#include "graphique.h"
+#include "graph.h"
 
 
 char **mem_alloc(int H, int W)
@@ -196,9 +196,9 @@ void draw_ligne(uint8_t ***pixels, short width, short height, int ax, int ay, in
 	for (x = wind.A.x; x < wind.B.x; x++) {
 	    if (x < min(ax, bx) || x > max(ax, bx)) continue;
 	    if ((AB.x*(y - a.y) - AB.y*(x - a.x) > -ep) && (AB.x*(y - a.y) - AB.y*(x - a.x) < ep)) {
-		pixels[y-wind.A.y][x-wind.A.x][0] = fd>>(8*3);
-		pixels[y-wind.A.y][x-wind.A.x][1] = fd>>(8*2);
-		pixels[y-wind.A.y][x-wind.A.x][2] = fd>>(8*1);
+		pixels[y-wind.A.y][x-wind.A.x][0] |= fd>>(8*3);
+		pixels[y-wind.A.y][x-wind.A.x][1] |= fd>>(8*2);
+		pixels[y-wind.A.y][x-wind.A.x][2] |= fd>>(8*1);
 	    }
 	}
     }

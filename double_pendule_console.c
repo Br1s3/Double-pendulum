@@ -3,8 +3,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#include "resolveur_EDO.h"
-#include "graphique.h"
+#include "EDOsolver.h"
+#include "graph.h"
 
 #define IPS 60
 

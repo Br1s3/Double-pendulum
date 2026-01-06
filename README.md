@@ -15,7 +15,7 @@ Le programme double\_pendule utilise la librairie graphique Raylib.h
 _pour compiler tous les programmes_
 
 ```console
-$ make all
+$ make -k all
 ```
 _Pour lancer le programme en mode console_
 ```console

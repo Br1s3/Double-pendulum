@@ -67,13 +67,15 @@ $(BUILD_DIR)/simple_pendule: simple_pendule.c | $(BUILD_DIR)
 	$(CC) simple_pendule.c -o $(BUILD_DIR)/simple_pendule $(FLAGS) $(RAY_FLAGS)
 
 $(BUILD_DIR)/double_pendule: double_pendule.c | $(BUILD_DIR)
-	$(CC) double_pendule.c resolveur_EDO.c -o $(BUILD_DIR)/double_pendule $(FLAGS) $(RAY_FLAGS)
+	$(CC) double_pendule.c EDOsolver.c -o $(BUILD_DIR)/double_pendule $(FLAGS) $(RAY_FLAGS)
 
 $(BUILD_DIR)/double_pendule_console: double_pendule_console.c | $(BUILD_DIR)
-	$(CC) double_pendule_console.c resolveur_EDO.c graphique.c -o $(BUILD_DIR)/double_pendule_console $(FLAGS) -lm
+	$(CC) double_pendule_console.c EDOsolver.c graph.c -o $(BUILD_DIR)/double_pendule_console $(FLAGS) -lm
 
 $(BUILD_DIR)/double_pendule_video: double_pendule_video.c | $(BUILD_DIR) $(PICTURE_DIR)
-	$(CC) double_pendule_video.c resolveur_EDO.c graphique.c PPMfile.c -o $(BUILD_DIR)/double_pendule_video $(FLAGS) -lm
+	$(CC) double_pendule_video.c EDOsolver.c graph.c PPMfile.c -o $(BUILD_DIR)/double_pendule_video $(FLAGS) -lm
+
+
 
 play_video: $(PICTURE_DIR)/Double_pendule.mp4
 	mpv $(PICTURE_DIR)/Double_pendule.mp4 --loop-file=yes

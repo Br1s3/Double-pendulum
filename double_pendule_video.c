@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "resolveur_EDO.h"
-#include "graphique.h"
+#include "EDOsolver.h"
+#include "graph.h"
 #include "PPMfile.h"
 
 #define IPS 60

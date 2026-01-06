@@ -2,7 +2,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "resolveur_EDO.h"
+#include "EDOsolver.h"
 
 #define HEIGHT 600
 #define WIDTH 800
