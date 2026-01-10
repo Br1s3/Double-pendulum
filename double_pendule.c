@@ -2,7 +2,9 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "ODEsolver.h"
+
+#define LIBODESOLVER_IMPLEMENTATION
+#include "libODEsolver.h"
 
 #define HEIGHT 600
 #define WIDTH 800

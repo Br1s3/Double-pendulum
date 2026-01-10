@@ -3,8 +3,10 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#include "ODEsolver.h"
-#include "graph.h"
+#define LIBODESOLVER_IMPLEMENTATION
+#include "libODEsolver.h"
+#define LIBGRAPH_IMPLEMENTATION
+#include "libgraph.h"
 
 #define IPS 60
 

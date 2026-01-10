@@ -62,20 +62,17 @@ $(BUILD_DIR):
 $(PICTURE_DIR):
 	$(MD) $(PICTURE_DIR)
 
-# $(BUILD_DIR)/simple_pendule $(BUILD_DIR)/double_pendule $(BUILD_DIR)/double_pendule_console $(BUILD_DIR)/double_pendule_video: | $(BUILD_DIR)
-# $(BUILD_DIR)/double_pendule_video: | $(PICTURE_DIR)
-
 $(BUILD_DIR)/simple_pendule: simple_pendule.c | $(BUILD_DIR)
 	$(CC) simple_pendule.c -o $(BUILD_DIR)/simple_pendule $(FLAGS) $(RAY_FLAGS)
 
 $(BUILD_DIR)/double_pendule: double_pendule.c | $(BUILD_DIR)
-	$(CC) double_pendule.c ODEsolver.c -o $(BUILD_DIR)/double_pendule $(FLAGS) $(RAY_FLAGS)
+	$(CC) double_pendule.c -o $(BUILD_DIR)/double_pendule $(FLAGS) $(RAY_FLAGS)
 
 $(BUILD_DIR)/double_pendule_console: double_pendule_console.c | $(BUILD_DIR)
-	$(CC) double_pendule_console.c ODEsolver.c graph.c -o $(BUILD_DIR)/double_pendule_console $(FLAGS) -lm
+	$(CC) double_pendule_console.c -o $(BUILD_DIR)/double_pendule_console $(FLAGS) -lm
 
 $(BUILD_DIR)/double_pendule_video: double_pendule_video.c | $(BUILD_DIR) $(PICTURE_DIR)
-	$(CC) double_pendule_video.c ODEsolver.c graph.c Imagefile.c -o $(BUILD_DIR)/double_pendule_video $(FLAGS) -lm
+	$(CC) double_pendule_video.c -o $(BUILD_DIR)/double_pendule_video $(FLAGS) -lm
 
 
 
@@ -93,7 +90,7 @@ $(PICTURE_DIR)/Double_pendule.mp4: $(PICTURE_DIR)/$(PICTURE_DB_SAMPLE)
 $(PICTURE_DIR)/$(PICTURE_DB_SAMPLE): $(BUILD_DIR)/double_pendule_video
 	./$(BUILD_DIR)/double_pendule_video
 
-clean_all:
+clean:
 	$(RM) $(PICTURE_DIR)
 	$(RM) $(BUILD_DIR)
 	$(RM) *.csv
@@ -101,7 +98,7 @@ clean_all:
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
 	@echo "... all (the default if no target is provided)"
-	@echo "... clean_all"
+	@echo "... clean"
 	@echo "... create_video"
 	@echo "... play_video"
 	@echo "... create_gif"

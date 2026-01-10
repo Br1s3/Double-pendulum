@@ -2,9 +2,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "ODEsolver.h"
-#include "graph.h"
-#include "Imagefile.h"
+#define LIBODESOLVER_IMPLEMENTATION
+#include "libODEsolver.h"
+#define LIBGRAPH_IMPLEMENTATION
+#include "libgraph.h"
+#define LIBIMAGEFILE_IMPLEMENTATION
+#include "libImagefile.h"
 
 #define IPS 60
 
