@@ -8,10 +8,10 @@
 
 #define HEIGHT 600
 #define WIDTH 800
-#define IPS 60
+#define FPS 60
 
-#define BUFFER_LENGTH_TRAINE 500
-#define carre(x) ((x)*(x))
+#define LENGTH_DRAG_BUFFER 500
+#define POW2(x) ((x)*(x))
 #define UNUSED(x) (void)(x)
 #ifndef ABS
 # define ABS(x) ((x < 0) ? -(x) : (x))
@@ -108,9 +108,9 @@ typedef struct
 
 typedef struct
 {
-    Vector2 ball_1;
-    Vector2 ball_2;
-    Vector2 drag_buffer[BUFFER_LENGTH_TRAINE];
+    Vector2 mass1;
+    Vector2 mass2;
+    Vector2 bufDrag[LENGTH_DRAG_BUFFER];
 } double_pendulum;
 
 
@@ -140,7 +140,7 @@ void restaure_state(Var_Dp *Dp, Var_Dp buf)
 
 double get_pendulum_energy(Var_Dp Dp)
 {
-    float T_v2 = (1.f/2.f)*(Dp.m1 + Dp.m2)*carre(Dp.l1)*carre(Dp.phi_1) + (1.f/2.f)*Dp.m2*carre(Dp.l2)*carre(Dp.phi_2) + Dp.m2*Dp.l1*Dp.l2*Dp.phi_1*Dp.phi_2*cos(Dp.theta_1 - Dp.theta_2);
+    float T_v2 = (1.f/2.f)*(Dp.m1 + Dp.m2)*POW2(Dp.l1)*POW2(Dp.phi_1) + (1.f/2.f)*Dp.m2*POW2(Dp.l2)*POW2(Dp.phi_2) + Dp.m2*Dp.l1*Dp.l2*Dp.phi_1*Dp.phi_2*cos(Dp.theta_1 - Dp.theta_2);
     float V_v2 = -(Dp.m1 + Dp.m2)*Dp.g*Dp.l1*cos(Dp.theta_1) - Dp.m2*Dp.g*Dp.l2*cos(Dp.theta_2);
     return ABS(T_v2 + V_v2);
 }
@@ -209,7 +209,7 @@ int adaptive_method(double stepSize, double err, Var_Dp *Dp, double (*f)(double,
 
 
 
-Vector2 window_coord_adaptation(Vector2 a)
+Vector2 overflow_protection_window(Vector2 a)
 {
     if ((a.x + WIDTH/2) < 1)
 	a.x = -WIDTH/2 + 1;
@@ -222,37 +222,40 @@ Vector2 window_coord_adaptation(Vector2 a)
     return a;
 }
 
-void double_pendulum_tracing(int i, double_pendulum *Dp, Color cl, Var_Dp VDp)
+void Draw_double_pendulum(int i, double_pendulum *Dp, Color cl, Var_Dp VDp)
 {
-    // Update balls positions
-    Dp->ball_1.x = 100.f*VDp.l1*sin(VDp.theta_1);
-    Dp->ball_1.y = -100.f*VDp.l1*cos(VDp.theta_1);
-    Dp->ball_2.x = 100.f*VDp.l2*sin(VDp.theta_2) + Dp->ball_1.x;
-    Dp->ball_2.y = -100.f*VDp.l2*cos(VDp.theta_2) + Dp->ball_1.y;
+    // Calculations of the new positions in Cartesian coordinates
+    Dp->mass1.x = 100.f*VDp.l1*sin(VDp.theta_1);
+    Dp->mass1.y = -100.f*VDp.l1*cos(VDp.theta_1);
+    Dp->mass2.x = 100.f*VDp.l2*sin(VDp.theta_2) + Dp->mass1.x;
+    Dp->mass2.y = -100.f*VDp.l2*cos(VDp.theta_2) + Dp->mass1.y;
 
     // Ignore things outside window
-    Dp->ball_1 = window_coord_adaptation(Dp->ball_1);
-    Dp->ball_2 = window_coord_adaptation(Dp->ball_2);
+    Dp->mass1 = overflow_protection_window(Dp->mass1);
+    Dp->mass2 = overflow_protection_window(Dp->mass2);
     
-    // Draw string between base and ball
-    DrawLine(WIDTH/2, HEIGHT/2, Dp->ball_1.x + WIDTH/2, HEIGHT/2 - Dp->ball_1.y, WHITE);
-    DrawLine(Dp->ball_1.x + WIDTH/2, HEIGHT/2 - Dp->ball_1.y, Dp->ball_2.x + WIDTH/2, HEIGHT/2 - Dp->ball_2.y, WHITE);
-    // Draw the balls
-    DrawCircle(Dp->ball_1.x + WIDTH/2, HEIGHT/2 - Dp->ball_1.y, 5.f*VDp.m1, RED);
-    DrawCircle(Dp->ball_2.x + WIDTH/2, HEIGHT/2 - Dp->ball_2.y, 5.f*VDp.m2, RED);
+    // First, draw the pendulum rods
+    DrawLine(WIDTH/2, HEIGHT/2, Dp->mass1.x + WIDTH/2, HEIGHT/2 - Dp->mass1.y, WHITE);
+    DrawLine(Dp->mass1.x + WIDTH/2, HEIGHT/2 - Dp->mass1.y, Dp->mass2.x + WIDTH/2, HEIGHT/2 - Dp->mass2.y, WHITE);
 
-    // Update the drag of the second ball
-    Dp->drag_buffer[0].x = Dp->ball_2.x;
-    Dp->drag_buffer[0].y = Dp->ball_2.y;
+    // Set the new position of the second mass in the beginning of the buffer
+    Dp->bufDrag[0].x = Dp->mass2.x;
+    Dp->bufDrag[0].y = Dp->mass2.y;
+
+    // Update the new trajectory's drag into the buffer
     for (int j = i-1; j > 0; j--) {
-    	Dp->drag_buffer[j].x = Dp->drag_buffer[j-1].x;
-    	Dp->drag_buffer[j].y = Dp->drag_buffer[j-1].y;
+    	Dp->bufDrag[j].x = Dp->bufDrag[j-1].x;
+    	Dp->bufDrag[j].y = Dp->bufDrag[j-1].y;
     }
 	
-    // Draw the drag from the trajectory
+    // Second, draw the trajectory's drag of the second mass of pendulum
     for (int j = 0; j < i-1; j++){
-	DrawLine(Dp->drag_buffer[j].x + WIDTH/2, HEIGHT/2 - Dp->drag_buffer[j].y, Dp->drag_buffer[j+1].x + WIDTH/2, HEIGHT/2 - Dp->drag_buffer[j+1].y, cl);
+	DrawLine(Dp->bufDrag[j].x + WIDTH/2, HEIGHT/2 - Dp->bufDrag[j].y, Dp->bufDrag[j+1].x + WIDTH/2, HEIGHT/2 - Dp->bufDrag[j+1].y, cl);
     }
+    
+    // Third, draw the pendulum's masses
+    DrawCircle(Dp->mass1.x + WIDTH/2, HEIGHT/2 - Dp->mass1.y, 5.f*VDp.m1, RED);
+    DrawCircle(Dp->mass2.x + WIDTH/2, HEIGHT/2 - Dp->mass2.y, 5.f*VDp.m2, RED);
 }
 
 
@@ -282,18 +285,18 @@ int main(int argc, char *argv[])
     }
 
     if (save == 1) {
-	file = fopen("save_energie.csv", "w");
-	TEST_FILE(file == NULL, "save_energie.csv");
+	file = fopen("Energy_backup.csv", "w");
+	TEST_FILE(file == NULL, "Energy_backup.csv");
     }
     else if (save == 2) {
-	file = fopen("save_position.csv", "w");
-	TEST_FILE(file == NULL, "save_position.csv");
+	file = fopen("Position_backup.csv", "w");
+	TEST_FILE(file == NULL, "Position_backup.csv");
     }
 
-    Var_Dp Var_Dp1 = {.l1       = 1.0f,
-    		      .l2       = 1.0f,
-    		      .m1       = 1.f,
-    		      .m2       = 1.f,
+    Var_Dp Var_Dp1 = {.l1       = 1.5f,
+    		      .l2       = 0.5f,
+    		      .m1       = 2.f,
+    		      .m2       = 5.f,
     		      .g        = 9.8f,
 		      .t        = 0,
     		      .theta_1  = M_PI-0.1f,
@@ -321,7 +324,7 @@ int main(int argc, char *argv[])
     Var_Dp2.e = get_pendulum_energy(Var_Dp2);
     VARIABLE_PENDULUM_INIT;
 
-    double dt = 1.f/(IPS);
+    double dt = 1.f/(FPS);
 
     double epsilon1 = 0.01f;
     // double epsilon2 = 0.0000000001f;
@@ -331,11 +334,11 @@ int main(int argc, char *argv[])
     double_pendulum Dp1;
     double_pendulum Dp2;
 
-    InitWindow(WIDTH, HEIGHT, "Double pendule Simulation");
-    SetTargetFPS(IPS);
+    InitWindow(WIDTH, HEIGHT, "Double Pendulum Simulation");
+    SetTargetFPS(FPS);
 
     char tab[30] = {' '};
-    snprintf(tab, 16, "ERROR: Computes");
+    snprintf(tab, 16, "ERROR: Calculation overflow");
     for (int i = 0;!WindowShouldClose();) {
 	if (IsKeyDown(KEY_SPACE)) {BeginDrawing(); EndDrawing(); continue;}
 	BeginDrawing();
@@ -360,10 +363,10 @@ int main(int argc, char *argv[])
             fprintf(file, "%.3f,%.3f\n", sin(Var_Dp1.theta_2) + sin(Var_Dp1.theta_1), -cos(Var_Dp1.theta_2) - cos(Var_Dp1.theta_1));
 	}
 	
-	if (i < BUFFER_LENGTH_TRAINE) i++;
+	if (i < LENGTH_DRAG_BUFFER) i++;
 	
-	double_pendulum_tracing(i, &Dp1, BLUE, Var_Dp1);
-	double_pendulum_tracing(i, &Dp2, GREEN, Var_Dp2);
+	Draw_double_pendulum(i, &Dp1, BLUE, Var_Dp1);
+	Draw_double_pendulum(i, &Dp2, GREEN, Var_Dp2);
 	
 	snprintf(tab, 15, "t = %.2lf", t1);
 	t1 += dt;

@@ -9,14 +9,14 @@
 #define LIBIMAGEFILE_IMPLEMENTATION
 #include "libImagefile.h"
 
-#define IPS 60
+#define FPS 60
 
 #define HEIGHT (9*66)
 #define WIDTH (16*50)
 
-#define BUFFER_LENGTH_TRAINE 500
+#define LENGTH_DRAG_BUFFER 500
 #define FILEPATH "test.csv"
-#define carre(x) ((x)*(x))
+#define POW2(x) ((x)*(x))
 #define UNUSED(x) (void)(x)
 #ifndef ABS
 # define ABS(x) ((x < 0) ? -(x) : (x))
@@ -79,9 +79,9 @@ typedef struct
 
 typedef struct
 {
-    Vector2 boule_1;
-    Vector2 boule_2;
-    Vector2 buf_traine[BUFFER_LENGTH_TRAINE];
+    Vector2 mass1;
+    Vector2 mass2;
+    Vector2 bufDrag[LENGTH_DRAG_BUFFER];
 } Double_pendulum;
 
 
@@ -111,7 +111,7 @@ void state_restore(Var_Dp *Dp, Var_Dp buf)
 
 double get_pendulum_energy(Var_Dp Dp)
 {
-    float T_v2 = (1.f/2.f)*(Dp.m1 + Dp.m2)*carre(Dp.l1)*carre(Dp.phi_1) + (1.f/2.f)*Dp.m2*carre(Dp.l2)*carre(Dp.phi_2) + Dp.m2*Dp.l1*Dp.l2*Dp.phi_1*Dp.phi_2*cos(Dp.theta_1 - Dp.theta_2);
+    float T_v2 = (1.f/2.f)*(Dp.m1 + Dp.m2)*POW2(Dp.l1)*POW2(Dp.phi_1) + (1.f/2.f)*Dp.m2*POW2(Dp.l2)*POW2(Dp.phi_2) + Dp.m2*Dp.l1*Dp.l2*Dp.phi_1*Dp.phi_2*cos(Dp.theta_1 - Dp.theta_2);
     float V_v2 = -(Dp.m1 + Dp.m2)*Dp.g*Dp.l1*cos(Dp.theta_1) - Dp.m2*Dp.g*Dp.l2*cos(Dp.theta_2);
     return ABS(T_v2 + V_v2);
 }
@@ -196,36 +196,37 @@ void Draw_double_pendulum(int i, Double_pendulum *Dp, Var_Dp VDp, uint8_t ***cl)
     draw_clear(cl, WIDTH, HEIGHT);
 
     // Calculations of the new positions in Cartesian coordinates
-    Dp->boule_1.x = 100.f*VDp.l1*sin(VDp.theta_1);
-    Dp->boule_1.y = -100.f*VDp.l1*cos(VDp.theta_1);
-    Dp->boule_2.x = 100.f*VDp.l2*sin(VDp.theta_2) + Dp->boule_1.x;
-    Dp->boule_2.y = -100.f*VDp.l2*cos(VDp.theta_2) + Dp->boule_1.y;
+    Dp->mass1.x = 100.f*VDp.l1*sin(VDp.theta_1);
+    Dp->mass1.y = -100.f*VDp.l1*cos(VDp.theta_1);
+    Dp->mass2.x = 100.f*VDp.l2*sin(VDp.theta_2) + Dp->mass1.x;
+    Dp->mass2.y = -100.f*VDp.l2*cos(VDp.theta_2) + Dp->mass1.y;
 
-    Dp->boule_1 = overflow_protection_window(Dp->boule_1);
-    Dp->boule_2 = overflow_protection_window(Dp->boule_2);
+    // Ignore things outside window
+    Dp->mass1 = overflow_protection_window(Dp->mass1);
+    Dp->mass2 = overflow_protection_window(Dp->mass2);
 
     // First, draw the pendulum rods
-    draw_ligne(cl, WIDTH,  HEIGHT, 0, 0, Dp->boule_1.x, -Dp->boule_1.y, 0xFFFFFF00);
-    draw_ligne(cl, WIDTH,  HEIGHT, Dp->boule_1.x, -Dp->boule_1.y, Dp->boule_2.x, -Dp->boule_2.y, 0xFFFFFF00);
+    draw_ligne(cl, WIDTH,  HEIGHT, 0, 0, Dp->mass1.x, -Dp->mass1.y, 0xFFFFFF00);
+    draw_ligne(cl, WIDTH,  HEIGHT, Dp->mass1.x, -Dp->mass1.y, Dp->mass2.x, -Dp->mass2.y, 0xFFFFFF00);
     
     // Set the new position of the second mass in the beginning of the buffer
-    Dp->buf_traine[0].x = Dp->boule_2.x;
-    Dp->buf_traine[0].y = Dp->boule_2.y;
+    Dp->bufDrag[0].x = Dp->mass2.x;
+    Dp->bufDrag[0].y = Dp->mass2.y;
 
     // Update the new trajectory's drag into the buffer
     for (int j = i-1; j > 0; j--) {
-    	Dp->buf_traine[j].x = Dp->buf_traine[j-1].x;
-    	Dp->buf_traine[j].y = Dp->buf_traine[j-1].y;
+    	Dp->bufDrag[j].x = Dp->bufDrag[j-1].x;
+    	Dp->bufDrag[j].y = Dp->bufDrag[j-1].y;
     }
-	
+
     // Second, draw the trajectory's drag of the second mass of pendulum
     for (int j = 0; j < i-1; j++){
-    	draw_ligne(cl, WIDTH, HEIGHT, Dp->buf_traine[j].x, -Dp->buf_traine[j].y, Dp->buf_traine[j+1].x, -Dp->buf_traine[j+1].y, 0x00ff00000);
+    	draw_ligne(cl, WIDTH, HEIGHT, Dp->bufDrag[j].x, -Dp->bufDrag[j].y, Dp->bufDrag[j+1].x, -Dp->bufDrag[j+1].y, 0x00ff00000);
     }
     
     // Third, draw the pendulum's masses
-    draw_cercle(cl, WIDTH, HEIGHT, Dp->boule_1.x, -Dp->boule_1.y, 5.f*VDp.m1, 0xFF000000);
-    draw_cercle(cl, WIDTH, HEIGHT, Dp->boule_2.x, -Dp->boule_2.y, 5.f*VDp.m2, 0xFF000000);
+    draw_cercle(cl, WIDTH, HEIGHT, Dp->mass1.x, -Dp->mass1.y, 5.f*VDp.m1, 0xFF000000);
+    draw_cercle(cl, WIDTH, HEIGHT, Dp->mass2.x, -Dp->mass2.y, 5.f*VDp.m2, 0xFF000000);
 }
 
 
@@ -249,23 +250,23 @@ int main()
 
     VARIABLE_PENDULUM_INIT;
 
-    double dt = 2.f/IPS;
+    double dt = 2.f/FPS;
     double epsilon = 0.001f;
     // float t = 0;
     
     Double_pendulum Dp1;
 
     uint8_t ***color = b24_color_alloc(WIDTH, HEIGHT);
-    char filepath_image[IPS*10][40];
+    char filepath_image[FPS*10][40];
 
-    for (int i = 0; i < IPS*10; i++)
+    for (int i = 0; i < FPS*10; i++)
 	sprintf(filepath_image[i], "stock/Double_pendulum_%03d.ppm", i);
 
-    for (int i = 0; i < IPS*10; i++) {
+    for (int i = 0; i < FPS*10; i++) {
 
 	if (methode_RK_adaptative_pendulum(dt, epsilon, &Var_Dp1, equ_var1_psi_1, equ_var1_psi_2, methode_RK4) < 0)
-	    fprintf(stderr, "ERROR: Calculation overflow %s\n", "methode_RK_adaptative_pendulum");	
-	
+	    fprintf(stderr, "ERROR: Calculation overflow from: %s\n", "methode_RK_adaptative_pendulum");
+
 	Draw_double_pendulum(i, &Dp1, Var_Dp1, color);
 
 	CreateImagePPM24b(filepath_image[i], color, WIDTH, HEIGHT);

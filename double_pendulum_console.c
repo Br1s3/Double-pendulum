@@ -8,12 +8,12 @@
 #define LIBGRAPH_IMPLEMENTATION
 #include "libgraph.h"
 
-#define IPS 60
+#define FPS 60
 
 #define HEIGHT (9*5)
 #define WIDTH (16*7)
 
-#define BUFFER_LENGTH_TRAINE 500
+#define LENGTH_DRAG_BUFFER 500
 #define FILEPATH "test.csv"
 #define carre(x) ((x)*(x))
 #define UNUSED(x) (void)(x)
@@ -78,9 +78,9 @@ typedef struct
 
 typedef struct
 {
-    Vector2 boule_1;
-    Vector2 boule_2;
-    Vector2 buf_traine[BUFFER_LENGTH_TRAINE];
+    Vector2 mass1;
+    Vector2 mass2;
+    Vector2 bufDrag[LENGTH_DRAG_BUFFER];
 } Double_pendule;
 
 
@@ -178,7 +178,7 @@ int methode_RK_adaptative_pendule(double stepSize, double err, Var_Dp *Dp, doubl
 
 
 
-Vector2 adaptation_coord_fenetre(Vector2 a)
+Vector2 overflow_protection_window(Vector2 a)
 {
     if ((a.x + WIDTH/2) < 1)
 	a.x = -WIDTH/2 + 1;
@@ -197,36 +197,36 @@ void tracage_double_pendule(int i, Double_pendule *Dp, Var_Dp VDp, char **cl)
     cons_clear(cl, WIDTH, HEIGHT, ' ');
 
     // Calcul des nouvelles coordonnées du pendule
-    Dp->boule_1.x = 10.f*VDp.l1*sin(VDp.theta_1);
-    Dp->boule_1.y = -10.f*VDp.l1*cos(VDp.theta_1);
-    Dp->boule_2.x = 10.f*VDp.l2*sin(VDp.theta_2) + Dp->boule_1.x;
-    Dp->boule_2.y = -10.f*VDp.l2*cos(VDp.theta_2) + Dp->boule_1.y;
+    Dp->mass1.x = 10.f*VDp.l1*sin(VDp.theta_1);
+    Dp->mass1.y = -10.f*VDp.l1*cos(VDp.theta_1);
+    Dp->mass2.x = 10.f*VDp.l2*sin(VDp.theta_2) + Dp->mass1.x;
+    Dp->mass2.y = -10.f*VDp.l2*cos(VDp.theta_2) + Dp->mass1.y;
 
-    Dp->boule_1 = adaptation_coord_fenetre(Dp->boule_1);
-    Dp->boule_2 = adaptation_coord_fenetre(Dp->boule_2);
+    Dp->mass1 = overflow_protection_window(Dp->mass1);
+    Dp->mass2 = overflow_protection_window(Dp->mass2);
 
     // Calcul de la trajectoir
     for (int j = i-1; j > 0; j--) {
-    	Dp->buf_traine[j].x = Dp->buf_traine[j-1].x;
-    	Dp->buf_traine[j].y = Dp->buf_traine[j-1].y;
+    	Dp->bufDrag[j].x = Dp->bufDrag[j-1].x;
+    	Dp->bufDrag[j].y = Dp->bufDrag[j-1].y;
     }
 	
     // trainé de la trajectoire
     for (int j = 0; j < i-1; j++){
-    	cons_ligne(cl, WIDTH, HEIGHT, Dp->buf_traine[j].x, -Dp->buf_traine[j].y, Dp->buf_traine[j+1].x, -Dp->buf_traine[j+1].y, '`');
+    	cons_ligne(cl, WIDTH, HEIGHT, Dp->bufDrag[j].x, -Dp->bufDrag[j].y, Dp->bufDrag[j+1].x, -Dp->bufDrag[j+1].y, '`');
     }
 
     // Tige du pendule
-    cons_ligne(cl, WIDTH, HEIGHT, 0, 0, Dp->boule_1.x, -Dp->boule_1.y, '/');
-    cons_ligne(cl, WIDTH, HEIGHT, Dp->boule_1.x, -Dp->boule_1.y, Dp->boule_2.x, -Dp->boule_2.y, '/');
+    cons_ligne(cl, WIDTH, HEIGHT, 0, 0, Dp->mass1.x, -Dp->mass1.y, '/');
+    cons_ligne(cl, WIDTH, HEIGHT, Dp->mass1.x, -Dp->mass1.y, Dp->mass2.x, -Dp->mass2.y, '/');
 
     // Masse du pedule
-    cons_cercle(cl, WIDTH, HEIGHT, Dp->boule_1.x, -Dp->boule_1.y, VDp.m1, '*');
-    cons_cercle(cl, WIDTH, HEIGHT, Dp->boule_2.x, -Dp->boule_2.y, VDp.m2, '*');
+    cons_cercle(cl, WIDTH, HEIGHT, Dp->mass1.x, -Dp->mass1.y, VDp.m1, '*');
+    cons_cercle(cl, WIDTH, HEIGHT, Dp->mass2.x, -Dp->mass2.y, VDp.m2, '*');
     
     // Ligne entre le centre et le bout du pendule
-    Dp->buf_traine[0].x = Dp->boule_2.x;
-    Dp->buf_traine[0].y = Dp->boule_2.y;
+    Dp->bufDrag[0].x = Dp->mass2.x;
+    Dp->bufDrag[0].y = Dp->mass2.y;
 
     
     // Base du pendule
@@ -254,7 +254,7 @@ int main()
 
     VARIABLE_PENDULUM_INIT;
 
-    double dt = 1.f/(IPS*5.f);
+    double dt = 1.f/(FPS*5.f);
     double epsilon = 0.001f;
     Double_pendule Dp1;
 
@@ -263,14 +263,14 @@ int main()
     for (int i = 0;;) {
 
 	if (methode_RK_adaptative_pendule(dt, epsilon, &Var_Dp1, equ_var1_psi_1, equ_var1_psi_2, methode_RK4) < 0)
-	    fprintf(stderr, "ERREUR: calcul %s\n", "methode_RK_adaptative_pendule");
+	    fprintf(stderr, "ERROR: Calculation overflow from: %s\n", "methode_RK_adaptative_pendule");
 	
-	if (i < BUFFER_LENGTH_TRAINE) i++;
+	if (i < LENGTH_DRAG_BUFFER) i++;
 	
 	tracage_double_pendule(i, &Dp1, Var_Dp1, console);
 	
 	print_cons(console, WIDTH, HEIGHT);
-	usleep((unsigned int)(100000/IPS));
+	usleep((unsigned int)(100000/FPS));
     }
     mem_free(console, HEIGHT);
     puts("Programme terminé");
