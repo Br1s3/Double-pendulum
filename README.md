@@ -113,11 +113,11 @@ https://makefiletutorial.com/
 ```math
 \begin{align}
 	x_1 &= l_1\sin{\theta_1}\\
-	y_1 &= -l_1\cos{\theta_1} \hfill\break
+	y_1 &= -l_1\cos{\theta_1} \\\\
 	x_2 &= l_2\sin{\theta_2} + x_1\\
-	y_2 &= -l_2\cos{\theta_2} + y_1 \hfill\break
+	y_2 &= -l_2\cos{\theta_2} + y_1 \\\\
 	x'_1 &= l_1\theta'_1\cos{\theta_1}\\
-	y'_1 &= l_1\theta'_1\sin{\theta_1}\hfill\break
+	y'_1 &= l_1\theta'_1\sin{\theta_1} \\\\
 	x'_2 &= l_2\theta'_2\cos{\theta_2}+x'_1\\
 	y'_2 &= l_2\theta'_2\sin{\theta_2}+x'_1
 \end{align}
