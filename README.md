@@ -127,8 +127,8 @@ https://makefiletutorial.com/
 
 ```math
 \begin{align}
-	T_1 &= \frac{1}{2} m_1 l_1^2 \theta'_1^2\\
-	T_2 &= \frac{1}{2} m_2 (l_1^2 \theta'_1^2 + l_2^2 \theta'_2^2 + 2 l_2 l_1 \theta'_2 \theta'_1 \cos{(\theta_1 - \theta_2)})\\
+	T_1 &= \frac{1}{2} m_1 l_1^2 \theta'_1^2 \\
+	T_2 &= \frac{1}{2} m_2 (l_1^2 \theta'_1^2 + l_2^2 \theta'_2^2 + 2 l_2 l_1 \theta'_2 \theta'_1 \cos{(\theta_1 - \theta_2)}) \\
 	T_t_o_t &= \frac{1}{2} (m_1 + m_2) l_1^2 \theta'_1^2 + \frac{1}{2} l_2^2 m_2 \theta'_2^2 + l_1 l_2 m_2 \theta'_1 \theta'_2 \cos{(\theta_1 - \theta_2)}
 \end{align}
 ```
@@ -146,8 +146,10 @@ https://makefiletutorial.com/
 ## 5. Write the Lagrange equation
 
 ```math
+\begin{align}
 	L &= T_t_o_t - U_t_o_t\\
 	L &= \left[\frac{1}{2} (m_1 + m_2) l_1^2 \theta'_1^2 + \frac{1}{2} l_2^2 m_2 \theta'_2^2 + l_1 l_2 m_2 \theta'_1 \theta'_2 \cos{(\theta_1 - \theta_2)}\right] - \left[- g l_1 (m_1 + m_2) \cos{\theta_1} - g l_2 m_2 \cos{\theta_2}\right]
+\end{align}
 ```
 
 ## 6. Write the final equation
