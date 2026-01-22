@@ -113,16 +113,26 @@ https://makefiletutorial.com/
 ```math
 \begin{align}
 	x_1 &= l_1\sin{\theta_1}\\
-	y_1 &= -l_1\cos{\theta_1} \\\\
+	y_1 &= -l_1\cos{\theta_1} \\
 	x_2 &= l_2\sin{\theta_2} + x_1\\
-	y_2 &= -l_2\cos{\theta_2} + y_1 \\\\
+	y_2 &= -l_2\cos{\theta_2} + y_1 \\
 	x'_1 &= l_1\theta'_1\cos{\theta_1}\\
-	y'_1 &= l_1\theta'_1\sin{\theta_1} \\\\
+	y'_1 &= l_1\theta'_1\sin{\theta_1} \\
 	x'_2 &= l_2\theta'_2\cos{\theta_2}+x'_1\\
 	y'_2 &= l_2\theta'_2\sin{\theta_2}+x'_1
 \end{align}
-
 ```
+
+## Third, Write the kinetic energy
+
+```math
+\begin{align}
+	T_1 &= \fraq{1}{2} m_1 l_1^2 \theta'_1^2
+	T_2 &= \fraq{1}{2} m_2 (l_1^2 \theta'_1^2 + l_2^2 \theta'_2^2 + 2 l_2 l_1 \theta'_2 \theta'_1 \cos{\theta_1 - \theta_2})
+\end{align}
+```
+
+
 
 ## Second 
 
