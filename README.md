@@ -1,63 +1,71 @@
-# Programmes simulant un double pendule
+# Programs simulating the double pendulum
 
 > [!WARNING]
-> Le programme "double_pendule" necessite la librairie graphique Raylib
+> The "double_pendulum" executable needs Raylib to handle graphic parts
 
-Programmes permettant de résoudre numériquement l'équation du double pendule. 
-Les programmes embarquent plusieurs solveurs d'EDO comme: RK4, Verlet, Euler et DOPRI45.
-La visualisation de cette simulation se fait de plusieurs manières selon les programmes.
-Le programme double\_pendule\_console fonctionne sans prérequis.
-Le programme double\_pendule\_video créer un certain nombre de photo au format .ppm, nécessitera ffmpeg pour compiler toutes les photos en vidéo au format .mp4. il est aussi possible de lire la vidéo depuis une commande du Makefile avec mpv.
-Le programme double\_pendule utilise la librairie graphique Raylib.h
+Here are 3 programs, one for each different grapical display method such as:
+- The program double\_pendulum use Raylib graphical library
+- The program double\_pendulum\_video uses its own library to create pictures representing the motion of the double pendulum frame by frame and after that will be concatenated into a video by ffmpeg. Once the video has been, it is possible to load it from the Makefile with mpv.
+- The program double\_pendulum\_console uses only its own libs to render the simulation
 
-## Pour commencer
+Here is also an ODE solver library that embed many different methods for solving non-linear equations such as:
+- Explicit Euler
+- Semi-implicit Euler
+- Verlet
+- Runge-kutta 4
+- Runge-kutta (variable coefficients)
+- DOPRI45
 
-_pour compiler tous les programmes_
+## Ready to start
+
+_To compile all the executables_
 
 ```console
 $ make -k all
 ```
-_Pour lancer le programme en mode console_
+
+_To load the simulation from the terminal_
+
 ```console
 $ ./project/double_pendule_console
 ```
 
-_Pour générer la vidéo_
+_To directly compile and play the video_
 
 ```console
-$ make create_video
-$ make create_gif
 $ make play_video
 ```
 
-_Pour lancer le programme avec Raylib_
+_To load the simulation with Raylib_
 
 ```console
 $ ./project/double_pendule
 ```
 
-_Pour supprimer toutes les photos générées et les exécutables_
+_To remove executbles, images and video_
 
 ```console
-$ make clean_all
+$ make clean
 ```
 
-## Exemple en image du double pendule avec Raylib
+## Examples and illustrations
+
+_Exemple with raylib_
 
 [![Double-pendule](./picture/Double-pendule.png)](/picture)
 
-## Exemple en image du double pendule en mode console
+_Exemple with the console mode_
 
 [![Double-pendule-console](./picture/Double-pendule-console.png)](/picture)
 
-## Exemple en vidéo du programme de Double\_pendule\_video
+_Exemple in video in mp4 format_
 
 [![Double-pendule-video](./picture/Double-pendule-video.gif)](/picture)
 
 
-# Infos interessantes
+# References
 
-## Source d'inspiration
+## source of inspiration
 > Site Simulatant un double pendule ultra réaliste
 https://www.myphysicslab.com/pendulum/double-pendulum-en.html
 (Formule dispo en bas de page)
