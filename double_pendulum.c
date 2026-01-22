@@ -293,7 +293,7 @@ int main(int argc, char *argv[])
 	TEST_FILE(file == NULL, "Position_backup.csv");
     }
 
-    Var_Dp Var_Dp1 = {.l1       = 1.5f,
+    Var_Dp Var_Dp1 = {.l1       = 1.75f,
     		      .l2       = 0.5f,
     		      .m1       = 2.f,
     		      .m2       = 5.f,
@@ -338,7 +338,7 @@ int main(int argc, char *argv[])
     SetTargetFPS(FPS);
 
     char tab[30] = {' '};
-    snprintf(tab, 16, "ERROR: Calculation overflow");
+    snprintf(tab, 30, "ERROR: Calculation overflow");
     for (int i = 0;!WindowShouldClose();) {
 	if (IsKeyDown(KEY_SPACE)) {BeginDrawing(); EndDrawing(); continue;}
 	BeginDrawing();

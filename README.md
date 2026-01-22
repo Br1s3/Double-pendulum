@@ -93,3 +93,12 @@ https://www.unige.ch/~hairer/software.html
 
 ## Info pour Makefile
 https://makefiletutorial.com/
+
+
+# Writing the double pendulum's equations with Lagrange method
+
+## First select the degrees of freedom
+
+```math
+\theta_1 and \theta_2
+```
