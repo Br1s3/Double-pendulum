@@ -157,16 +157,16 @@ https://makefiletutorial.com/
 	\frac{d}{dt}\left(\frac{\partial L}{\partial \theta'}\right) - \frac{\partial L}{\partial \theta} &= 0
 \end{align}
 \begin{align}
-	\begin{cases}
-		\frac{\partial L}{\partial \theta'_1} = (m_1 + m_2) l_1^2 \theta'_1 + l_1 l_2 m_2 \theta'_2 \cos{(\theta_1 - \theta_2)}\\
-		\frac{\partial L}{\partial \theta'_2} = l_2^2 m_2 \theta'_2 + l_1 l_2 m_2 \theta'_1 \cos{(\theta_1 - \theta_2)}
-	\end{cases}
+\begin{cases}
+	\frac{\partial L}{\partial \theta'_1} = (m_1 + m_2) l_1^2 \theta'_1 + l_1 l_2 m_2 \theta'_2 \cos{(\theta_1 - \theta_2)}\\
+	\frac{\partial L}{\partial \theta'_2} = l_2^2 m_2 \theta'_2 + l_1 l_2 m_2 \theta'_1 \cos{(\theta_1 - \theta_2)}
+\end{cases}
 \end{align}
 \begin{align}
-	\begin{cases}
-		\frac{d}{dt}\left(\frac{\partial L}{\partial \theta'_1} \right) = l_1^2 (m_1 + m_2) \theta''_1 + l_1 l_2 m_2 \left[ \theta''_2 \cos{(\theta_1 - \theta_2)} - (\theta'_1 - \theta'_2) \theta'_2 \sin{(\theta_1 - \theta_2)}\right]\\
-		\frac{d}{dt}\left(\frac{\partial L}{\partial \theta'_2} \right) = l_2^2 m_2 \theta''_2 + l_1 l_2 m_2 \left[ \theta''_1 \cos{(\theta_1 - \theta_2)} - (\theta'_1 - \theta'_2) \theta'_1 \sin{(\theta_1 - \theta_2)}\right]\\
-	\end{cases}
+\begin{cases}
+	\frac{d}{dt}\left(\frac{\partial L}{\partial \theta'_1} \right) = l_1^2 (m_1 + m_2) \theta''_1 + l_1 l_2 m_2 \left[ \theta''_2 \cos{(\theta_1 - \theta_2)} - (\theta'_1 - \theta'_2) \theta'_2 \sin{(\theta_1 - \theta_2)}\right]\\
+	\frac{d}{dt}\left(\frac{\partial L}{\partial \theta'_2} \right) = l_2^2 m_2 \theta''_2 + l_1 l_2 m_2 \left[ \theta''_1 \cos{(\theta_1 - \theta_2)} - (\theta'_1 - \theta'_2) \theta'_1 \sin{(\theta_1 - \theta_2)}\right]\\
+\end{cases}
 \end{align}
 ```
 
