@@ -129,7 +129,7 @@ https://makefiletutorial.com/
 \begin{align}
 	T_1 &= \frac{1}{2} m_1 l_1^{2} {\theta'_1}^{2} \\
 	T_2 &= \frac{1}{2} m_2 (l_1^{2} {\theta'_1}^{2} + l_2^{2} {\theta'_2}^{2} + 2 l_2 l_1 {\theta'_2} {\theta'_1} \cos{(\theta_1 - \theta_2)}) \\
-	T_{tot} &= \frac{1}{2} (m_1 + m_2) l_1^{2} {\theta'_1}^{2} + \frac{1}{2} l_2^{2} m_2 {\theta'_2}^{2} + l_1 l_2 m_2 {\theta'_1} {\theta'_2} \cos{(\theta_1 - \theta_2)}
+	T_{tot} &= \frac{1}{2} \left(m_1 + m_2\right) l_1^{2} {\theta'_1}^{2} + \frac{1}{2} l_2^{2} m_2 {\theta'_2}^{2} + l_1 l_2 m_2 {\theta'_1} {\theta'_2} \cos{(\theta_1 - \theta_2)}
 \end{align}
 ```
 
@@ -138,8 +138,8 @@ https://makefiletutorial.com/
 ```math
 \begin{align}
 	U_1 &= - m_1 g l_1 \cos{\theta_1}\\
-	U_2 &= - m_2 g (l_1 \cos{\theta_1} + l_2 \cos{\theta_2})\\
-	U_t_o_t &= - g l_1 (m_1 + m_2) \cos{\theta_1} - g l_2 m_2 \cos{\theta_2}
+	U_2 &= - m_2 g \left(l_1 \cos{\theta_1} + l_2 \cos{\theta_2}\right)\\
+	U_{tot} &= - g l_1 \left(m_1 + m_2\right) \cos{\theta_1} - g l_2 m_2 \cos{\theta_2}
 \end{align}
 ```
 
@@ -148,7 +148,7 @@ https://makefiletutorial.com/
 ```math
 \begin{align}
 	L &= T_t_o_t - U_t_o_t\\
-	L &= \left[\frac{1}{2} (m_1 + m_2) l_1^{2} {\theta'_1}^2 + \frac{1}{2} l_2^2 m_2 {\theta'_2}^2 + l_1 l_2 m_2 {\theta'_1} {\theta'_2} \cos{(\theta_1 - \theta_2)}\right] - \left[- g l_1 (m_1 + m_2) \cos{\theta_1} - g l_2 m_2 \cos{\theta_2}\right]
+	L &= \left[\frac{1}{2} (m_1 + m_2) {l_1}^{2} {\theta'_1}^2 + \frac{1}{2} {l_2}^2 m_2 {\theta'_2}^2 + l_1 l_2 m_2 {\theta'_1} {\theta'_2} \cos{(\theta_1 - \theta_2)}\right] - \left[- g l_1 (m_1 + m_2) \cos{\theta_1} - g l_2 m_2 \cos{\theta_2}\right]
 \end{align}
 ```
 
@@ -161,13 +161,13 @@ https://makefiletutorial.com/
 \begin{align}
 \begin{cases}
 	\frac{\partial L}{\partial {\theta'_1}} = (m_1 + m_2) l_1^2 {\theta'_1} + l_1 l_2 m_2 {\theta'_2} \cos{(\theta_1 - \theta_2)}\\
-	\frac{\partial L}{\partial {\theta'_2}} = l_2^2 m_2 {\theta'_2} + l_1 l_2 m_2 {\theta'_1} \cos{(\theta_1 - \theta_2)}
+	\frac{\partial L}{\partial {\theta'_2}} = {l_2}^{2} m_2 {\theta'_2} + l_1 l_2 m_2 {\theta'_1} \cos{(\theta_1 - \theta_2)}
 \end{cases}
 \end{align}
 \begin{align}
 \begin{cases}
-	\frac{d}{dt}\left(\frac{\partial L}{\partial {\theta'_1}} \right) = l_1^2 (m_1 + m_2) \theta''_1 + l_1 l_2 m_2 \left[ \theta''_2 \cos{(\theta_1 - \theta_2)} - ({\theta'_1} - {\theta'_2}) {\theta'_2} \sin{(\theta_1 - \theta_2)}\right]\\
-	\frac{d}{dt}\left(\frac{\partial L}{\partial {\theta'_2}} \right) = l_2^2 m_2 \theta''_2 + l_1 l_2 m_2 \left[ \theta''_1 \cos{(\theta_1 - \theta_2)} - ({\theta'_1} - {\theta'_2}) {\theta'_1} \sin{(\theta_1 - \theta_2)}\right]\\
+	\frac{d}{dt}\left(\frac{\partial L}{\partial {\theta'_1}} \right) = {l_1}^{2} (m_1 + m_2) \theta''_1 + l_1 l_2 m_2 \left[ \theta''_2 \cos{(\theta_1 - \theta_2)} - ({\theta'_1} - {\theta'_2}) {\theta'_2} \sin{(\theta_1 - \theta_2)}\right]\\
+	\frac{d}{dt}\left(\frac{\partial L}{\partial {\theta'_2}} \right) = {l_2}^{2} m_2 \theta''_2 + l_1 l_2 m_2 \left[ \theta''_1 \cos{(\theta_1 - \theta_2)} - ({\theta'_1} - {\theta'_2}) {\theta'_1} \sin{(\theta_1 - \theta_2)}\right]\\
 \end{cases}
 \end{align}
 ```
