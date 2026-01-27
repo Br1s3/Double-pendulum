@@ -63,20 +63,23 @@ _Exemple in video in mp4 format_
 [![Double-pendule-video](./picture/Double-pendule-video.gif)](/picture)
 
 
-# Writing the double pendulum's equations with Lagrange method
+
+
+# Writing the double pendulum's equations
 
 ## Reminder of the basics
 
 [![scheme with labels of the double pendulum](./picture/Reminder.png)](/picture)
 
+## with Lagrange method
 
-## 1. select the degrees of freedom
+### 1. select the degrees of freedom
 
 ```math
 \theta_1 \text{ and } \theta_2
 ```
 
-## 2. Select the generalized coordinates
+### 2. Select the generalized coordinates
 
 <div align="center">
 
@@ -89,7 +92,7 @@ _Exemple in video in mp4 format_
 
 </div>
 
-## 3. Write the kinetic energy
+### 3. Write the kinetic energy
 
 ```math
 \begin{align}
@@ -99,7 +102,7 @@ _Exemple in video in mp4 format_
 \end{align}
 ```
 
-## 4. Write the potentiel energy
+### 4. Write the potentiel energy
 
 ```math
 \begin{align}
@@ -109,7 +112,7 @@ _Exemple in video in mp4 format_
 \end{align}
 ```
 
-## 5. Write the Lagrange equation
+### 5. Write the Lagrange equation
 
 ```math
 \begin{align}
@@ -118,21 +121,21 @@ _Exemple in video in mp4 format_
 \end{align}
 ```
 
-## 6. Write the final equation
+### 6. Write the final equation
 
 ```math
 \text{Energy conservation:} \quad
 \boxed{
-	\frac{d}{dt}\left(\frac{\partial \mathcal{L}}{\partial \dot{\theta}}\right) - \frac{\partial L}{\partial \theta} = 0
+	\frac{d}{dt}\left(\frac{\partial \mathcal{L}}{\partial \dot{\theta}}\right) - \frac{\partial \mathcal{L}}{\partial \theta} = 0
 }
 ```
 
 ```math
 \left\{
 \begin{aligned}
-	\frac{\partial L}{\partial {\dot{\theta}_1}} &= 
+	\frac{\partial \mathcal{L}}{\partial {\dot{\theta}_1}} &= 
 		(m_1 + m_2) {l_1}^{2} {\dot{\theta}_1} + l_1 l_2 m_2 {\dot{\theta}_2} \cos(\theta_1 - \theta_2)\\
-	\frac{\partial \mathcal{L}}{\partial {\dot{\theta}_2}} &= 
+	\frac{\partial \mathcal{L}}{\partial {\dot{\theta}_2}} &=
 		{l_2}^{2} m_2 {\dot{\theta}_2} + l_1 l_2 m_2 {\dot{\theta}_1} \cos(\theta_1 - \theta_2)
 \end{aligned}
 \right.\\
@@ -167,10 +170,11 @@ _Exemple in video in mp4 format_
 	\right.
 }
 ```
-## Finaly extract from the equations the acceleration of the double pendulum rods
+
+### Finaly extract from the equations the acceleration of the double pendulum rods
 
 ```math
-\text{ The goal is to extract } \ddot{\theta}_1 \text{ and } \ddot{\theta}_2 \text{: }
+\text{ The goal is to extract } \ddot{\theta}_1 \text{ and } \ddot{\theta}_2 \text{: } \quad
 \begin{bmatrix}
 	a_{11} & a_{12}\\
 	a_{21} & a_{22}
@@ -224,7 +228,7 @@ _Exemple in video in mp4 format_
 ```
 
 
-# Writing the double pendulum's equations with Euler method
+## Writing the double pendulum's equations with Euler method
 ...
 
 # Comparison between methods
