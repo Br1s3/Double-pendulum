@@ -157,9 +157,10 @@ https://makefiletutorial.com/
 ```math
 \text{Energy conservation} \quad
 \boxed{
-\frac{d}{dt}\left(\frac{\partial L}{\partial \dot{\theta}}\right) - \frac{\partial L}{\partial \theta} = 0
-}\\
-
+	\frac{d}{dt}\left(\frac{\partial L}{\partial \dot{\theta}}\right) - \frac{\partial L}{\partial \theta} = 0
+}
+```
+```math
 \left\{
 \begin{aligned}
 	\frac{\partial L}{\partial {\dot{\theta}_1}} &= 
@@ -185,8 +186,10 @@ https://makefiletutorial.com/
 	\frac{\partial L}{\partial {\theta_2}} &= 
 		l_1 l_2 m_2 \dot{\theta}_1 \dot{\theta}_2 \sin(\theta_1 - \theta_2) + g l_2 m_2 \sin\theta_2
 \end{aligned}
-\right.\\
+\right.
+```
 
+```math
 \text{Final equation:}\\
 
 \boxed{
