@@ -165,11 +165,11 @@ _Exemple in video in mp4 format_
 ## Finaly extract from the equations the acceleration of the double pendulum rods
 
 ```math
-\text{ The goal is to extract } \ddot{\theta}_1 \text { and } \ddot{\theta}_2} \text{: } \\
+\text{ The goal is to extract } \ddot{\theta}_1 \text{ and } \ddot{\theta}_2 \text{: } \\
 \begin{bmatrix}
 	a_{11} & a_{12}\\
 	a_{21} & a_{22}
-\end{bmatrix} 
+\end{bmatrix}
 \times
 \begin{bmatrix}
 	\ddot{\theta}_1\\
@@ -183,7 +183,7 @@ _Exemple in video in mp4 format_
 =
 \begin{bmatrix}
 	0\\
-	0\\
+	0
 \end{bmatrix}
 ```
 
@@ -204,14 +204,21 @@ _Exemple in video in mp4 format_
 	l_2 m_2 {\dot{\theta}_2}^{2} \sin(\theta_1 - \theta_2) + (m_1 + m_2) g \sin\theta_1
 \end{bmatrix}
 = 0\\
-\text{The Final equations: }\\
+```
+
+```math
+\text{The Final equations: }
+```
+
+```math
 \boxed{
-\begin{cases}
-	\ddot{\theta}_1 = \frac{(m_1 + m_2) g \sin\theta_1 - l_2 m_2 {\dot{\theta}_2}^{2} \sin(\theta_1 - \theta_2) + l_1 m_2 {\dot{\theta}_1}^{2} \frac{1}{2} \sin(2 \theta_1 - 2 \theta_2) - m_2 g \sin\theta_2 \cos(\theta_1 - \theta_2)}
-	{l_1 \left(m_2 {\cos}^{2}(\theta_1 - \theta_2) - m_1 - m_2\right)}\\
-	\ddot{\theta}_2 = \frac{(m_1 + m_2) g \sin\theta_2 + l_2 m_2 {\dot{\theta}_2}^{2} \frac{1}{2}\sin(2 \theta_1 - 2 \theta_2) - (m_1 + m_2) {\dot{\theta}_1}^{2} \sin(\theta_1 - \theta_2) - g (m_1 + m_2) \sin\theta_1 \cos(\theta_1 - \theta_2)}
-	{l_2 \left(m_2 {\cos}^{2}(\theta_1 - \theta_2) - m_1 - m_2\right)}
-\end{cases}}
+	\begin{cases}
+		\ddot{\theta}_1 = \frac{(m_1 + m_2) g \sin\theta_1 - l_2 m_2 {\dot{\theta}_2}^{2} \sin(\theta_1 - \theta_2) + l_1 m_2 {\dot{\theta}_1}^{2} \frac{1}{2} \sin(2 \theta_1 - 2 \theta_2) - m_2 g \sin\theta_2 \cos(\theta_1 - \theta_2)}
+		{l_1 \left(m_2 {\cos}^{2}(\theta_1 - \theta_2) - m_1 - m_2\right)}\\
+		\ddot{\theta}_2 = \frac{(m_1 + m_2) g \sin\theta_2 + l_2 m_2 {\dot{\theta}_2}^{2} \frac{1}{2}\sin(2 \theta_1 - 2 \theta_2) - (m_1 + m_2) {\dot{\theta}_1}^{2} \sin(\theta_1 - \theta_2) - g (m_1 + m_2) \sin\theta_1 \cos(\theta_1 - \theta_2)}
+		{l_2 \left(m_2 {\cos}^{2}(\theta_1 - \theta_2) - m_1 - m_2\right)}
+	\end{cases}
+}
 ```
 
 
