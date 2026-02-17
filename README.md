@@ -332,7 +332,23 @@ _Same as Lagrange method_
 \right.
 ```
 
-# Comparison between methods
+#### Replace all the $\ddot{x}_1$, $\ddot{x}_2$, $\ddot{y}_1$, $\ddot{y}_2$
+
+```math
+\boxed{
+	\left\{
+		\begin{aligned}
+			- l_2 m_2 \ddot{\theta}_2 - l_1 m_2 \ddot{\theta}_1 \cos(\theta_1 - \theta_2) + l_1 m_2 {\dot{\theta}_1}^{2} \sin(\theta_1 - \theta_2) - m_2 g \sin\theta_2 &= 0\\
+			- l_1 (m_1 + m_2) \ddot{\theta}_1 - l_2 m_2 \ddot{\theta}_2 cos(\theta_1 - \theta_2) - l_2 m_2 {\dot{\theta_2}}^{2} \sin(\theta_1 - \theta_2) - g (m_1 + m_2) \sin\theta_1 &= 0
+		\end{aligned}
+	\right.
+}
+```
+_At this point we got the same result as here: [Final equation form the Lagrange method](#6-Write-the-final-equation)._
+_So the next step will be exactly the same as [Matrix resolution](\Finaly-extract-from-the-equations-the-acceleration-of-the-double pendulum rods)_
+
+
+# Comparison between numerical methods to solve the double pendulum equations
 
 There are mainly 2 methods presented here and one embed the other. The program embed an adaptative method that adjusts the time step to obtain a constant total energy of the double pendulum because the equations assume that the system is perfect and has no energy losses. The DOPRI45 method is also an adaptative method that adjusts the time step to obtain a constant error between each solution of the equations of "DOPRI4" and "DOPRI5". 
 It is possible to combine these both methods to obtain the best simulation of a non-existent system (Because here the system is perfect)
@@ -341,17 +357,13 @@ _Energy conservation_
 
 [![Comparison between Adaptative method and explicit method](./picture/Energy-conservation.png)](/picture)
 
+## Graphical exemples with Desmos:
+
+[scheme with labels of the double pendulum Lagrange method_Scheme of the double pendulum](https://www.desmos.com/calculator/giwuwilmpn)
+[Comparison between Adaptative method and explicit method](https://www.desmos.com/calculator/day7yp1mrq)
+[scheme with labels of the double pendulum Euler method](https://www.desmos.com/calculator/swxenlyze2)
 
 # References
-
-## Desmos exemples
-_scheme with labels of the double pendulum Lagrange method_
-> https://www.desmos.com/calculator/giwuwilmpn
-_Comparison between Adaptative method and explicit method_
-> https://www.desmos.com/calculator/day7yp1mrq
-_scheme with labels of the double pendulum Euler method_
-> https://www.desmos.com/calculator/swxenlyze2
-
 
 ## source of inspiration
 > The most realistic simulation of a double pendulum
@@ -363,7 +375,7 @@ https://github.com/myphysicslab/myphysicslab/blob/master/src/lab/model/AdaptiveS
 
 ## Help for theoritical calculation
 > Theoritical help to solve ODE: Using the method of Laplace tranforms
-> [_Laplace_resolution](https://www.mathforengineers.com/french/Laplace-transform/solve-differential-equations-using-Laplace-transform.html)
+> [Laplace_resolution](https://www.mathforengineers.com/french/Laplace-transform/solve-differential-equations-using-Laplace-transform.html)
 
 > Trigonometric simplification
 > [Trigo Formula](https://www.mathforu.com/hors-programme/formulaire-de-trigonometrie/)
@@ -372,24 +384,26 @@ https://github.com/myphysicslab/myphysicslab/blob/master/src/lab/model/AdaptiveS
 ## Website allowing to view the Fourier series
 > https://isaacvr.github.io/coding/fourier_transform/
 
-## Worst equation for explicit ODE solvers -> Stiff Equation
-> https://en.wikipedia.org/wiki/Backward_differentiation_formula
-> https://en.wikipedia.org/wiki/Stiff_equation
-
-## Best explicit ODE solver used by NASA (DOP853)
-> https://www.unige.ch/~hairer/software.html
+## All to know about the ODE solvers lib
+> https://github.com/Br1s3/ODEsolverlib
 
 ## Help for the Makefile
 > https://makefiletutorial.com/
 
 ## Info about LaTeX
+
+_syntax_
+
 > https://fr.wikipedia.org/wiki/Aide:Formules_TeX
 > https://en.wikibooks.org/wiki/LaTeX/Mathematics
 > https://fr.overleaf.com/learn/latex/Matrices
 
-## Website that render Latex
+_Website that render Latex_
+
 > https://quicklatex.com/
 
+
 ## Help to render things in Markdown
+
 > https://github.com/Snailedlt/Markdown-Videos/blob/main/README.md
 > https://github.com/sigma-py/ndim/blob/main/README.md
