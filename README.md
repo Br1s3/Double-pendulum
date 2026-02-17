@@ -233,11 +233,29 @@ _Exemple in video in mp4 format_
 
 [![scheme with labels of the double pendulum Euler method](./picture/Reminder-Euler.png)](/picture)
 
+### 1. Writing the Cartesian coordinates
+
+<div align="center">
+
+|            Position            |                       Velocity                        |
+|--------------------------------|-------------------------------------------------------|
+| $x_1 = l_1\sin\theta_1$        | $\dot{x}_1 = l_1\dot{\theta}_1\cos\theta_1$           |
+| $y_1 = -l_1\cos\theta_1$       | $\dot{y}_1 = l_1\dot{\theta}_1\sin\theta_1$           |
+| $x_2 = l_2\sin\theta_2 + x_1$  | $\dot{x}_2 = l_2\dot{\theta}_2\cos\theta_2+\dot{x}_1$ |
+| $y_2 = -l_2\cos\theta_2 + y_1$ | $\dot{y}_2 = l_2\dot{\theta}_2\sin\theta_2+\dot{x}_1$ |
+
+</div>
+
+_Same as Lagrange method_
+
+### Use of Newton's law of motion
+
 ### Justification of the direction of the tension vectors
 
 ```math
 \text{ When the double pendulum is in rest position we consider } \theta_1 \text{ and } \theta_2 = 0
 ```
+<div align="center">
 
 |        Rest position                 |                  Not rest position                    |
 |--------------------------------------|-------------------------------------------------------|
@@ -246,6 +264,8 @@ _Exemple in video in mp4 format_
 | _Mass 1 is pulled by the base of the rod and counteracts the force of gravity. So, we can say that for mass 1 not to fall it must rise thanks to rod 1. Mass 2 pulls mass 1 down. The last force is gravity that pulls mass 1 down._ | _Mass 1 is pulled by the force of gravity._ |
 | $\begin{align}m_1 \ddot{x}_1 &= 0\\m_1 \ddot{y}_1 &= T_1 - T_2 - g\end{align}$  | $\dot{x}_2 = l_2\dot{\theta}_2\cos\theta_2+\dot{x}_1$ |
 | $y_2 = -l_2\cos\theta_2 + y_1$ | $\dot{y}_2 = l_2\dot{\theta}_2\sin\theta_2+\dot{x}_1$ |
+
+</div>
 
 
 
@@ -291,21 +311,6 @@ All the forces in the X and Y axis:
 	m_1 \ddot{y}_1 &= 0
 \end{align}
 ```
-
-### 1. Writing the Cartesian coordinates
-
-<div align="center">
-
-|            Position            |                       Velocity                        |
-|--------------------------------|-------------------------------------------------------|
-| $x_1 = l_1\sin\theta_1$        | $\dot{x}_1 = l_1\dot{\theta}_1\cos\theta_1$           |
-| $y_1 = -l_1\cos\theta_1$       | $\dot{y}_1 = l_1\dot{\theta}_1\sin\theta_1$           |
-| $x_2 = l_2\sin\theta_2 + x_1$  | $\dot{x}_2 = l_2\dot{\theta}_2\cos\theta_2+\dot{x}_1$ |
-| $y_2 = -l_2\cos\theta_2 + y_1$ | $\dot{y}_2 = l_2\dot{\theta}_2\sin\theta_2+\dot{x}_1$ |
-
-</div>
-
-_Same as Lagrange method_
 
 ### Use of Newton's law of motion
 
