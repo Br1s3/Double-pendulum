@@ -257,14 +257,17 @@ _Same as Lagrange method_
 ```
 <div align="center">
 
-|        Rest position                 |                  Not rest position                    |
-|--------------------------------------|-------------------------------------------------------|
-| from mass 1’s frame of reference:    | from mass 1’s frame of reference:                     |
-| <img src="./picture/TJstcation-RestPosition-m1ref.png" width="200"> | <img src="./picture/TJstcation-NotRestPosition-m1ref.png" width="200"> |
-| _Mass 1 is pulled by the base of the rod and counteracts the force of gravity. So, we can say that for mass 1 not to fall it must rise thanks to rod 1. Mass 2 pulls mass 1 down. The last force is gravity that pulls mass 1 down._ | _Mass 1 is pulled by the force of gravity._ |
-| $$ m_1 \ddot{x}_1 = 0 $$              |                                                      |
-| $$ m_1 \ddot{y}_1 = T_1 - T_2 - g $$  |                                                      |
-| $$y_2 = -l_2\cos\theta_2 + y_1$$ | $\dot{y}_2 = l_2\dot{\theta}_2\sin\theta_2+\dot{x}_1$ |
+| Rest position                                                                                                                                                                                                                                                  | Not rest position                                                      |
+|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------|
+| from mass 1’s frame of reference:                                                                                                                                                                                                                              | from mass 1’s frame of reference:                                      |
+| <img src="./picture/TJstcation-RestPosition-m1ref.png" width="500">                                                                                                                                                                                            | <img src="./picture/TJstcation-NotRestPosition-m1ref.png" width="500"> |
+| _Mass 1 is pulled by the base of the rod and counteracts the force of gravity. So, we can say that for mass 1 not to fall it must rise thanks to rod 1. Mass 2 pulls mass 1 down. The last force is gravity that pulls mass 1 down._                           | _Mass 1 is pulled by the force of gravity._                            |
+| $$ m_1 \ddot{x}_1 = 0 $$                                                                                                                                                                                                                                       |                                                                        |
+| $$ m_1 \ddot{y}_1 = T_1 - T_2 - g $$                                                                                                                                                                                                                           |                                                                        |
+| from mass 2’s frame of reference:                                                                                                                                                                                                                              | from mass 2’s frame of reference:                                      |
+| <img src="./picture/TJstcation-RestPosition-m2ref.png" width="300">                                                                                                                                                                                            | <img src="./picture/TJstcation-NotRestPosition-m2ref.png" width="300"> |
+| _Mass 1 stay pulled by the base of the rod and counteracts the force of gravity. Mass 2 in its reference now is pulled by mass 1 and we can say that for mass 2 not to fall it must rise thanks to rod 2. The last force stay gravity that pulls mass 2 down._ |                                                                        |
+| $$y_2 = -l_2\cos\theta_2 + y_1$$                                                                                                                                                                                                                               | $\dot{y}_2 = l_2\dot{\theta}_2\sin\theta_2+\dot{x}_1$                  |
 
 </div>
 
@@ -288,8 +291,7 @@ All the forces in the X and Y axis:
 
 [![scheme with labels of the double pendulum Euler method in reference of mass 2](./picture/TJstcation-RestPosition-m2ref.png)](/picture)
 
-_Mass 1 stay pulled by the base of the rod and counteracts the force of gravity. Mass 2 in its reference now is pulled by mass 1 and we can say that for mass 2 not to fall it must rise thanks to rod 2.
-The last force stay gravity that pulls mass 2 down._
+
 
 All the forces in the X and Y axis:
 
