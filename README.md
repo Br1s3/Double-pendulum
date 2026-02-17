@@ -294,21 +294,21 @@ _Same as Lagrange method_
 
 ```math
 \begin{aligned}
-	\theta_2 = 0 &\Rightarrow 
-	\left\{
+	\theta_2 = 0 \Rightarrow 
+	&\left\{
 		\begin{aligned}
 			m_2 \ddot{x}_2 &= 0\\
 			m_2 \ddot{y}_2 &= T_2 - m_2 g
 		\end{aligned}
 	\right.\\
-	\theta_2 = \frac{\pi}{2} &\Rightarrow
-	\left\{
+	\theta_2 = \frac{\pi}{2} \Rightarrow
+	&\left\{
 		\begin{aligned}
 			m_2 \ddot{x}_2 &= - T_2 \\
 			m_2 \ddot{y}_2 &= - m_2 g
 		\end{aligned}
 	\right.\\
-	\boxed{
+	&\boxed{
 		\left\{
 			\begin{aligned}
 				m_2 \ddot{x}_2 &= - T_2 \sin\theta_2\\
