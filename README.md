@@ -293,9 +293,8 @@ $$
 |                            Rest position                            |                            Not rest position                           |
 |---------------------------------------------------------------------|------------------------------------------------------------------------|
 | from mass 1’s frame of reference:                                   | from mass 1’s frame of reference:                                      |
-| ![](./picture/TJstcation-RestPosition-m1ref.png) | ![](./picture/TJstcation-NotRestPosition-m1ref.png) |
-| $\text{\scriptscriptstyle{salut tout le monde je fait une longue ligne pour voir si cela marche}}$ | _Mass 1 is pulled by the force of gravity._ |
-| $\begin{aligned}m_1 \ddot{x}_1 &= 0\\m_1 \ddot{y}_1 = T_1 - T_2 - g\end{aligned}$$ |                                                       |
+| ![](./picture/TJstcation-RestPosition-m1ref.png)                    | ![](./picture/TJstcation-NotRestPosition-m1ref.png)                    |
+| $$\begin{aligned}m_1 \ddot{x}_1 &= 0\\m_1 \ddot{y}_1 = T_1 - T_2 - g\end{aligned}$$ |                                                       |
 | $m_1 \ddot{y}_1 = T_1 - T_2 - g$ |                                                       |
 | from mass 2’s frame of reference:    | from mass 2’s frame of reference:                     |
 | <img src="./picture/TJstcation-RestPosition-m2ref.png" width="500"> | <img src="./picture/TJstcation-NotRestPosition-m2ref.png" width="500"> |
