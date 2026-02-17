@@ -255,6 +255,40 @@ _Same as Lagrange method_
 ```math
 \text{ When the double pendulum is in rest position we consider } \theta_1 \text{ and } \theta_2 = 0
 ```
+
+<table>
+	<tr>
+		<td width="50%">Rest position</td>
+		<td width="50%">Not rest position</td>
+	</tr>
+	<tr>
+		<td> <img src="./picture/TJstcation-RestPosition-m1ref.png" width="500"> </td>
+		<td> <img src="./picture/TJstcation-NotRestPosition-m1ref.png" width="500"> </td>
+	</tr>
+	<tr>
+		<td> _Mass 1 is pulled by the base of the rod and counteracts the force of gravity. So, we can say that for mass 1 not to fall it must rise thanks to rod 1. Mass 2 pulls mass 1 down. The last force is gravity that pulls mass 1 down._ </td>
+		<td> _Mass 1 is pulled by the force of gravity._ </td>
+	<tr>
+		<td>
+		```math
+		\begin{align}
+			m_1 \ddot{x}_1 &= 0\\
+			m_1 \ddot{y}_1 &= T_1 - T_2 - g
+		\end{align}
+		```
+		</td>
+	</tr>
+</table>
+	
+
+
+$$
+m_1 \ddot{x}_1 = 0 \\
+m_1 \ddot{y}_1 = T_1 - T_2 - g
+$$
+</table>
+
+
 <div align="center">
 
 |                            Rest position                            |                            Not rest position                           |
@@ -262,10 +296,10 @@ _Same as Lagrange method_
 | from mass 1’s frame of reference:                                   | from mass 1’s frame of reference:                                      |
 | <img src="./picture/TJstcation-RestPosition-m1ref.png" width="500"> | <img src="./picture/TJstcation-NotRestPosition-m1ref.png" width="500"> |
 | GGWP_ | _Mass 1 is pulled by the force of gravity._ |
-| $$ m_1 \ddot{x}_1 = 0 $$             |                                                       |
-| $$ m_1 \ddot{y}_1 = T_1 - T_2 - g $$ |                                                       |
+| $ m_1 \ddot{x}_1 = 0 $             |                                                       |
+| $ m_1 \ddot{y}_1 = T_1 - T_2 - g $ |                                                       |
 | from mass 2’s frame of reference:    | from mass 2’s frame of reference:                     |
-| <img src="./picture/TJstcation-RestPosition-m2ref.png" width="300"> | <img src="./picture/TJstcation-NotRestPosition-m2ref.png" width="300"> |
+| <img src="./picture/TJstcation-RestPosition-m2ref.png" width="500"> | <img src="./picture/TJstcation-NotRestPosition-m2ref.png" width="500"> |
 | GGWP |                                                       |
 | $$y_2 = -l_2\cos\theta_2 + y_1$$ | $\dot{y}_2 = l_2\dot{\theta}_2\sin\theta_2+\dot{x}_1$ |
 
