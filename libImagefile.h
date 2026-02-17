@@ -263,12 +263,7 @@ uint8_t ***ReadImage(const char *path, int *w, int *h, int *nb_color)
 	for (int j = 0; j < f_width; j++) {
 	    for (int c = 0; c < *nb_color; c++) {
 		uint8_t row_data;
-		if (fread(&row_data, 1, sizeof(uint8_t), f) < 1) {
-		    fprintf(stderr, "ERROR: To read the f\n");
-		    fclose(f);
-		    return NULL;
-		}
-
+		fread(&row_data, 1, sizeof(uint8_t), f);
 		data[i][j][c] = row_data;
 	    }
 	}

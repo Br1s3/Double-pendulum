@@ -10,7 +10,7 @@
 
 #define max(x, y) ((x)<(y) ? y : x)
 #define min(x, y) ((x)>(y) ? y : x)
-#define moveto(y, x) printf("\033[%d;%dH", (y), (x));
+#define moveto(y, x) printf("\033[%d;%dH", (y), (x))
 #define dec(x, y) ((x*(width+1)) + y)
 #ifndef ABS
 #define ABS(x) ((x)<0?(-x):(x))
@@ -35,19 +35,6 @@ typedef struct
    float x, y;
 }COORDF;
 
-typedef struct
-{
-   COORD A;
-   COORD B;
-}RECT;
-
-typedef struct
-{
-   COORDF A;
-   COORDF B;
-   COORDF C;
-}TRIG;
-
 char **mem_alloc(int H, int W);
 void mem_free(char **ptr, int H);
 void cons_clear(char **pixels, short width, short height, const char clear);
@@ -57,8 +44,7 @@ void cons_ligne(char **pixels, short width, short height, int ax, int ay, int bx
 void cons_triangle(char **pixels, short width, short height, int ax, int ay, int bx, int by, int cx, int cy, const char fd);
 
 void print_cons(char **pixels, short width, short height);
-
-void set_console();
+void print_cons_comp(char **pixels, short width, short height);
 
 void draw_clear(uint8_t ***pixels, short width, short height);
 void draw_ligne(uint8_t ***pixels, short width, short height, int ax, int ay, int bx, int by, const uint32_t fd);
@@ -102,6 +88,20 @@ void print_cons(char **pixels, short width, short height)
    puts(pixels_1D);
 }
 
+void print_cons_comp(char **pixels, short width, short height)
+{
+   short i, j;
+   moveto(0, 0);
+   for (i = 0; i < height; ++i) {
+       for (j = 0; j < width+1; ++j) {
+	   putchar(pixels[i][j]);
+	   putchar(' ');
+       }
+       putchar('\n');
+   }
+}
+
+
 void cons_clear(char **pixels, short width, short height, const char clear)
 {
    short i, j;
@@ -112,25 +112,12 @@ void cons_clear(char **pixels, short width, short height, const char clear)
    }
 }
 
-// Fonction revérifié pas de point faible !
 void cons_rect(char **pixels, short width, short height, int x, int y, int largeur, int hauteur, const char fd)
 {
-    RECT rect, wind;
-    
-    wind.A.x = -width/2;
-    wind.A.y = -height/2;
-    wind.B.x = width/2;
-    wind.B.y = height/2;
-
-    rect.A.x = x;
-    rect.A.y = y;
-    rect.B.x = x+largeur;
-    rect.B.y = y+hauteur;
-
     short i, j;
-    for (i = wind.A.y; i < wind.B.y; i++) {
-	for (j = wind.A.x; j < wind.B.x; j++) {
-	    if (((j >= rect.A.x) && (j < rect.B.x)) && ((i >= rect.A.y) && (i < rect.B.y)))
+    for (i = -height/2; i < height/2; i++) {
+	for (j = -width/2; j < width/2; j++) {
+	    if (((j >= x) && (j < x+largeur)) && ((i >= y) && (i < y+hauteur)))
 	        pixels[i+height/2][j+width/2] = fd;
 	}
     }
@@ -146,29 +133,22 @@ void cons_ligne(char **pixels, short width, short height, int ax, int ay, int bx
     AB.x = b.x - a.x;
     AB.y = b.y - a.y;
 
-
     for (double t = 0; t < 1; t+=0.01) {
 	double x = (AB.x*t + a.x);
 	double y = (AB.y*t + a.y);
-	if (ABS(x*(width/2)) > width/2 || ABS(y*(height/2)) > height/2) break;
-	pixels[(int)(-y*(height/2)) + height/2][(int)(x*width/2) + width/2] = fd;
+	if ((int)(ABS(x*(width/2))) > width/2-1 || (int)(ABS(y*(height/2))) > height/2-1) break;
+	pixels[(int)((height/2)*(1 - y))][(int)((width/2)*(1 + x))] = fd;
     }
 }
 
 
 void cons_cercle(char **pixels, short width, short height, int x, int y, int radius, const char fd)
 {
-    RECT wind;
-    wind.A.x = -width/2;
-    wind.A.y = -height/2;
-    wind.B.x = width/2;
-    wind.B.y = height/2;
-
     short i, j;
-    for (i = wind.A.y; i < wind.B.y; i++) {
-	for (j = wind.A.x; j < wind.B.x; j++) {
+    for (i = -height/2; i < height/2; i++) {
+	for (j = -width/2; j < width/2; j++) {
 	    if ((i-y)*(i-y) + (j-x)*(j-x) <= radius*radius)
-		pixels[i-wind.A.y][j-wind.A.x] = fd;
+		pixels[i + height/2][j + width/2] = fd;
 	}
     }
 }
@@ -179,15 +159,9 @@ void cons_rotate(char **pixels, short width, short height, float tetha)
    RECT wind;
 }
 #endif
-// Fonction revérifié pas de point faible !
+
 void cons_triangle(char **pixels, short width, short height, int ax, int ay, int bx, int by, int cx, int cy, const char fd)
 {
-   RECT wind;
-   wind.A.x = -width/2;
-   wind.A.y = -height/2;
-   wind.B.x = width/2;
-   wind.B.y = height/2;
-
    COORDF a, b, c;
    a.x = ax;
    a.y = ay;
@@ -199,14 +173,14 @@ void cons_triangle(char **pixels, short width, short height, int ax, int ay, int
    float gA, gB, gC;
 
    short x, y;
-   for (y = wind.A.y; y < wind.B.y; y++) {
-       for (x = wind.A.x; x < wind.B.x; x++) {
+   for (y = -height/2; y < height/2; y++) {
+       for (x = -width/2; x < width/2; x++) {
 	   gA = ((float)x*(b.y - c.y) + b.x*(c.y - (float)y) + c.x*((float)y - b.y))/(a.x*(b.y - c.y) + b.x*(c.y - a.y) + c.x*(a.y - b.y));
 	   gB = (a.x*((float)y - c.y) + (float)x*(c.y - a.y) + c.x*(a.y - (float)y))/(a.x*(b.y - c.y) + b.x*(c.y - a.y) + c.x*(a.y - b.y));
 	   gC = (a.x*(b.y - (float)y) + b.x*((float)y - a.y) + (float)x*(a.y - b.y))/(a.x*(b.y - c.y) + b.x*(c.y - a.y) + c.x*(a.y - b.y));
 
 	   if(gA >= 0 && gB >= 0 && gC >= 0)
-	       pixels[y+wind.B.y][x+wind.B.x] = fd;
+	       pixels[y+height/2][x+width/2] = fd;
        }
    }
 }
@@ -238,7 +212,7 @@ void draw_ligne(uint8_t ***pixels, short width, short height, int ax, int ay, in
     for (double t = 0; t < 1; t+=0.01) {
 	double x = (AB.x*t + a.x);
 	double y = (AB.y*t + a.y);
-	if (ABS(x*(width/2)) > width/2 || ABS(y*(height/2)) > height/2) break;
+	if (ABS(x*(width/2)) > width/2-1 || ABS(y*(height/2)) > height/2-1) break;
 	pixels[(int)(-y*(height/2)) + height/2][(int)(x*width/2) + width/2][0] = fd>>(8*3);
 	pixels[(int)(-y*(height/2)) + height/2][(int)(x*width/2) + width/2][1] = fd>>(8*2);
 	pixels[(int)(-y*(height/2)) + height/2][(int)(x*width/2) + width/2][2] = fd>>(8*1);
@@ -247,20 +221,13 @@ void draw_ligne(uint8_t ***pixels, short width, short height, int ax, int ay, in
 
 void draw_cercle(uint8_t ***pixels, short width, short height, int x, int y, int radius, const uint32_t fd)
 {
-   RECT wind;
-
-   wind.A.x = -width/2;
-   wind.A.y = -height/2;
-   wind.B.x = width/2;
-   wind.B.y = height/2;
-
    short i, j;
-   for (i = wind.A.y; i < wind.B.y; i++) {
-      for (j = wind.A.x; j < wind.B.x; j++) {
+   for (i = -height/2; i < height/2; i++) {
+      for (j = -width/2; j < width/2; j++) {
 	  if ((i-y)*(i-y) + (j-x)*(j-x) <= radius*radius) {
-	      pixels[i-wind.A.y][j-wind.A.x][0] |= fd>>(8*3);
-	      pixels[i-wind.A.y][j-wind.A.x][1] |= fd>>(8*2);
-	      pixels[i-wind.A.y][j-wind.A.x][2] |= fd>>(8*1);
+	      pixels[i + height/2][j + width/2][0] |= fd>>(8*3);
+	      pixels[i + height/2][j + width/2][1] |= fd>>(8*2);
+	      pixels[i + height/2][j + width/2][2] |= fd>>(8*1);
 	  }
       }
    }

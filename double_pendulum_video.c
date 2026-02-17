@@ -259,10 +259,10 @@ int main()
     uint8_t ***color = b24_color_alloc(WIDTH, HEIGHT);
     char filepath_image[FPS*10][40];
 
-    for (int i = 0; i < FPS*10; i++)
+    for (int i = 0; i < FPS*5; i++)
 	sprintf(filepath_image[i], "stock/Double_pendulum_%03d.ppm", i);
 
-    for (int i = 0; i < FPS*10; i++) {
+    for (int i = 0; i < FPS*5; i++) {
 
 	if (methode_RK_adaptative_pendulum(dt, epsilon, &Var_Dp1, equ_var1_psi_1, equ_var1_psi_2, methode_RK4) < 0)
 	    fprintf(stderr, "ERROR: Calculation overflow from: %s\n", "methode_RK_adaptative_pendulum");

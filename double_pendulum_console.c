@@ -11,7 +11,7 @@
 #define FPS 60
 
 #define HEIGHT (9*5)
-#define WIDTH (16*7)
+#define WIDTH (10*7)
 
 #define LENGTH_DRAG_BUFFER 500
 #define FILEPATH "test.csv"
@@ -269,7 +269,8 @@ int main()
 	
 	tracage_double_pendule(i, &Dp1, Var_Dp1, console);
 	
-	print_cons(console, WIDTH, HEIGHT);
+	print_cons_comp(console, WIDTH, HEIGHT);
+	// print_cons(console, WIDTH, HEIGHT);
 	usleep((unsigned int)(100000/FPS));
     }
     mem_free(console, HEIGHT);
