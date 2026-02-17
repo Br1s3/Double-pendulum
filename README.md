@@ -266,51 +266,57 @@ _Same as Lagrange method_
 | $m_2 \ddot{x}_2 = 0$ <br> $m_2 \ddot{y}_2 = T_1 + T_2 - m_2 g$ | $m_2 \ddot{x}_2 = - T_1 - T_2$ <br> $m_2 \ddot{y}_2 = - m_2 g$                     |
 
 ```math
-\theta_1 = 0 \Rightarrow 
-\left\{
-	\begin{aligned}
-		m_1 \ddot{x}_1 &= 0\\
-		m_1 \ddot{y}_1 &= T_1 - T_2 - m_1 g
-	\end{aligned}
-\right.
-\newline \theta_1 = \frac{\pi}{2} \Rightarrow
-\left\{
-	\begin{aligned}
-		m_1 \ddot{x}_1 &= - T_1 + T_2\\
-		m_1 \ddot{y}_1 &= - m_1 g
-	\end{aligned}
-\right.
-\newline \boxed{
+\begin{aligned}
+	\theta_1 = 0 &\Rightarrow 
 	\left\{
 		\begin{aligned}
-			m_1 \ddot{x}_1 &= - T_1 \sin\theta_1 + T_2 \sin\theta_2\\
-			m_1 \ddot{y}_1 &= T_1 \cos\theta_1 - T_2 \cos\theta_2 - m_2 g
+			m_1 \ddot{x}_1 &= 0\\
+			m_1 \ddot{y}_1 &= T_1 - T_2 - m_1 g
 		\end{aligned}
-	\right.
-}
+	\right.\\
+    \theta_1 = \frac{\pi}{2} &\Rightarrow
+	\left\{
+		\begin{aligned}
+			m_1 \ddot{x}_1 &= - T_1 + T_2\\
+			m_1 \ddot{y}_1 &= - m_1 g
+		\end{aligned}
+	\right.\\
+    \boxed{
+		\left\{
+			\begin{aligned}
+				m_1 \ddot{x}_1 &= - T_1 \sin\theta_1 + T_2 \sin\theta_2\\
+				m_1 \ddot{y}_1 &= T_1 \cos\theta_1 - T_2 \cos\theta_2 - m_2 g
+			\end{aligned}
+		\right.
+	}
+\end{aligned}
+```
 
-\theta_2 = 0 \Rightarrow 
-\left\{
-	\begin{aligned}
-		m_2 \ddot{x}_2 &= 0\\
-		m_2 \ddot{y}_2 &= T_2 - m_2 g
-	\end{aligned}
-\right.
-\newline \theta_2 = \frac{\pi}{2} \Rightarrow
-\left\{
-	\begin{aligned}
-		m_2 \ddot{x}_2 &= - T_2 \\
-		m_2 \ddot{y}_2 &= - m_2 g
-	\end{aligned}
-\right.
-\newline \boxed{
+```math
+\begin{aligned}
+	\theta_2 = 0 &\Rightarrow 
 	\left\{
 		\begin{aligned}
-			m_2 \ddot{x}_2 &= - T_2 \sin\theta_2\\
-			m_2 \ddot{y}_2 &= T_2 \cos\theta_2 - m_2 g
+			m_2 \ddot{x}_2 &= 0\\
+			m_2 \ddot{y}_2 &= T_2 - m_2 g
 		\end{aligned}
-	\right.
-}
+	\right.\\
+	\theta_2 = \frac{\pi}{2} &\Rightarrow
+	\left\{
+		\begin{aligned}
+			m_2 \ddot{x}_2 &= - T_2 \\
+			m_2 \ddot{y}_2 &= - m_2 g
+		\end{aligned}
+	\right.\\
+	\boxed{
+		\left\{
+			\begin{aligned}
+				m_2 \ddot{x}_2 &= - T_2 \sin\theta_2\\
+				m_2 \ddot{y}_2 &= T_2 \cos\theta_2 - m_2 g
+			\end{aligned}
+		\right.
+	}
+\end{aligned}
 ```
 
 #### Extract the tensions T1 and T2 (which represent the forces)
