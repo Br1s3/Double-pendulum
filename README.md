@@ -131,44 +131,44 @@ _Exemple in video in mp4 format_
 ```
 
 ```math
-\left\{
 \begin{aligned}
-	\frac{\partial \mathcal{L}}{\partial {\dot{\theta}_1}} &= 
-		(m_1 + m_2) {l_1}^{2} {\dot{\theta}_1} + l_1 l_2 m_2 {\dot{\theta}_2} \cos(\theta_1 - \theta_2)\\
-	\frac{\partial \mathcal{L}}{\partial {\dot{\theta}_2}} &=
-		{l_2}^{2} m_2 {\dot{\theta}_2} + l_1 l_2 m_2 {\dot{\theta}_1} \cos(\theta_1 - \theta_2)
-\end{aligned}
-\right.\\
+	&\left\{
+		\begin{aligned}
+			\frac{\partial \mathcal{L}}{\partial {\dot{\theta}_1}} &= 
+				(m_1 + m_2) {l_1}^{2} {\dot{\theta}_1} + l_1 l_2 m_2 {\dot{\theta}_2} \cos(\theta_1 - \theta_2)\\
+			\frac{\partial \mathcal{L}}{\partial {\dot{\theta}_2}} &=
+				{l_2}^{2} m_2 {\dot{\theta}_2} + l_1 l_2 m_2 {\dot{\theta}_1} \cos(\theta_1 - \theta_2)
+	    \end{aligned}
+	\right.\\
 
-\left\{
-\begin{aligned}
-	\frac{d}{dt}\left(\frac{\partial \mathcal{L}}{\partial {\dot{\theta}_1}} \right) &= 
-		{l_1}^{2} (m_1 + m_2) \ddot{\theta}_1 + l_1 l_2 m_2 \Big( \ddot{\theta}_2 \cos(\theta_1 - \theta_2) - ({\dot{\theta}_1} - {\dot{\theta}_2}) {\dot{\theta}_2} \sin(\theta_1 - \theta_2)\Big)\\
-	\frac{d}{dt}\left(\frac{\partial \mathcal{L}}{\partial {\dot{\theta}_2}} \right) &= 
-		{l_2}^{2} m_2 \ddot{\theta}_2 + l_1 l_2 m_2 \Big( \ddot{\theta}_1 \cos(\theta_1 - \theta_2) - ({\dot{\theta}_1} - {\dot{\theta}_2}) {\dot{\theta}_1} \sin(\theta_1 - \theta_2)\Big)\\
-\end{aligned}
-\right.\\
+	&\left\{
+		\begin{aligned}
+			\frac{d}{dt}\left(\frac{\partial \mathcal{L}}{\partial {\dot{\theta}_1}} \right) &= 
+				{l_1}^{2} (m_1 + m_2) \ddot{\theta}_1 + l_1 l_2 m_2 \Big( \ddot{\theta}_2 \cos(\theta_1 - \theta_2) - ({\dot{\theta}_1} - {\dot{\theta}_2}) {\dot{\theta}_2} \sin(\theta_1 - \theta_2)\Big)\\
+			\frac{d}{dt}\left(\frac{\partial \mathcal{L}}{\partial {\dot{\theta}_2}} \right) &= 
+				{l_2}^{2} m_2 \ddot{\theta}_2 + l_1 l_2 m_2 \Big( \ddot{\theta}_1 \cos(\theta_1 - \theta_2) - ({\dot{\theta}_1} - {\dot{\theta}_2}) {\dot{\theta}_1} \sin(\theta_1 - \theta_2)\Big)\\
+	    \end{aligned}
+	\right.\\
 
-\left\{
-\begin{aligned}
-	\frac{\partial \mathcal{L}}{\partial {\theta_1}} &= 
-		- l_1 l_2 m_2 \dot{\theta}_1 \dot{\theta}_2 \sin(\theta_1 - \theta_2) - g l_1 \left(m_1 + m_2\right) \sin\theta_1\\
-	\frac{\partial \mathcal{L}}{\partial {\theta_2}} &= 
-		l_1 l_2 m_2 \dot{\theta}_1 \dot{\theta}_2 \sin(\theta_1 - \theta_2) + g l_2 m_2 \sin\theta_2
-\end{aligned}
-\right.
-```
-
-```math
-\text{Lagrangian: } \quad\\
-\boxed{
-	\left\{
-	\begin{aligned}
-		l_1 \left(m_1 + m_2\right) \ddot{\theta}_1 &+ l_2 m_2 \ddot{\theta}_2 \cos(\theta_1 - \theta_2) + l_2 m_2 {\dot{\theta}_2}^{2} \sin(\theta_1 - \theta_2) + g l_1 \left(m_1 + m_2\right) \sin\theta_1 = 0\\
-		l_2 m_2 \ddot{\theta_2} &+ l_1 m_2 \ddot{\theta}_1 \cos(\theta_1 - \theta_2) - l_1 m_2 {\dot{\theta}_1}^{2} + g l_2 m_2 \sin\theta_2 = 0
-	\end{aligned}
+	&\left\{
+		\begin{aligned}
+			\frac{\partial \mathcal{L}}{\partial {\theta_1}} &= 
+				- l_1 l_2 m_2 \dot{\theta}_1 \dot{\theta}_2 \sin(\theta_1 - \theta_2) - g l_1 \left(m_1 + m_2\right) \sin\theta_1\\
+			\frac{\partial \mathcal{L}}{\partial {\theta_2}} &= 
+				l_1 l_2 m_2 \dot{\theta}_1 \dot{\theta}_2 \sin(\theta_1 - \theta_2) + g l_2 m_2 \sin\theta_2
+    	\end{aligned}
 	\right.
-}
+	
+	\text{Lagrangian: } \quad\\
+	&\boxed{
+		\left\{
+			\begin{aligned}
+				l_1 \left(m_1 + m_2\right) \ddot{\theta}_1 &+ l_2 m_2 \ddot{\theta}_2 \cos(\theta_1 - \theta_2) + l_2 m_2 {\dot{\theta}_2}^{2} \sin(\theta_1 - \theta_2) + g l_1 \left(m_1 + m_2\right) \sin\theta_1 = 0\\
+				l_2 m_2 \ddot{\theta_2} &+ l_1 m_2 \ddot{\theta}_1 \cos(\theta_1 - \theta_2) - l_1 m_2 {\dot{\theta}_1}^{2} + g l_2 m_2 \sin\theta_2 = 0
+			\end{aligned}
+		\right.
+	}
+\end{aligned}
 ```
 
 ### Finaly extract from the equations the acceleration of the double pendulum rods
@@ -267,21 +267,21 @@ _Same as Lagrange method_
 
 ```math
 \begin{aligned}
-	\theta_1 = 0 &\Rightarrow 
-	\left\{
+	\theta_1 = 0 \Rightarrow 
+	&\left\{
 		\begin{aligned}
 			m_1 \ddot{x}_1 &= 0\\
 			m_1 \ddot{y}_1 &= T_1 - T_2 - m_1 g
 		\end{aligned}
 	\right.\\
-    \theta_1 = \frac{\pi}{2} &\Rightarrow
-	\left\{
+    \theta_1 = \frac{\pi}{2} \Rightarrow
+	&\left\{
 		\begin{aligned}
 			m_1 \ddot{x}_1 &= - T_1 + T_2\\
 			m_1 \ddot{y}_1 &= - m_1 g
 		\end{aligned}
 	\right.\\
-    \boxed{
+    &\boxed{
 		\left\{
 			\begin{aligned}
 				m_1 \ddot{x}_1 &= - T_1 \sin\theta_1 + T_2 \sin\theta_2\\
