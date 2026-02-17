@@ -293,7 +293,7 @@ $$
 |                            Rest position                            |                            Not rest position                           |
 |---------------------------------------------------------------------|------------------------------------------------------------------------|
 | from mass 1’s frame of reference:                                   | from mass 1’s frame of reference:                                      |
-| ![]("./picture/TJstcation-RestPosition-m1ref.png") | ![]("./picture/TJstcation-NotRestPosition-m1ref.png") |
+| ![](./picture/TJstcation-RestPosition-m1ref.png) | ![](./picture/TJstcation-NotRestPosition-m1ref.png) |
 | GGWP_ | _Mass 1 is pulled by the force of gravity._ |
 | $ m_1 \ddot{x}_1 = 0 $             |                                                       |
 | $ m_1 \ddot{y}_1 = T_1 - T_2 - g $ |                                                       |
