@@ -231,13 +231,62 @@ _Exemple in video in mp4 format_
 
 ### Reminder of the basics
 
-[![scheme with labels of the double pendulum](./picture/Reminder-Euler.png)](/picture)
+[![scheme with labels of the double pendulum Euler method](./picture/Reminder-Euler.png)](/picture)
 
 ### Justification of the direction of the tension vectors
 
-[![scheme with labels of the double pendulum](./picture/TensionJustification-RestPosition.png)](/picture)
-[![scheme with labels of the double pendulum](./picture/TensionJustification-NotRestPosition.png)](/picture)
+```math
+\text{ When the double pendulum is in rest position we consider } \theta_1 \text{ and } \theta_2 = 0
+```
 
+- from mass 1’s frame of reference:
+
+[![scheme with labels of the double pendulum Euler method in reference of mass 1](./picture/TJstcation-RestPosition-m1ref.png)](/picture)
+
+_Mass 1 is pulled by the base of the rod and counteracts the force of gravity. So, we can say that for mass 1 not to fall it must rise thanks to rod 1.
+Mass 2 pulls mass 1 down. The last force is gravity that pulls mass 1 down._
+
+All the forces in the X and Y axis:
+
+```math
+\begin{align}
+	m_1 \ddot{x}_1 &= 0
+	m_1 \ddot{y}_1 &= T_1 - T_2 - g
+\end{align}
+```
+
+[![scheme with labels of the double pendulum Euler method in reference of mass 1](./picture/TJstcation-NotRestPosition-m1ref.png)](/picture)
+
+_Mass 1 is pulled by the force of gravity._
+
+- from mass 2’s frame of reference:
+
+[![scheme with labels of the double pendulum Euler method in reference of mass 2](./picture/TJstcation-RestPosition-m2ref.png)](/picture)
+
+_Mass 1 stay pulled by the base of the rod and counteracts the force of gravity. Mass 2 in its reference now is pulled by mass 1 and we can say that for mass 2 not to fall it must rise thanks to rod 2.
+The last force stay gravity that pulls mass 2 down._
+
+All the forces in the X and Y axis:
+
+```math
+\begin{align}
+	m_2 \ddot{x}_2 &= 0
+	m_2 \ddot{y}_2 &= T_1 + T_2 - g
+\end{align}
+```
+
+[![scheme with labels of the double pendulum Euler method in reference of mass 2](./picture/TJstcation-NotRestPosition-m2ref.png)](/picture)
+
+_Mass 1 is pulled by the force of gravity._
+
+All the forces in the X and Y axis:
+
+```math
+\begin{align}
+	m_1 \ddot{x}_1 &= -g
+	m_1 \ddot{y}_1 &= 0
+\end{align}
+```
 
 ### 1. Writing the Cartesian coordinates
 
