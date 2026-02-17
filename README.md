@@ -67,11 +67,11 @@ _Exemple in video in mp4 format_
 
 # Writing the double pendulum's equations
 
-## Reminder of the basics
+## Lagrange method:
 
-[![scheme with labels of the double pendulum](./picture/Reminder.png)](/picture)
+### Reminder of the basics
 
-## with Lagrange method
+[![scheme with labels of the double pendulum](./picture/Reminder-Lagrange.png)](/picture)
 
 ### 1. select the degrees of freedom
 
@@ -143,9 +143,9 @@ _Exemple in video in mp4 format_
 \left\{
 \begin{aligned}
 	\frac{d}{dt}\left(\frac{\partial \mathcal{L}}{\partial {\dot{\theta}_1}} \right) &= 
-		{l_1}^{2} (m_1 + m_2) \ddot{\theta}_1 + l_1 l_2 m_2 \Big[ \ddot{\theta}_2 \cos(\theta_1 - \theta_2) - ({\dot{\theta}_1} - {\dot{\theta}_2}) {\dot{\theta}_2} \sin(\theta_1 - \theta_2)\Big]\\
+		{l_1}^{2} (m_1 + m_2) \ddot{\theta}_1 + l_1 l_2 m_2 \Big( \ddot{\theta}_2 \cos(\theta_1 - \theta_2) - ({\dot{\theta}_1} - {\dot{\theta}_2}) {\dot{\theta}_2} \sin(\theta_1 - \theta_2)\Big)\\
 	\frac{d}{dt}\left(\frac{\partial \mathcal{L}}{\partial {\dot{\theta}_2}} \right) &= 
-		{l_2}^{2} m_2 \ddot{\theta}_2 + l_1 l_2 m_2 \Big[ \ddot{\theta}_1 \cos(\theta_1 - \theta_2) - ({\dot{\theta}_1} - {\dot{\theta}_2}) {\dot{\theta}_1} \sin(\theta_1 - \theta_2)\Big]\\
+		{l_2}^{2} m_2 \ddot{\theta}_2 + l_1 l_2 m_2 \Big( \ddot{\theta}_1 \cos(\theta_1 - \theta_2) - ({\dot{\theta}_1} - {\dot{\theta}_2}) {\dot{\theta}_1} \sin(\theta_1 - \theta_2)\Big)\\
 \end{aligned}
 \right.\\
 
@@ -227,9 +227,44 @@ _Exemple in video in mp4 format_
 }
 ```
 
+## Euler method:
 
-## Writing the double pendulum's equations with Euler method
-...
+### Reminder of the basics
+
+[![scheme with labels of the double pendulum](./picture/Reminder-Euler.png)](/picture)
+
+### Justification of the direction of the tension vectors
+
+[![scheme with labels of the double pendulum](./picture/TensionJustification-RestPosition.png)](/picture)
+[![scheme with labels of the double pendulum](./picture/TensionJustification-NotRestPosition.png)](/picture)
+
+
+### 1. Writing the Cartesian coordinates
+
+<div align="center">
+
+|            Position            |                       Velocity                        |
+|--------------------------------|-------------------------------------------------------|
+| $x_1 = l_1\sin\theta_1$        | $\dot{x}_1 = l_1\dot{\theta}_1\cos\theta_1$           |
+| $y_1 = -l_1\cos\theta_1$       | $\dot{y}_1 = l_1\dot{\theta}_1\sin\theta_1$           |
+| $x_2 = l_2\sin\theta_2 + x_1$  | $\dot{x}_2 = l_2\dot{\theta}_2\cos\theta_2+\dot{x}_1$ |
+| $y_2 = -l_2\cos\theta_2 + y_1$ | $\dot{y}_2 = l_2\dot{\theta}_2\sin\theta_2+\dot{x}_1$ |
+
+</div>
+
+_Same as Lagrange method_
+
+### Use of Newton's law of motion
+
+
+```math
+\begin{align}
+	\text{ Newton's laws of motion: } \vec{F} &= m \vec{a}\\
+	\text{ The force is} &= \text{ to the mass } \times \text{ times its acceleration }
+\end{align}
+```
+
+
 
 # Comparison between methods
 
@@ -244,10 +279,12 @@ _Energy conservation_
 # References
 
 ## Desmos exemples
-_scheme with labels of the double pendulum_
-> https://www.desmos.com/calculator/tmpy5hscr1
+_scheme with labels of the double pendulum Lagrange method_
+> https://www.desmos.com/calculator/giwuwilmpn
 _Comparison between Adaptative method and explicit method_
 > https://www.desmos.com/calculator/day7yp1mrq
+_scheme with labels of the double pendulum Euler method_
+> https://www.desmos.com/calculator/swxenlyze2
 
 
 ## source of inspiration
@@ -281,9 +318,11 @@ https://github.com/myphysicslab/myphysicslab/blob/master/src/lab/model/AdaptiveS
 
 ## Info about LaTeX
 > https://en.wikibooks.org/wiki/LaTeX/Mathematics
+> https://fr.overleaf.com/learn/latex/Matrices
 
 ## Website that render Latex
 > https://quicklatex.com/
+> https://fr.wikipedia.org/wiki/Aide:Formules_TeX
 
 ## Help to render things in Markdown
 > https://github.com/Snailedlt/Markdown-Videos/blob/main/README.md
