@@ -256,62 +256,37 @@ _Same as Lagrange method_
 \text{ When the double pendulum is in rest position we consider } \theta_1 \text{ and } \theta_2 = 0
 ```
 
-<table>
-	<tr>
-		<td width="50%"> <strong>Rest position</strong> </td>
-		<td width="50%"> <strong>Not rest position</strong> </td>
-	</tr>
-	<tr>
-		<td> <img src="./picture/TJstcation-RestPosition-m1ref.png" width="500"> </td>
-		<td> <img src="./picture/TJstcation-NotRestPosition-m1ref.png" width="500"> </td>
-	</tr>
-	<tr>
-		<td> <em>Mass 1 is pulled by the base of the rod and counteracts the force of gravity. So, we can say that for mass 1 not to fall it must rise thanks to rod 1. Mass 2 pulls mass 1 down. The last force is gravity that pulls mass 1 down.</em> </td>
-		<td> <em>Mass 1 is pulled by the force of gravity.</em> </td>
-	</tr>
-	<tr>
-		<td>
-		$$
-		m_1 \ddot{x}_1 &= 0\\
-		m_1 \ddot{y}_1 &= T_1 - T_2 - g
-		$$
-		</td>
-	</tr>
-</table>
-	
-
-
-$$
-m_1 \ddot{x}_1 = 0 \\
-m_1 \ddot{y}_1 = T_1 - T_2 - g
-$$
-</table>
-
-
-<div align="center">
-
-|                            Rest position                            |                            Not rest position                           |
-|---------------------------------------------------------------------|------------------------------------------------------------------------|
-| from mass 1’s frame of reference:                                   | from mass 1’s frame of reference:                                      |
-| ![](./picture/TJstcation-RestPosition-m1ref.png)                    | ![](./picture/TJstcation-NotRestPosition-m1ref.png)                    |
-| $m_1 \ddot{x}_1 = 0$ <br> $m_1 \ddot{y}_1 = T_1 - T_2 - g$          | $m_1 \ddot{x}_1 = - T_1 + T_2$ <br> $m_1 \ddot{y}_1 = - g$             |
-| from mass 2’s frame of reference:                                   | from mass 2’s frame of reference:                                      |
-| ![](./picture/TJstcation-RestPosition-m2ref.png)                    | ![](./picture/TJstcation-NotRestPosition-m2ref.png)                    |
-| $m_2 \ddot{x}_2 = 0$ <br> $m_2 \ddot{y}_2 = T_1 + T_2 - g$          | $m_2 \ddot{x}_2 = - T_1 - T_2$ <br> $m_2 \ddot{y}_2 = - g$             |
-
-</div>
+| Rest position $\theta_1 = 0 \text{ and } \theta_2 = 0$         | Not rest position $\theta_1 = \frac{\pi}{2} \text{ and } \theta_2 = \frac{\pi}{2}$ |
+|----------------------------------------------------------------|------------------------------------------------------------------------------------|
+| from mass 1’s frame of reference:                              | from mass 1’s frame of reference:                                                  |
+| ![](./picture/TJstcation-RestPosition-m1ref.png)               | ![](./picture/TJstcation-NotRestPosition-m1ref.png)                                |
+| $m_1 \ddot{x}_1 = 0$ <br> $m_1 \ddot{y}_1 = T_1 - T_2 - m_1 g$ | $m_1 \ddot{x}_1 = - T_1 + T_2$ <br> $m_1 \ddot{y}_1 = - m_1 g$                     |
+| from mass 2’s frame of reference:                              | from mass 2’s frame of reference:                                                  |
+| ![](./picture/TJstcation-RestPosition-m2ref.png)               | ![](./picture/TJstcation-NotRestPosition-m2ref.png)                                |
+| $m_2 \ddot{x}_2 = 0$ <br> $m_2 \ddot{y}_2 = T_1 + T_2 - m_2 g$ | $m_2 \ddot{x}_2 = - T_1 - T_2$ <br> $m_2 \ddot{y}_2 = - m_2 g$                     |
 
 ```math
-begin{align}
-	\theta_1 = 0 &=> m_1 \ddot{x}_1 = 0 \text{ and } m_1 \ddot{y}_1 = T_1 - T_2 - g\\
-	\theta_2 = 0 &=> m_2 \ddot{x}_2 = 0 \text{ and } m_2 \ddot{y}_2 = T_1 + T_2 - g
-end{align}
-begin{align}
-	\theta_1 &= - \frac{\pi}{2} => m_1 * \ddot{x}_1 = - T_1 + T_2 \text{ and } m_1 * \ddot{y}_1 = - g\\
-	\theta_2 &= - \frac{\pi}{2} => m_2 * \ddot{x}_2 = - T_1 - T_2 \text{ and } m_2 * \ddot{y}_2 = - g
-end{align}
+\begin{align}
+	\theta_1 = 0 &\Rightarrow m_1 \ddot{x}_1 = 0 \text{ and } m_1 \ddot{y}_1 = T_1 - T_2 - m_1 g\\
+	\theta_1 = \frac{\pi}{2} &\Rightarrow m_1 \ddot{x}_1 = - T_1 + T_2 \text{ and } m_1 \ddot{y}_1 = - m_1 g
+\end{align}
+\begin{align}
+	\theta_2 = 0 &\Rightarrow m_2 \ddot{x}_2 = 0 \text{ and } m_2 \ddot{y}_2 = T_1 + T_2 - m_2 g\\
+	\theta_2 = \frac{\pi}{2} &\Rightarrow m_2 \ddot{x}_2 = - T_1 - T_2 \text{ and } m_2 \ddot{y}_2 = - m_2 g\\
+\end{align}
+\boxed{
+	\left\{
+		\begin{aligned}
+			m_1 \ddot{x}_1 &= - T_1 \sin\theta_1 + T_2 \sin\theta_2
+			m_1 \ddot{y}_1 &= T_1 \cos\theta_1 - T_2 \cos\theta_2 - m_2 g
+		\end{aligned}
+		\begin{aligned}
+			m_2 \ddot{x}_2 &= - T_1 \sin\theta_1 + T_2 \sin\theta_2
+			m_2 \ddot{y}_2 &= T_1 \cos\theta_1 - T_2 \cos\theta_2 - m_2 g
+		\end{aligned}
 
-so 
+	\right.
+}
 ```
 
 
