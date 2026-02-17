@@ -270,17 +270,17 @@ _Same as Lagrange method_
 \left\{
 	\begin{aligned}
 		m_1 \ddot{x}_1 &= 0\\
-		m_1 \ddot{y}_1 &= T_1 - T_2 - m_1 g\\
+		m_1 \ddot{y}_1 &= T_1 - T_2 - m_1 g
 	\end{aligned}
-\right.\\
-\theta_1 = \frac{\pi}{2} \Rightarrow
+\right.
+\newline \theta_1 = \frac{\pi}{2} \Rightarrow
 \left\{
 	\begin{aligned}
 		m_1 \ddot{x}_1 &= - T_1 + T_2\\
-		m_1 \ddot{y}_1 &= - m_1 g\\
+		m_1 \ddot{y}_1 &= - m_1 g
 	\end{aligned}
-\right.\\
-\boxed{
+\right.
+\newline \boxed{
 	\left\{
 		\begin{aligned}
 			m_1 \ddot{x}_1 &= - T_1 \sin\theta_1 + T_2 \sin\theta_2\\
@@ -295,15 +295,15 @@ _Same as Lagrange method_
 		m_2 \ddot{x}_2 &= 0\\
 		m_2 \ddot{y}_2 &= T_2 - m_2 g
 	\end{aligned}
-\right.\\
-\theta_2 = \frac{\pi}{2} \Rightarrow
+\right.
+\newline \theta_2 = \frac{\pi}{2} \Rightarrow
 \left\{
 	\begin{aligned}
 		m_2 \ddot{x}_2 &= - T_2 \\
 		m_2 \ddot{y}_2 &= - m_2 g
 	\end{aligned}
-\right.\\
-\boxed{
+\right.
+\newline \boxed{
 	\left\{
 		\begin{aligned}
 			m_2 \ddot{x}_2 &= - T_2 \sin\theta_2\\
