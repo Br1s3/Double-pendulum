@@ -297,9 +297,23 @@ $$
 | $m_1 \ddot{x}_1 = 0$ <br> $m_1 \ddot{y}_1 = T_1 - T_2 - g$          | $m_1 \ddot{x}_1 = - T_1 + T_2$ <br> $m_1 \ddot{y}_1 = - g$             |
 | from mass 2’s frame of reference:                                   | from mass 2’s frame of reference:                                      |
 | ![](./picture/TJstcation-RestPosition-m2ref.png)                    | ![](./picture/TJstcation-NotRestPosition-m2ref.png)                    |
-| $m_1 \ddot{x}_1 = 0$ <br> $m_1 \ddot{y}_1 = T_1 + T_2 - g$          | $m_1 \ddot{x}_1 = - T_1 - T_2$ <br> $m_1 \ddot{y}_1 = - g$             |
+| $m_2 \ddot{x}_2 = 0$ <br> $m_2 \ddot{y}_2 = T_1 + T_2 - g$          | $m_2 \ddot{x}_2 = - T_1 - T_2$ <br> $m_2 \ddot{y}_2 = - g$             |
 
 </div>
+
+```math
+begin{align}
+	\theta_1 = 0 &=> m_1 \ddot{x}_1 = 0 \text{ and } m_1 \ddot{y}_1 = T_1 - T_2 - g\\
+	\theta_2 = 0 &=> m_2 \ddot{x}_2 = 0 \text{ and } m_2 \ddot{y}_2 = T_1 + T_2 - g
+end{align}
+begin{align}
+	\theta_1 &= - \frac{\pi}{2} => m_1 * \ddot{x}_1 = - T_1 + T_2 \text{ and } m_1 * \ddot{y}_1 = - g\\
+	\theta_2 &= - \frac{\pi}{2} => m_2 * \ddot{x}_2 = - T_1 - T_2 \text{ and } m_2 * \ddot{y}_2 = - g
+end{align}
+
+so 
+```
+
 
 from mass 1’s frame of reference: Rest pos->
 _Mass 1 is pulled by the base of the rod and counteracts the force of gravity. So, we can say that for mass 1 not to fall it must rise thanks to rod 1. Mass 2 pulls mass 1 down. The last force is gravity that pulls mass 1 down.
