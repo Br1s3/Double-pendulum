@@ -258,24 +258,23 @@ _Same as Lagrange method_
 
 <table>
 	<tr>
-		<td width="50%">Rest position</td>
-		<td width="50%">Not rest position</td>
+		<td width="50%"> <strong>Rest position</strong> </td>
+		<td width="50%"> <strong>Not rest position</strong> </td>
 	</tr>
 	<tr>
 		<td> <img src="./picture/TJstcation-RestPosition-m1ref.png" width="500"> </td>
 		<td> <img src="./picture/TJstcation-NotRestPosition-m1ref.png" width="500"> </td>
 	</tr>
 	<tr>
-		<td> _Mass 1 is pulled by the base of the rod and counteracts the force of gravity. So, we can say that for mass 1 not to fall it must rise thanks to rod 1. Mass 2 pulls mass 1 down. The last force is gravity that pulls mass 1 down._ </td>
-		<td> _Mass 1 is pulled by the force of gravity._ </td>
+		<td> <em>Mass 1 is pulled by the base of the rod and counteracts the force of gravity. So, we can say that for mass 1 not to fall it must rise thanks to rod 1. Mass 2 pulls mass 1 down. The last force is gravity that pulls mass 1 down.</em> </td>
+		<td> <em>Mass 1 is pulled by the force of gravity.</em> </td>
+	</tr>
 	<tr>
 		<td>
-		```math
-		\begin{align}
-			m_1 \ddot{x}_1 &= 0\\
-			m_1 \ddot{y}_1 &= T_1 - T_2 - g
-		\end{align}
-		```
+		$$
+		m_1 \ddot{x}_1 &= 0\\
+		m_1 \ddot{y}_1 &= T_1 - T_2 - g
+		$$
 		</td>
 	</tr>
 </table>
