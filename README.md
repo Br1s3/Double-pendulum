@@ -294,12 +294,10 @@ $$
 |---------------------------------------------------------------------|------------------------------------------------------------------------|
 | from mass 1’s frame of reference:                                   | from mass 1’s frame of reference:                                      |
 | ![](./picture/TJstcation-RestPosition-m1ref.png)                    | ![](./picture/TJstcation-NotRestPosition-m1ref.png)                    |
-| $m_1 \ddot{x}_1 = 0$ <br> $m_1 \ddot{y}_1 = T_1 - T_2 - g$ |                                                       |
-| $m_1 \ddot{y}_1 = T_1 - T_2 - g$ |                                                       |
-| from mass 2’s frame of reference:    | from mass 2’s frame of reference:                     |
-| <img src="./picture/TJstcation-RestPosition-m2ref.png" width="500"> | <img src="./picture/TJstcation-NotRestPosition-m2ref.png" width="500"> |
-| GGWP |                                                       |
-| $$y_2 = -l_2\cos\theta_2 + y_1$$ | $\dot{y}_2 = l_2\dot{\theta}_2\sin\theta_2+\dot{x}_1$ |
+| $m_1 \ddot{x}_1 = 0$ <br> $m_1 \ddot{y}_1 = T_1 - T_2 - g$          | $m_1 \ddot{x}_1 = - T_1 + T_2$ <br> $m_1 \ddot{y}_1 = - g$             |
+| from mass 2’s frame of reference:                                   | from mass 2’s frame of reference:                                      |
+| ![](./picture/TJstcation-RestPosition-m2ref.png)                    | ![](./picture/TJstcation-NotRestPosition-m2ref.png)                    |
+| $m_1 \ddot{x}_1 = 0$ <br> $m_1 \ddot{y}_1 = T_1 + T_2 - g$          | $m_1 \ddot{x}_1 = - T_1 - T_2$ <br> $m_1 \ddot{y}_1 = - g$             |
 
 </div>
 
