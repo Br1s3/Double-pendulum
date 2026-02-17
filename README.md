@@ -248,9 +248,9 @@ _Exemple in video in mp4 format_
 
 _Same as Lagrange method_
 
-### Use of Newton's law of motion
+### 2. Use of Newton's law of motion
 
-### Justification of the direction of the tension vectors
+#### Justification of the direction of the tension vectors
 
 ```math
 \text{ When the double pendulum is in rest position we consider } \theta_1 \text{ and } \theta_2 = 0
@@ -266,90 +266,65 @@ _Same as Lagrange method_
 | $m_2 \ddot{x}_2 = 0$ <br> $m_2 \ddot{y}_2 = T_1 + T_2 - m_2 g$ | $m_2 \ddot{x}_2 = - T_1 - T_2$ <br> $m_2 \ddot{y}_2 = - m_2 g$                     |
 
 ```math
-\begin{align}
-	\theta_1 = 0 &\Rightarrow m_1 \ddot{x}_1 = 0 \text{ and } m_1 \ddot{y}_1 = T_1 - T_2 - m_1 g\\
-	\theta_1 = \frac{\pi}{2} &\Rightarrow m_1 \ddot{x}_1 = - T_1 + T_2 \text{ and } m_1 \ddot{y}_1 = - m_1 g
-\end{align}
-\begin{align}
-	\theta_2 = 0 &\Rightarrow m_2 \ddot{x}_2 = 0 \text{ and } m_2 \ddot{y}_2 = T_1 + T_2 - m_2 g\\
-	\theta_2 = \frac{\pi}{2} &\Rightarrow m_2 \ddot{x}_2 = - T_1 - T_2 \text{ and } m_2 \ddot{y}_2 = - m_2 g\\
-\end{align}
+\theta_1 = 0 \Rightarrow 
+\left\{
+	\begin{aligned}
+		m_1 \ddot{x}_1 &= 0\\
+		m_1 \ddot{y}_1 &= T_1 - T_2 - m_1 g\\
+	\end{aligned}
+\right.\\
+\theta_1 = \frac{\pi}{2} \Rightarrow
+\left\{
+	\begin{aligned}
+		m_1 \ddot{x}_1 &= - T_1 + T_2\\
+		m_1 \ddot{y}_1 &= - m_1 g\\
+	\end{aligned}
+\right.\\
 \boxed{
 	\left\{
 		\begin{aligned}
-			m_1 \ddot{x}_1 &= - T_1 \sin\theta_1 + T_2 \sin\theta_2
+			m_1 \ddot{x}_1 &= - T_1 \sin\theta_1 + T_2 \sin\theta_2\\
 			m_1 \ddot{y}_1 &= T_1 \cos\theta_1 - T_2 \cos\theta_2 - m_2 g
 		\end{aligned}
-		\begin{aligned}
-			m_2 \ddot{x}_2 &= - T_1 \sin\theta_1 + T_2 \sin\theta_2
-			m_2 \ddot{y}_2 &= T_1 \cos\theta_1 - T_2 \cos\theta_2 - m_2 g
-		\end{aligned}
+	\right.
+}
 
+\theta_2 = 0 \Rightarrow 
+\left\{
+	\begin{aligned}
+		m_2 \ddot{x}_2 &= 0\\
+		m_2 \ddot{y}_2 &= T_2 - m_2 g
+	\end{aligned}
+\right.\\
+\theta_2 = \frac{\pi}{2} \Rightarrow
+\left\{
+	\begin{aligned}
+		m_2 \ddot{x}_2 &= - T_2 \\
+		m_2 \ddot{y}_2 &= - m_2 g
+	\end{aligned}
+\right.\\
+\boxed{
+	\left\{
+		\begin{aligned}
+			m_2 \ddot{x}_2 &= - T_2 \sin\theta_2\\
+			m_2 \ddot{y}_2 &= T_2 \cos\theta_2 - m_2 g
+		\end{aligned}
 	\right.
 }
 ```
 
-
-from mass 1’s frame of reference: Rest pos->
-_Mass 1 is pulled by the base of the rod and counteracts the force of gravity. So, we can say that for mass 1 not to fall it must rise thanks to rod 1. Mass 2 pulls mass 1 down. The last force is gravity that pulls mass 1 down.
-
-from mass 2’s frame of reference: Rest pos->
-_Mass 1 stay pulled by the base of the rod and counteracts the force of gravity. Mass 2 in its reference now is pulled by mass 1 and we can say that for mass 2 not to fall it must rise thanks to rod 2. The last force stay gravity that pulls mass 2 down._
-
-
-
-All the forces in the X and Y axis:
+#### Extract the tensions T1 and T2 (which represent the forces)
 
 ```math
-\begin{align}
-	m_1 \ddot{x}_1 &= 0\\
-	m_1 \ddot{y}_1 &= T_1 - T_2 - g
-\end{align}
+\left\{
+	\begin{aligned}
+		T_2 &= \frac{-m_2 \ddot{x}_2}{\sin\theta_2} 
+			&= \frac{m_2 \ddot{y}_2 + m_2 g}{\cos\theta_2}\\
+		T_1 &= \frac{- \left(m_1 \ddot{x}_1 - T_2 \sin\theta_2\right)}{sin\theta_2} 
+			&= \frac{m_1 \ddot{y}_1 + T_2 \cos\theta_2 + m_1 g}{cos\theta_1}
+	\end{aligned}
+\right.
 ```
-
-
-
-
-
-- from mass 2’s frame of reference:
-
-[![scheme with labels of the double pendulum Euler method in reference of mass 2](./picture/TJstcation-RestPosition-m2ref.png)](/picture)
-
-
-
-All the forces in the X and Y axis:
-
-```math
-\begin{align}
-	m_2 \ddot{x}_2 &= 0\\
-	m_2 \ddot{y}_2 &= T_1 + T_2 - g
-\end{align}
-```
-
-[![scheme with labels of the double pendulum Euler method in reference of mass 2](./picture/TJstcation-NotRestPosition-m2ref.png)](/picture)
-
-_Mass 1 is pulled by the force of gravity._
-
-All the forces in the X and Y axis:
-
-```math
-\begin{align}
-	m_1 \ddot{x}_1 &= -g\\
-	m_1 \ddot{y}_1 &= 0
-\end{align}
-```
-
-### Use of Newton's law of motion
-
-
-```math
-\begin{align}
-	\text{ Newton's laws of motion: } \vec{F} &= m \vec{a}\\
-	\text{ The force is} &= \text{ to the mass } \times \text{ times its acceleration }
-\end{align}
-```
-
-
 
 # Comparison between methods
 
