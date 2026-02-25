@@ -159,7 +159,7 @@ _Exemple in video in mp4 format_
     	\end{aligned}
 	\right.\\
 	
-	\text{Lagrangian: } \quad\\
+	\text{Lagrangian: } \quad
 	&\boxed{
 		\left\{
 			\begin{aligned}
