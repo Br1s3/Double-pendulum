@@ -146,7 +146,7 @@ _Exemple in video in mp4 format_
 			\frac{d}{dt}\left(\frac{\partial \mathcal{L}}{\partial {\dot{\theta}_1}} \right) &= 
 				{l_1}^{2} (m_1 + m_2) \ddot{\theta}_1 + l_1 l_2 m_2 \Big( \ddot{\theta}_2 \cos(\theta_1 - \theta_2) - ({\dot{\theta}_1} - {\dot{\theta}_2}) {\dot{\theta}_2} \sin(\theta_1 - \theta_2)\Big)\\
 			\frac{d}{dt}\left(\frac{\partial \mathcal{L}}{\partial {\dot{\theta}_2}} \right) &= 
-				{l_2}^{2} m_2 \ddot{\theta}_2 + l_1 l_2 m_2 \Big( \ddot{\theta}_1 \cos(\theta_1 - \theta_2) - ({\dot{\theta}_1} - {\dot{\theta}_2}) {\dot{\theta}_1} \sin(\theta_1 - \theta_2)\Big)\\
+				{l_2}^{2} m_2 \ddot{\theta}_2 + l_1 l_2 m_2 \Big( \ddot{\theta}_1 \cos(\theta_1 - \theta_2) - ({\dot{\theta}_1} - {\dot{\theta}_2}) {\dot{\theta}_1} \sin(\theta_1 - \theta_2)\Big)
 	    \end{aligned}
 	\right.\\
 
@@ -157,7 +157,7 @@ _Exemple in video in mp4 format_
 			\frac{\partial \mathcal{L}}{\partial {\theta_2}} &= 
 				l_1 l_2 m_2 \dot{\theta}_1 \dot{\theta}_2 \sin(\theta_1 - \theta_2) + g l_2 m_2 \sin\theta_2
     	\end{aligned}
-	\right.
+	\right.\\
 	
 	\text{Lagrangian: } \quad\\
 	&\boxed{
