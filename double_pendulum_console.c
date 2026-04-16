@@ -194,7 +194,7 @@ Vector2 overflow_protection_window(Vector2 a)
 // void tracage_double_pendule(int i, Double_pendule *Dp, Color cl, Var_Dp VDp)
 void tracage_double_pendule(int i, Double_pendule *Dp, Var_Dp VDp, char **cl)
 {
-    cons_clear(cl, WIDTH, HEIGHT, ' ');
+    ConsoleClear(cl, WIDTH, HEIGHT, ' ');
 
     // Calcul des nouvelles coordonnées du pendule
     Dp->mass1.x = 10.f*VDp.l1*sin(VDp.theta_1);
@@ -213,16 +213,16 @@ void tracage_double_pendule(int i, Double_pendule *Dp, Var_Dp VDp, char **cl)
 	
     // trainé de la trajectoire
     for (int j = 0; j < i-1; j++){
-    	cons_ligne(cl, WIDTH, HEIGHT, Dp->bufDrag[j].x, -Dp->bufDrag[j].y, Dp->bufDrag[j+1].x, -Dp->bufDrag[j+1].y, '`');
+    	PrintLine(cl, WIDTH, HEIGHT, Dp->bufDrag[j].x, -Dp->bufDrag[j].y, Dp->bufDrag[j+1].x, -Dp->bufDrag[j+1].y, '`');
     }
 
     // Tige du pendule
-    cons_ligne(cl, WIDTH, HEIGHT, 0, 0, Dp->mass1.x, -Dp->mass1.y, '/');
-    cons_ligne(cl, WIDTH, HEIGHT, Dp->mass1.x, -Dp->mass1.y, Dp->mass2.x, -Dp->mass2.y, '/');
+    PrintLine(cl, WIDTH, HEIGHT, 0, 0, Dp->mass1.x, -Dp->mass1.y, '/');
+    PrintLine(cl, WIDTH, HEIGHT, Dp->mass1.x, -Dp->mass1.y, Dp->mass2.x, -Dp->mass2.y, '/');
 
     // Masse du pedule
-    cons_cercle(cl, WIDTH, HEIGHT, Dp->mass1.x, -Dp->mass1.y, VDp.m1, '*');
-    cons_cercle(cl, WIDTH, HEIGHT, Dp->mass2.x, -Dp->mass2.y, VDp.m2, '*');
+    PrintCircle(cl, WIDTH, HEIGHT, Dp->mass1.x, -Dp->mass1.y, VDp.m1, '*');
+    PrintCircle(cl, WIDTH, HEIGHT, Dp->mass2.x, -Dp->mass2.y, VDp.m2, '*');
     
     // Ligne entre le centre et le bout du pendule
     Dp->bufDrag[0].x = Dp->mass2.x;
@@ -230,7 +230,7 @@ void tracage_double_pendule(int i, Double_pendule *Dp, Var_Dp VDp, char **cl)
 
     
     // Base du pendule
-    cons_cercle(cl, WIDTH, HEIGHT, 0, 0, 1, '#');
+    PrintCircle(cl, WIDTH, HEIGHT, 0, 0, 1, '#');
 }
 
 
@@ -269,8 +269,8 @@ int main()
 	
 	tracage_double_pendule(i, &Dp1, Var_Dp1, console);
 	
-	print_cons_comp(console, WIDTH, HEIGHT);
-	// print_cons(console, WIDTH, HEIGHT);
+	PrintConsoleSpace(console, WIDTH, HEIGHT);
+	// PrintConsole(console, WIDTH, HEIGHT);
 	usleep((unsigned int)(100000/FPS));
     }
     mem_free(console, HEIGHT);

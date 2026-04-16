@@ -193,7 +193,7 @@ Vector2 overflow_protection_window(Vector2 a)
 
 void Draw_double_pendulum(int i, Double_pendulum *Dp, Var_Dp VDp, uint8_t ***cl)
 {
-    draw_clear(cl, WIDTH, HEIGHT);
+    ClearDrawing(cl, WIDTH, HEIGHT, ' ');
 
     // Calculations of the new positions in Cartesian coordinates
     Dp->mass1.x = 100.f*VDp.l1*sin(VDp.theta_1);
@@ -206,8 +206,8 @@ void Draw_double_pendulum(int i, Double_pendulum *Dp, Var_Dp VDp, uint8_t ***cl)
     Dp->mass2 = overflow_protection_window(Dp->mass2);
 
     // First, draw the pendulum rods
-    draw_ligne(cl, WIDTH,  HEIGHT, 0, 0, Dp->mass1.x, -Dp->mass1.y, 0xFFFFFF00);
-    draw_ligne(cl, WIDTH,  HEIGHT, Dp->mass1.x, -Dp->mass1.y, Dp->mass2.x, -Dp->mass2.y, 0xFFFFFF00);
+    DrawLine(cl, WIDTH,  HEIGHT, 0, 0, Dp->mass1.x, -Dp->mass1.y, 0xFFFFFF00);
+    DrawLine(cl, WIDTH,  HEIGHT, Dp->mass1.x, -Dp->mass1.y, Dp->mass2.x, -Dp->mass2.y, 0xFFFFFF00);
     
     // Set the new position of the second mass in the beginning of the buffer
     Dp->bufDrag[0].x = Dp->mass2.x;
@@ -221,12 +221,12 @@ void Draw_double_pendulum(int i, Double_pendulum *Dp, Var_Dp VDp, uint8_t ***cl)
 
     // Second, draw the trajectory's drag of the second mass of pendulum
     for (int j = 0; j < i-1; j++){
-    	draw_ligne(cl, WIDTH, HEIGHT, Dp->bufDrag[j].x, -Dp->bufDrag[j].y, Dp->bufDrag[j+1].x, -Dp->bufDrag[j+1].y, 0x00ff00000);
+    	DrawLine(cl, WIDTH, HEIGHT, Dp->bufDrag[j].x, -Dp->bufDrag[j].y, Dp->bufDrag[j+1].x, -Dp->bufDrag[j+1].y, 0x00ff00000);
     }
     
     // Third, draw the pendulum's masses
-    draw_cercle(cl, WIDTH, HEIGHT, Dp->mass1.x, -Dp->mass1.y, 5.f*VDp.m1, 0xFF000000);
-    draw_cercle(cl, WIDTH, HEIGHT, Dp->mass2.x, -Dp->mass2.y, 5.f*VDp.m2, 0xFF000000);
+    DrawCircle(cl, WIDTH, HEIGHT, Dp->mass1.x, -Dp->mass1.y, 5.f*VDp.m1, 0xFF000000);
+    DrawCircle(cl, WIDTH, HEIGHT, Dp->mass2.x, -Dp->mass2.y, 5.f*VDp.m2, 0xFF000000);
 }
 
 
@@ -252,7 +252,6 @@ int main()
 
     double dt = 2.f/FPS;
     double epsilon = 0.001f;
-    // float t = 0;
     
     Double_pendulum Dp1;
 
@@ -270,6 +269,7 @@ int main()
 	Draw_double_pendulum(i, &Dp1, Var_Dp1, color);
 
 	CreateImagePPM24b(filepath_image[i], color, WIDTH, HEIGHT);
+	printf("File: \"%s\" is created\n", filepath_image[i]);
     }
     b24_color_free(color, WIDTH, HEIGHT);
     return 0;
