@@ -1,27 +1,46 @@
-#ifndef LIBGRAPH_H_INCLUED
-#define LIBGRAPH_H_INCLUED
+#ifndef GRAPHLIB_H_INCLUED
+#define GRAPHLIB_H_INCLUED
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
 #include <stdint.h>
-#include "libgraph.h"
+#include "graphlib.h"
 
 
 // #define max(x, y) ((x)<(y) ? (y) : (x))
 // #define min(x, y) ((x)>(y) ? (y) : (x))
-#define MOVETO_LIBGRAPH(y, x) printf("\033[%d;%dH", (y), (x))
-#define DEC_LIBGRAPH(x, y) (((x)*(width+1)) + (y))
+#define MOVETO_GRAPHLIB(y, x) printf("\033[%d;%dH", (y), (x))
+#define DEC_GRAPHLIB(x, y) (((x)*(width+1)) + (y))
 #define ABS_GRAPHLIB(x) ((x) < 0 ? (-x) : (x))
 
-#define ERRALLOC(x)                                                                          \
-do                                                                                           \
-{                                                                                            \
-    if (x == NULL) {                                                                         \
-        fprintf(stderr, "Erreur d'allocation : %s, ligne : %d\n", strerror(errno), __LINE__);\
-        exit(EXIT_FAILURE);                                                                  \
-    }                                                                                        \
-} while(0)                                                                                   \
+
+#define GRAPHLIB_MALLOC2D(type, name, H, W)	                \
+    type **name = (type **)malloc(sizeof(type *) * ((H)+1));    \
+    TESTMALLOC(name);					        \
+    for (ssize_t i = 0; i < ((H)); i++) {        	        \
+	name[i] = (type *)malloc(sizeof(type)*((W) + 1));	\
+	TESTMALLOC(name[i]);					\
+    }								\
+    name[(H)] = NULL;	        				\
+do {} while (0) 
+
+
+#define GRAPHLIB_FREE2D(name, H)	                                             \
+    if (name == NULL) fprintf(stdout, "WARNING: %s is NULL, %d\n", #name, __LINE__); \
+    for (ssize_t i = 0; i < (H); i++) free(name[i]);			             \
+    free(name);								             \
+do {} while (0) 
+
+
+#define TESTMALLOC(x)                                                          \
+do                                                                             \
+{                                                                              \
+    if (x == NULL) {                                                           \
+        fprintf(stderr, "ERROR: %s, ligne : %d\n", strerror(errno), __LINE__); \
+        exit(EXIT_FAILURE);                                                    \
+    }                                                                          \
+} while(0)
 
 
 typedef struct
@@ -34,8 +53,8 @@ typedef struct
    float x, y;
 }COORDF;
 
-char **mem_alloc(int H, int W);
-void mem_free(char **ptr, int H);
+// char **mem_alloc(int H, int W);
+// void mem_free(char **ptr, int H);
 
 void ConsoleClear(char **pixels, short width, short height, const char clear);
 
@@ -54,26 +73,26 @@ void DrawLine(uint8_t ***pixels, short width, short height, int ax, int ay, int 
 void DrawCircle(uint8_t ***pixels, short width, short height, int x, int y, int radius, const uint32_t fd);
 
 
-# ifdef LIBGRAPH_IMPLEMENTATION
+# ifdef GRAPHLIB_IMPLEMENTATION
 
-char **mem_alloc(int H, int W)
-{
-   char **ptr = (char **)malloc(sizeof(char *) * H);
-   ERRALLOC(ptr);
-   for (int i = 0; i < H; i++) {
-      ptr[i] = (char *)malloc(sizeof(char)*W + 1);
-      ERRALLOC(ptr[i]);
-   }
-   return ptr;
-}
+// char **mem_alloc(int H, int W)
+// {
+//    char **ptr = (char **)malloc(sizeof(char *) * H);
+//    TESTMALLOC(ptr);
+//    for (int i = 0; i < H; i++) {
+//       ptr[i] = (char *)malloc(sizeof(char)*W + 1);
+//       TESTMALLOC(ptr[i]);
+//    }
+//    return ptr;
+// }
 
-void mem_free(char **ptr, int H)
-{
-   for (int i = 0; i < H; i++) {
-      free(ptr[i]);
-   }
-   free(ptr);
-}
+// void mem_free(char **ptr, int H)
+// {
+//    for (int i = 0; i < H; i++) {
+//       free(ptr[i]);
+//    }
+//    free(ptr);
+// }
 
 void PrintConsole(char **pixels, short width, short height)
 {
@@ -81,22 +100,22 @@ void PrintConsole(char **pixels, short width, short height)
    char pixels_1D[(width+1) * height];
    for (i = 0; i < height; ++i) {
       for (j = 0; j < width+1; ++j) {
-         if      (j < width)     pixels_1D[DEC_LIBGRAPH(i, j)] = pixels[i][j];
-         else if (i < height-1)  pixels_1D[DEC_LIBGRAPH(i, j)] = '\n';
-   	 else                    pixels_1D[DEC_LIBGRAPH(i, j)] = '\0';
+         if      (j < width)     pixels_1D[DEC_GRAPHLIB(i, j)] = pixels[i][j];
+         else if (i < height-1)  pixels_1D[DEC_GRAPHLIB(i, j)] = '\n';
+   	 else                    pixels_1D[DEC_GRAPHLIB(i, j)] = '\0';
       }
    }
 
-   MOVETO_LIBGRAPH(0, 0);
+   MOVETO_GRAPHLIB(0, 0);
    puts(pixels_1D);
 }
 
 void PrintConsoleSpace(char **pixels, short width, short height)
 {
    short i, j;
-   MOVETO_LIBGRAPH(0, 0);
+   MOVETO_GRAPHLIB(0, 0);
    for (i = 0; i < height; ++i) {
-       for (j = 0; j < width+1; ++j) {
+       for (j = 0; j < width; ++j) {
 	   putchar(pixels[i][j]);
 	   putchar(' ');
        }
@@ -242,5 +261,5 @@ void DrawCircle(uint8_t ***pixels, short width, short height, int x, int y, int 
    }
 }
 
-# endif // LIBGRAPH_IMPLEMENTATION
-#endif // LIBGRAPH_H_INCLUED
+# endif // GRAPHLIB_IMPLEMENTATION
+#endif // GRAPHLIB_H_INCLUED

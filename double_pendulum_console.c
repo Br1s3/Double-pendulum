@@ -5,8 +5,8 @@
 
 #define LIBODESOLVER_IMPLEMENTATION
 #include "libODEsolver.h"
-#define LIBGRAPH_IMPLEMENTATION
-#include "libgraph.h"
+#define GRAPHLIB_IMPLEMENTATION
+#include "graphlib.h"
 
 #define FPS 60
 
@@ -258,7 +258,7 @@ int main()
     double epsilon = 0.001f;
     Double_pendule Dp1;
 
-    char **console = mem_alloc(HEIGHT, WIDTH);
+    GRAPHLIB_MALLOC2D(char, console, HEIGHT, WIDTH);
 
     for (int i = 0;;) {
 
@@ -273,7 +273,8 @@ int main()
 	// PrintConsole(console, WIDTH, HEIGHT);
 	usleep((unsigned int)(100000/FPS));
     }
-    mem_free(console, HEIGHT);
+    GRAPHLIB_FREE2D(console, HEIGHT);
+
     puts("Programme terminé");
     return 0;
 }

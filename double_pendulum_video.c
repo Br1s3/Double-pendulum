@@ -4,8 +4,8 @@
 
 #define LIBODESOLVER_IMPLEMENTATION
 #include "libODEsolver.h"
-#define LIBGRAPH_IMPLEMENTATION
-#include "libgraph.h"
+#define GRAPHLIB_IMPLEMENTATION
+#include "graphlib.h"
 #define LIBIMAGEFILE_IMPLEMENTATION
 #include "libImagefile.h"
 
