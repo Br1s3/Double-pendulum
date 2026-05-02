@@ -54,27 +54,28 @@ typedef struct
 } Var_Dp;
 
 
-#define VARIABLE_PENDULUM_INIT						\
-    double equ_var1_psi_1(double x, double th1, double y)		\
-    {									\
-	UNUSED(x);							\
-	UNUSED(y);							\
-	return equ_psi_1(th1, Var_Dp1.theta_2, Var_Dp1.phi_1, Var_Dp1.phi_2, Var_Dp1.g, Var_Dp1.l1, Var_Dp1.l2, Var_Dp1.m1, Var_Dp1.m2); \
-    }									\
-    double equ_var1_psi_2(double x, double th2, double y)		\
-    {									\
-	UNUSED(x);							\
-	UNUSED(y);							\
-	return equ_psi_2(Var_Dp1.theta_1, th2, Var_Dp1.phi_1, Var_Dp1.phi_2, Var_Dp1.g, Var_Dp1.l1, Var_Dp1.l2, Var_Dp1.m1, Var_Dp1.m2); \
-    }									\
-    do{}while(0)							\
+// #define VARIABLE_PENDULUM_INIT						
+//     double equ_var1_psi_1(double x, double th1, double y)		
+//     {									
+// 	UNUSED(x);							
+// 	UNUSED(y);							
+// 	return equ_psi_1(th1, Var_Dp1.theta_2, Var_Dp1.phi_1, Var_Dp1.phi_2, Var_Dp1.g, Var_Dp1.l1, Var_Dp1.l2, Var_Dp1.m1, Var_Dp1.m2); 
+//     }									
+//     double equ_var1_psi_2(double x, double th2, double y)		
+//     {									
+// 	UNUSED(x);							
+// 	UNUSED(y);							
+// 	return equ_psi_2(Var_Dp1.theta_1, th2, Var_Dp1.phi_1, Var_Dp1.phi_2, Var_Dp1.g, Var_Dp1.l1, Var_Dp1.l2, Var_Dp1.m1, Var_Dp1.m2); 
+//     }									
+//     do{}while(0)
+
 
 typedef struct
 {
     int x;
     int y;
 } Vector2;
-	
+
 
 typedef struct
 {
@@ -85,7 +86,7 @@ typedef struct
 
 
 void save_state(Var_Dp Dp, Var_Dp *buf)
-{    
+{
     buf->e = Dp.e;
     buf->t = Dp.t;
     buf->theta_1 = Dp.theta_1;
@@ -97,7 +98,7 @@ void save_state(Var_Dp Dp, Var_Dp *buf)
 }
 
 void restaure_state(Var_Dp *Dp, Var_Dp buf)
-{    
+{
     Dp->e = buf.e;
     Dp->t = buf.t;
     Dp->theta_1 = buf.theta_1;
@@ -126,7 +127,7 @@ int methode_RK_adaptative_pendule(double stepSize, double err, Var_Dp *Dp, doubl
 
     double startTime = DpB.t;
     const double EnergieDebut = DpB.e;
-    
+
     double DernierDifEnergie = 10e10;
     double valeur = 10e10;
     int firstTime = 1;
@@ -157,8 +158,8 @@ int methode_RK_adaptative_pendule(double stepSize, double err, Var_Dp *Dp, doubl
 	    if (ODESolver(h, t, &Dp->theta_2, &Dp->phi_2, g) < 0) return -1; // New step
 	    Dp->t = t; // sauvegarde de toute les donner du Dp
 	    t = t + h;
-	    if (pas > (stepSize/dt + 2)){ 
-	    	fprintf(stderr, "Problème nombre de pas trop grand: %ld, %f\n", pas, stepSize/dt);
+	    if (pas > (stepSize/dt + 2)){
+		fprintf(stderr, "Problème nombre de pas trop grand: %ld, %f\n", pas, stepSize/dt);
 		return -1;
 	    }
 	}
@@ -207,13 +208,13 @@ void tracage_double_pendule(int i, Double_pendule *Dp, Var_Dp VDp, char **cl)
 
     // Calcul de la trajectoir
     for (int j = i-1; j > 0; j--) {
-    	Dp->bufDrag[j].x = Dp->bufDrag[j-1].x;
-    	Dp->bufDrag[j].y = Dp->bufDrag[j-1].y;
+	Dp->bufDrag[j].x = Dp->bufDrag[j-1].x;
+	Dp->bufDrag[j].y = Dp->bufDrag[j-1].y;
     }
-	
+
     // trainé de la trajectoire
     for (int j = 0; j < i-1; j++){
-    	PrintLine(cl, WIDTH, HEIGHT, Dp->bufDrag[j].x, -Dp->bufDrag[j].y, Dp->bufDrag[j+1].x, -Dp->bufDrag[j+1].y, '`');
+	PrintLine(cl, WIDTH, HEIGHT, Dp->bufDrag[j].x, -Dp->bufDrag[j].y, Dp->bufDrag[j+1].x, -Dp->bufDrag[j+1].y, '`');
     }
 
     // Tige du pendule
@@ -223,36 +224,64 @@ void tracage_double_pendule(int i, Double_pendule *Dp, Var_Dp VDp, char **cl)
     // Masse du pedule
     PrintCircle(cl, WIDTH, HEIGHT, Dp->mass1.x, -Dp->mass1.y, VDp.m1, '*');
     PrintCircle(cl, WIDTH, HEIGHT, Dp->mass2.x, -Dp->mass2.y, VDp.m2, '*');
-    
+
     // Ligne entre le centre et le bout du pendule
     Dp->bufDrag[0].x = Dp->mass2.x;
     Dp->bufDrag[0].y = Dp->mass2.y;
 
-    
+
     // Base du pendule
     PrintCircle(cl, WIDTH, HEIGHT, 0, 0, 1, '#');
 }
 
+Var_Dp Var_Dp1 = {.l1       = 1.0f,
+		      .l2       = 1.0f,
+		      .m1       = 1.f,
+		      .m2       = 1.f,
+		      .g        = 9.8f,
+		      .t        = 0,
+		      .theta_1  = M_PI-0.1f,
+		      .phi_1    = 0,
+		      .psi_1    = 0,
+		      .theta_2  = M_PI,
+		      .phi_2    = 0,
+		      .psi_2    = 0,
+    };
 
+double equ_var1_psi_1(double x, double th1, double y)
+{
+    UNUSED(x);
+    UNUSED(y);
+    return equ_psi_1(th1, Var_Dp1.theta_2, Var_Dp1.phi_1, Var_Dp1.phi_2, Var_Dp1.g, Var_Dp1.l1, Var_Dp1.l2, Var_Dp1.m1, Var_Dp1.m2);
+}
+
+double equ_var1_psi_2(double x, double th2, double y)
+{
+    UNUSED(x);
+    UNUSED(y);
+    return equ_psi_2(Var_Dp1.theta_1, th2, Var_Dp1.phi_1, Var_Dp1.phi_2, Var_Dp1.g, Var_Dp1.l1, Var_Dp1.l2, Var_Dp1.m1, Var_Dp1.m2); 
+}
 
 int main()
-{    
-    Var_Dp Var_Dp1 = {.l1       = 1.0f,
-    		      .l2       = 1.0f,
-    		      .m1       = 1.f,
-    		      .m2       = 1.f,
-    		      .g        = 9.8f,
-		      .t        = 0,
-    		      .theta_1  = M_PI-0.1f,
-    		      .phi_1    = 0,
-    		      .psi_1    = 0,
-    		      .theta_2  = M_PI,
-    		      .phi_2    = 0,
-    		      .psi_2    = 0,
-    };
+{
+    // Var_Dp1 = {.l1       = 1.0f,
+    // 		      .l2       = 1.0f,
+    // 		      .m1       = 1.f,
+    // 		      .m2       = 1.f,
+    // 		      .g        = 9.8f,
+    // 		      .t        = 0,
+    // 		      .theta_1  = M_PI-0.1f,
+    // 		      .phi_1    = 0,
+    // 		      .psi_1    = 0,
+    // 		      .theta_2  = M_PI,
+    // 		      .phi_2    = 0,
+    // 		      .psi_2    = 0,
+    // };
     Var_Dp1.e = get_energie_pendule(Var_Dp1);
 
-    VARIABLE_PENDULUM_INIT;
+    // VARIABLE_PENDULUM_INIT;
+    // equ_var1_psi_1(double x, double th1, double y);
+    // equ_var1_psi_2(double x, double th2, double y)
 
     double dt = 1.f/(FPS*5.f);
     double epsilon = 0.001f;
@@ -264,11 +293,11 @@ int main()
 
 	if (methode_RK_adaptative_pendule(dt, epsilon, &Var_Dp1, equ_var1_psi_1, equ_var1_psi_2, methode_RK4) < 0)
 	    fprintf(stderr, "ERROR: Calculation overflow from: %s\n", "methode_RK_adaptative_pendule");
-	
+
 	if (i < LENGTH_DRAG_BUFFER) i++;
-	
+
 	tracage_double_pendule(i, &Dp1, Var_Dp1, console);
-	
+
 	PrintConsoleSpace(console, WIDTH, HEIGHT);
 	// PrintConsole(console, WIDTH, HEIGHT);
 	usleep((unsigned int)(100000/FPS));
@@ -278,3 +307,17 @@ int main()
     puts("Programme terminé");
     return 0;
 }
+
+// double equ_var1_psi_1(double x, double th1, double y)
+// {
+//     UNUSED(x);
+//     UNUSED(y);
+//     return equ_psi_1(th1, Var_Dp1.theta_2, Var_Dp1.phi_1, Var_Dp1.phi_2, Var_Dp1.g, Var_Dp1.l1, Var_Dp1.l2, Var_Dp1.m1, Var_Dp1.m2);
+// }
+
+// double equ_var1_psi_2(double x, double th2, double y);
+// {
+//     UNUSED(x);
+//     UNUSED(y);
+//     return equ_psi_2(Var_Dp1.theta_1, th2, Var_Dp1.phi_1, Var_Dp1.phi_2, Var_Dp1.g, Var_Dp1.l1, Var_Dp1.l2, Var_Dp1.m1, Var_Dp1.m2); 
+// }

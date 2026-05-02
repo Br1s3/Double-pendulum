@@ -67,45 +67,6 @@ typedef struct
 } Var_Dp;
 
 
-#define VARIABLE_PENDULUM_INIT						\
-    double equ_psi_1_var1(double x, double th1, double y)		\
-    {									\
-	UNUSED(x);							\
-	UNUSED(y);							\
-	return equ_psi_1(th1, Var_Dp1.theta_2, Var_Dp1.phi_1, Var_Dp1.phi_2, Var_Dp1.g, Var_Dp1.l1, Var_Dp1.l2, Var_Dp1.m1, Var_Dp1.m2); \
-    }									\
-    double equ_psi_2_var1(double x, double th2, double y)		\
-    {									\
-	UNUSED(x);							\
-	UNUSED(y);							\
-	return equ_psi_2(Var_Dp1.theta_1, th2, Var_Dp1.phi_1, Var_Dp1.phi_2, Var_Dp1.g, Var_Dp1.l1, Var_Dp1.l2, Var_Dp1.m1, Var_Dp1.m2); \
-    }									\
-    double equ_psi_1_var2(double x, double th1, double y)		\
-    {									\
-	UNUSED(x);							\
-	UNUSED(y);							\
-	return equ_psi_1(th1, Var_Dp2.theta_2, Var_Dp2.phi_1, Var_Dp2.phi_2, Var_Dp2.g, Var_Dp2.l1, Var_Dp2.l2, Var_Dp2.m1, Var_Dp2.m2); \
-    }									\
-    double equ_psi_2_var2(double x, double th2, double y)		\
-    {									\
-	UNUSED(x);							\
-	UNUSED(y);							\
-	return equ_psi_2(Var_Dp2.theta_1, th2, Var_Dp2.phi_1, Var_Dp2.phi_2, Var_Dp2.g, Var_Dp2.l1, Var_Dp2.l2, Var_Dp2.m1, Var_Dp2.m2); \
-    }									\
-    double equ_psi_1_var2_main(double x, double th1, double y)		\
-    {									\
-	UNUSED(x);							\
-	UNUSED(y);							\
-	return equ_psi_1_main(th1, Var_Dp2.theta_2, Var_Dp2.phi_1, Var_Dp2.phi_2, Var_Dp2.g, Var_Dp2.l1, Var_Dp2.l2, Var_Dp2.m1, Var_Dp2.m2); \
-    }									\
-    double equ_psi_2_var2_main(double x, double th2, double y)		\
-    {									\
-	UNUSED(x);							\
-	UNUSED(y);							\
-	return equ_psi_1_main(Var_Dp2.theta_1, th2, Var_Dp2.phi_1, Var_Dp2.phi_2, Var_Dp2.g, Var_Dp2.l1, Var_Dp2.l2, Var_Dp2.m1, Var_Dp2.m2); \
-    }									\
-    do{}while(0)							\
-
 typedef struct
 {
     Vector2 mass1;
@@ -207,8 +168,6 @@ int adaptive_method(double stepSize, double err, Var_Dp *Dp, double (*f)(double,
 }
 
 
-
-
 Vector2 overflow_protection_window(Vector2 a)
 {
     if ((a.x + WIDTH/2) < 1)
@@ -259,6 +218,72 @@ void Draw_double_pendulum(int i, double_pendulum *Dp, Color cl, Var_Dp VDp)
 }
 
 
+Var_Dp Var_Dp1 = {.l1       = 1.75f,
+                  .l2       = 0.5f,
+                  .m1       = 2.f,
+                  .m2       = 5.f,
+                  .g        = 9.8f,
+                  .t        = 0,
+                  .theta_1  = M_PI-0.1f,
+                  .phi_1    = 0,
+                  .psi_1    = 0,
+                  .theta_2  = M_PI,
+                  .phi_2    = 0,
+                  .psi_2    = 0,
+	      };
+
+Var_Dp Var_Dp2 = {.l1       = 1.0f,
+    		  .l2       = 1.0f,
+    		  .m1       = 1.f,
+    		  .m2       = 1.f,
+    		  .g        = 9.8f,
+		  .t        = 0,
+    		  .theta_1  = M_PI-0.1f,
+    		  .phi_1    = 0,
+    		  .psi_1    = 0,
+    		  .theta_2  = M_PI,
+    		  .phi_2    = 0,
+    		  .psi_2    = 0,
+	      };
+
+double equ_psi_1_var1(double x, double th1, double y)
+{
+    UNUSED(x);
+    UNUSED(y);
+    return equ_psi_1(th1, Var_Dp1.theta_2, Var_Dp1.phi_1, Var_Dp1.phi_2, Var_Dp1.g, Var_Dp1.l1, Var_Dp1.l2, Var_Dp1.m1, Var_Dp1.m2);
+}
+double equ_psi_2_var1(double x, double th2, double y)
+{
+    UNUSED(x);
+    UNUSED(y);
+    return equ_psi_2(Var_Dp1.theta_1, th2, Var_Dp1.phi_1, Var_Dp1.phi_2, Var_Dp1.g, Var_Dp1.l1, Var_Dp1.l2, Var_Dp1.m1, Var_Dp1.m2);
+}
+double equ_psi_1_var2(double x, double th1, double y)
+{
+    UNUSED(x);
+    UNUSED(y);
+    return equ_psi_1(th1, Var_Dp2.theta_2, Var_Dp2.phi_1, Var_Dp2.phi_2, Var_Dp2.g, Var_Dp2.l1, Var_Dp2.l2, Var_Dp2.m1, Var_Dp2.m2);
+}
+double equ_psi_2_var2(double x, double th2, double y)
+{
+    UNUSED(x);
+    UNUSED(y);
+    return equ_psi_2(Var_Dp2.theta_1, th2, Var_Dp2.phi_1, Var_Dp2.phi_2, Var_Dp2.g, Var_Dp2.l1, Var_Dp2.l2, Var_Dp2.m1, Var_Dp2.m2);
+}
+double equ_psi_1_var2_main(double x, double th1, double y)
+{
+    UNUSED(x);
+    UNUSED(y);
+    return equ_psi_1_main(th1, Var_Dp2.theta_2, Var_Dp2.phi_1, Var_Dp2.phi_2, Var_Dp2.g, Var_Dp2.l1, Var_Dp2.l2, Var_Dp2.m1, Var_Dp2.m2);
+}
+double equ_psi_2_var2_main(double x, double th2, double y)
+{
+    UNUSED(x);
+    UNUSED(y);
+    return equ_psi_1_main(Var_Dp2.theta_1, th2, Var_Dp2.phi_1, Var_Dp2.phi_2, Var_Dp2.g, Var_Dp2.l1, Var_Dp2.l2, Var_Dp2.m1, Var_Dp2.m2);
+}
+
+
 int main(int argc, char *argv[])
 {
     argc--;argv++;
@@ -293,36 +318,9 @@ int main(int argc, char *argv[])
 	TEST_FILE(file == NULL, "Position_backup.csv");
     }
 
-    Var_Dp Var_Dp1 = {.l1       = 1.75f,
-    		      .l2       = 0.5f,
-    		      .m1       = 2.f,
-    		      .m2       = 5.f,
-    		      .g        = 9.8f,
-		      .t        = 0,
-    		      .theta_1  = M_PI-0.1f,
-    		      .phi_1    = 0,
-    		      .psi_1    = 0,
-    		      .theta_2  = M_PI,
-    		      .phi_2    = 0,
-    		      .psi_2    = 0,
-    };
     Var_Dp1.e = get_pendulum_energy(Var_Dp1);
 
-    Var_Dp Var_Dp2 = {.l1       = 1.0f,
-    		      .l2       = 1.0f,
-    		      .m1       = 1.f,
-    		      .m2       = 1.f,
-    		      .g        = 9.8f,
-		      .t        = 0,
-    		      .theta_1  = M_PI-0.1f,
-    		      .phi_1    = 0,
-    		      .psi_1    = 0,
-    		      .theta_2  = M_PI,
-    		      .phi_2    = 0,
-    		      .psi_2    = 0,
-    };
     Var_Dp2.e = get_pendulum_energy(Var_Dp2);
-    VARIABLE_PENDULUM_INIT;
 
     double dt = 1.f/(FPS);
 

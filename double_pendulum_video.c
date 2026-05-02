@@ -55,21 +55,6 @@ typedef struct
 } Var_Dp;
 
 
-#define VARIABLE_PENDULUM_INIT						\
-    double equ_var1_psi_1(double x, double th1, double y)		\
-    {									\
-	UNUSED(x);							\
-	UNUSED(y);							\
-	return equ_psi_1(th1, Var_Dp1.theta_2, Var_Dp1.phi_1, Var_Dp1.phi_2, Var_Dp1.g, Var_Dp1.l1, Var_Dp1.l2, Var_Dp1.m1, Var_Dp1.m2); \
-    }									\
-    double equ_var1_psi_2(double x, double th2, double y)		\
-    {									\
-	UNUSED(x);							\
-	UNUSED(y);							\
-	return equ_psi_2(Var_Dp1.theta_1, th2, Var_Dp1.phi_1, Var_Dp1.phi_2, Var_Dp1.g, Var_Dp1.l1, Var_Dp1.l2, Var_Dp1.m1, Var_Dp1.m2); \
-    }									\
-    do{}while(0)							\
-
 typedef struct
 {
     int x;
@@ -229,26 +214,38 @@ void Draw_double_pendulum(int i, Double_pendulum *Dp, Var_Dp VDp, uint8_t ***cl)
     DrawCircle(cl, WIDTH, HEIGHT, Dp->mass2.x, -Dp->mass2.y, 5.f*VDp.m2, 0xFF000000);
 }
 
+Var_Dp Var_Dp1 = {.l1       = 1.0f,
+                  .l2       = 1.0f,
+                  .m1       = 1.f,
+                  .m2       = 1.f,
+                  .g        = 9.8f,
+                  .t        = 0,
+                  .theta_1  = M_PI-0.1f,
+                  .phi_1    = 0,
+                  .psi_1    = 0,
+                  .theta_2  = M_PI,
+                  .phi_2    = 0,
+                  .psi_2    = 0,
+};
+
+double equ_var1_psi_1(double x, double th1, double y)
+{
+    UNUSED(x);
+    UNUSED(y);
+    return equ_psi_1(th1, Var_Dp1.theta_2, Var_Dp1.phi_1, Var_Dp1.phi_2, Var_Dp1.g, Var_Dp1.l1, Var_Dp1.l2, Var_Dp1.m1, Var_Dp1.m2);
+}
+
+double equ_var1_psi_2(double x, double th2, double y)
+{
+    UNUSED(x);
+    UNUSED(y);
+    return equ_psi_2(Var_Dp1.theta_1, th2, Var_Dp1.phi_1, Var_Dp1.phi_2, Var_Dp1.g, Var_Dp1.l1, Var_Dp1.l2, Var_Dp1.m1, Var_Dp1.m2);
+}
 
 
 int main()
 {    
-    Var_Dp Var_Dp1 = {.l1       = 1.0f,
-    		      .l2       = 1.0f,
-    		      .m1       = 1.f,
-    		      .m2       = 1.f,
-    		      .g        = 9.8f,
-		      .t        = 0,
-    		      .theta_1  = M_PI-0.1f,
-    		      .phi_1    = 0,
-    		      .psi_1    = 0,
-    		      .theta_2  = M_PI,
-    		      .phi_2    = 0,
-    		      .psi_2    = 0,
-    };
     Var_Dp1.e = get_pendulum_energy(Var_Dp1);
-
-    VARIABLE_PENDULUM_INIT;
 
     double dt = 2.f/FPS;
     double epsilon = 0.001f;
