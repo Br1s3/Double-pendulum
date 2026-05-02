@@ -3,8 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define LIBODESOLVER_IMPLEMENTATION
-#include "libODEsolver.h"
+#define ODESOLVERLIB_IMPLEMENTATION
+#include "ODEsolverlib.h"
 
 #define HEIGHT 600
 #define WIDTH 800
@@ -343,13 +343,13 @@ int main(int argc, char *argv[])
 	ClearBackground(BLACK);
 
 	// Adaptive method used by myphysicslab
-	if (adaptive_method(dt, epsilon1, &Var_Dp1, equ_psi_1_var1, equ_psi_2_var1, methode_RK4) < 0)
+	if (adaptive_method(dt, epsilon1, &Var_Dp1, equ_psi_1_var1, equ_psi_2_var1, RK4) < 0)
 	    DrawText(tab, WIDTH/2-200, 10, 50, RED);
 
 	// Classic explicit method to compute these 2 equations
-	if (methode_DOPRI45(dt, t1, epsilon2, &Var_Dp2.theta_1, &Var_Dp2.phi_1, equ_psi_1_var2) < 0)
+	if (DOPRI45(dt, t1, epsilon2, &Var_Dp2.theta_1, &Var_Dp2.phi_1, equ_psi_1_var2) < 0)
 	    DrawText(tab, WIDTH/2-200, 10, 50, RED);
-	if (methode_DOPRI45(dt, t1, epsilon2, &Var_Dp2.theta_2, &Var_Dp2.phi_2, equ_psi_2_var2) < 0)
+	if (DOPRI45(dt, t1, epsilon2, &Var_Dp2.theta_2, &Var_Dp2.phi_2, equ_psi_2_var2) < 0)
 	    DrawText(tab, WIDTH/2-200, 10, 50, RED);
 
 	if (save == 1) {

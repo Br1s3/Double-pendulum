@@ -1,38 +1,40 @@
-#ifndef SIMULTAION_NUMERIQUE_H_INCLUED
-#define SIMULTAION_NUMERIQUE_H_INCLUED
+#ifndef ODESOLVERLIB_H_INCLUED
+#define ODESOLVERLIB_H_INCLUED
 #include <math.h>
 
-#ifndef ABS
+
 #define ABS(x) ((x < 0) ? -(x) : (x))
-#endif
 
-int methode_euler_explicite(const double dt, double t, double *x, double *v, double (*f)(double, double, double));
-int methode_euler_simpletique(const double dt, double t, double *x, double *v, double (*f)(double, double, double));
+int ExplicitEuler(const double dt, double t, double *x, double *v, double (*f)(double, double, double));
+int SymplecticEuler(const double dt, double t, double *x, double *v, double (*f)(double, double, double));
 
-int methode_RK4(const double h, double t, double *x, double *v, double (*f)(double, double, double));
-int methode_RK(const double h, double t, double *x, double *v, double (*f)(double, double, double));
-int methode_Verlet(const double h, double t, double *x, double *v, double (*f)(double, double, double));
+int RK4(const double h, double t, double *x, double *v, double (*f)(double, double, double));
+int RK(const double h, double t, double *x, double *v, double (*f)(double, double, double));
+
+int Verlet(const double h, double t, double *x, double *v, double (*f)(double, double, double));
 
 
-// STRUCTURE & FONCTION MUETTE UNIQUEMENT UTILISABLE POUR DOPRI45
+// STRUCTURE & FUNCTION MINT TO BE MUTED BECAUSE ONLY USE FOR DOPRI45
 // typedef struct
 // {
 //     double tn;
 //     double xn;
 //     double vn;
 //     double an;
-// } Derive_temp;
+// } dt_struct;
 
-// int methode_RK_row(const int q, Derive_temp P[q], const double A[][q], const double *B, const double *C, const double h, double t, double *x, double *v, double (*f)(double, double, double));
-int methode_DOPRI45(double stepSize, double Time, double err, double *x, double *v, double (*f)(double, double, double));
+// int RKAdjCoef(const int q, Derive_temp P[q], const double A[][q], const double *B, const double *C, const double h, double t, double *x, double *v, double (*f)(double, double, double));
 
-
-
-
-# ifdef LIBODESOLVER_IMPLEMENTATION
+int DOPRI45(double stepSize, double Time, double err, double *x, double *v, double (*f)(double, double, double));
 
 
-int methode_euler_explicite(const double dt, double t, double *x, double *v, double (*f)(double, double, double))
+
+
+# ifdef ODESOLVERLIB_IMPLEMENTATION
+
+
+// int methode_euler_explicite(const double dt, double t, double *x, double *v, double (*f)(double, double, double))
+int ExplicitEuler(const double dt, double t, double *x, double *v, double (*f)(double, double, double))
 {
     double vv = (*v);
     if (isnan(*v)) return -1;
@@ -43,7 +45,8 @@ int methode_euler_explicite(const double dt, double t, double *x, double *v, dou
     return 0;
 }
 
-int methode_euler_simpletique(const double dt, double t, double *x, double *v, double (*f)(double, double, double))
+// int methode_euler_simpletique(const double dt, double t, double *x, double *v, double (*f)(double, double, double))
+int SymplecticEuler(const double dt, double t, double *x, double *v, double (*f)(double, double, double))
 {
     if (isnan(*v)) return -1;
     // (*v) = dt*(*a) + (*v);            // v(t+1) = dt*a(t) + v(t)
@@ -53,7 +56,8 @@ int methode_euler_simpletique(const double dt, double t, double *x, double *v, d
     return 0;
 }
 
-int methode_RK4(const double h, double t, double *x, double *v, double (*f)(double, double, double))
+// int methode_RK4(const double h, double t, double *x, double *v, double (*f)(double, double, double))
+int RK4(const double h, double t, double *x, double *v, double (*f)(double, double, double))
 {
     struct
     {
@@ -93,7 +97,8 @@ int methode_RK4(const double h, double t, double *x, double *v, double (*f)(doub
     return 0;
 }
 
-int methode_RK(const double h, double t, double *x, double *v, double (*f)(double, double, double))
+// int methode_RK(const double h, double t, double *x, double *v, double (*f)(double, double, double))
+int RK(const double h, double t, double *x, double *v, double (*f)(double, double, double))
 {
 #ifndef q
 # define q 4
@@ -132,7 +137,7 @@ int methode_RK(const double h, double t, double *x, double *v, double (*f)(doubl
 	P[i].an = (*f)(P[i].tn, P[i].xn, P[i].vn); // f(P[i].tn, P[i].xn, P[i].vn) en çha
     }
 
-    /// TODO: RETRAVAILLER CETTE PARTIE POUR ETRE COHERANT AVEC RK4
+    /// TODO: Redo this part to be coherent with the RK4
     double vtemp = 0;
     double atemp = 0;
     for(int i = 0; i < q; i++) {
@@ -152,7 +157,7 @@ int methode_RK(const double h, double t, double *x, double *v, double (*f)(doubl
     return 0;
 }
 
-int methode_Verlet(const double h, double t, double *x, double *v, double (*f)(double, double, double))
+int Verlet(const double h, double t, double *x, double *v, double (*f)(double, double, double))
 {
     struct
     {
@@ -187,12 +192,9 @@ typedef struct
     double xn;
     double vn;
     double an;
-} Derive_temp;
+} dt_struct;
 
-
-
-
-int methode_RK_row(const int q, Derive_temp P[q], const double A[][q], const double *B, const double *C, const double h, double t, double *x, double *v, double (*f)(double, double, double))
+int RKAdjCoef(const int q, dt_struct P[q], const double A[][q], const double *B, const double *C, const double h, double t, double *x, double *v, double (*f)(double, double, double))
 {
     for (int i = 0; i < q; i++) {
 	P[i].tn = 0;
@@ -232,7 +234,7 @@ int methode_RK_row(const int q, Derive_temp P[q], const double A[][q], const dou
 
 // Change my mind by not modifying the *Time variable.
 // But let in comment the way to go back
-int methode_DOPRI45(double stepSize, double Time, double err, double *x, double *v, double (*f)(double, double, double))
+int DOPRI45(double stepSize, double Time, double err, double *x, double *v, double (*f)(double, double, double))
 {
 #ifndef q
 # define q 7
@@ -257,7 +259,7 @@ int methode_DOPRI45(double stepSize, double Time, double err, double *x, double 
     			1.f,
     			1.f};
 
-    Derive_temp P[q] = {0};
+    dt_struct P[q] = {0};
 
     double dt = stepSize;
     long pas = 0;
@@ -293,7 +295,7 @@ int methode_DOPRI45(double stepSize, double Time, double err, double *x, double 
 		h = startTime + stepSize - t;
 	    pas++;
 
-	    if (methode_RK_row(q, P, A, B5, C, h, t, x, v, f) < 0) return -1;
+	    if (RKAdjCoef(q, P, A, B5, C, h, t, x, v, f) < 0) return -1;
 	    // (*Time) = t;
 	    t = t + h;
 
@@ -327,5 +329,5 @@ int methode_DOPRI45(double stepSize, double Time, double err, double *x, double 
     return 0;
 }
 
-# endif // LIBODESOLVER_IMPLEMENTATION
-#endif // SIMULTAION_NUMERIQUE_H_INCLUED
+# endif // ODESOLVERLIB_IMPLEMENTATION
+#endif // ODESOLVERLIB_H_INCLUED

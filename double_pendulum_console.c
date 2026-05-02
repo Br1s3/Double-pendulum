@@ -3,8 +3,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#define LIBODESOLVER_IMPLEMENTATION
-#include "libODEsolver.h"
+#define ODESOLVERLIB_IMPLEMENTATION
+#include "ODEsolverlib.h"
 #define GRAPHLIB_IMPLEMENTATION
 #include "graphlib.h"
 
@@ -291,7 +291,7 @@ int main()
 
     for (int i = 0;;) {
 
-	if (methode_RK_adaptative_pendule(dt, epsilon, &Var_Dp1, equ_var1_psi_1, equ_var1_psi_2, methode_RK4) < 0)
+	if (methode_RK_adaptative_pendule(dt, epsilon, &Var_Dp1, equ_var1_psi_1, equ_var1_psi_2, RK4) < 0)
 	    fprintf(stderr, "ERROR: Calculation overflow from: %s\n", "methode_RK_adaptative_pendule");
 
 	if (i < LENGTH_DRAG_BUFFER) i++;

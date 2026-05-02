@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define LIBODESOLVER_IMPLEMENTATION
-#include "libODEsolver.h"
+#define ODESOLVERLIB_IMPLEMENTATION
+#include "ODEsolverlib.h"
 #define GRAPHLIB_IMPLEMENTATION
 #include "graphlib.h"
 #define LIBIMAGEFILE_IMPLEMENTATION
@@ -260,7 +260,7 @@ int main()
 
     for (int i = 0; i < FPS*5; i++) {
 
-	if (methode_RK_adaptative_pendulum(dt, epsilon, &Var_Dp1, equ_var1_psi_1, equ_var1_psi_2, methode_RK4) < 0)
+	if (methode_RK_adaptative_pendulum(dt, epsilon, &Var_Dp1, equ_var1_psi_1, equ_var1_psi_2, RK4) < 0)
 	    fprintf(stderr, "ERROR: Calculation overflow from: %s\n", "methode_RK_adaptative_pendulum");
 
 	Draw_double_pendulum(i, &Dp1, Var_Dp1, color);

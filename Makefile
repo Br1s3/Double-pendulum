@@ -1,7 +1,5 @@
-# CC = gcc
-CC = clang
-
-OS = Windows_NT
+CC = gcc
+# CC = clang
 
 RAY_FLAGS += \
 -lraylib \
