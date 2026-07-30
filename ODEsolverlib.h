@@ -1,9 +1,11 @@
 #ifndef ODESOLVERLIB_H_INCLUED
 #define ODESOLVERLIB_H_INCLUED
-#include <math.h>
+#include <math.h>   // Used for: isnan(), pow()
+#include <stddef.h> // Used for: NULL
 
+#define ABS_ODESOLVER(x) (((x) < 0) ? -(x) : (x))
+#define SQ_ODESOLVER(x) ((x)*(x))
 
-#define ABS(x) ((x < 0) ? -(x) : (x))
 
 int ExplicitEuler(const double dt, double t, double *x, double *v, double (*f)(double, double, double));
 int SymplecticEuler(const double dt, double t, double *x, double *v, double (*f)(double, double, double));
@@ -27,15 +29,36 @@ int Verlet(const double h, double t, double *x, double *v, double (*f)(double, d
 
 int DOPRI45(double stepSize, double Time, double err, double *x, double *v, double (*f)(double, double, double));
 
+////////////////////////////////////////////////////////////////////////////////
+// Here are the differences/derivatives apply to the space parameters of the equations
 
+// {Stencil 3 points} (1 Dimension) continuous difference Centered
+double Diff1Cent3p1DCont(double h, double x0, double (*f)(double));
+
+// {Stencil 3 points} (1 Dimension) finite-difference Centered
+double Diff1Cent3p1D(double h, double f_ip1, double f_im1);
+
+// {Stencil 3 points} (1 Dimension) [Laplace operator] continuous difference Centered 
+double Diff2Cent3p1DCont(double h, double x0, double (*f)(double));
+
+// {Stencil 3 points} (1 Dimension) [Laplace operator] finite-difference Centered
+double Diff2Cent3p1D(double h, double f_ip1, double f_i, double f_im1);
+
+// {Stencil 3 points} (2 Dimensions) [Laplace operator] finite-difference Centered
+double Diff2Cent3p2D(double h, double f_ip1j, double f_ijp1, double f_ij, double f_ijm1, double f_im1j);
+
+// {Stencil 5 points} (2 Dimensions) [Laplace operator] finite-difference Centered
+double Diff2Cent5p2D(double h, double f_ip2j, double f_ip1j, double f_ijp2, double f_ijp1, double f_ij, double f_ijm1, double f_ijm2, double f_im1j, double f_im2j);
+
+////////////////////////////////////////////////////////////////////////////////
 
 
 # ifdef ODESOLVERLIB_IMPLEMENTATION
 
 
-// int methode_euler_explicite(const double dt, double t, double *x, double *v, double (*f)(double, double, double))
 int ExplicitEuler(const double dt, double t, double *x, double *v, double (*f)(double, double, double))
 {
+    if ((f == NULL) || (x == NULL) || (v == NULL)) return -1;
     double vv = (*v);
     if (isnan(*v)) return -1;
     // (*v) = dt*(*a) + (*v);               // v(t+1) = dt*a(t) + v(t)
@@ -45,9 +68,9 @@ int ExplicitEuler(const double dt, double t, double *x, double *v, double (*f)(d
     return 0;
 }
 
-// int methode_euler_simpletique(const double dt, double t, double *x, double *v, double (*f)(double, double, double))
 int SymplecticEuler(const double dt, double t, double *x, double *v, double (*f)(double, double, double))
 {
+    if ((f == NULL) || (x == NULL) || (v == NULL)) return -1;
     if (isnan(*v)) return -1;
     // (*v) = dt*(*a) + (*v);            // v(t+1) = dt*a(t) + v(t)
     (*v) = dt*((*f)(t, *x, *v)) + (*v);  // v(t+1) = dt*a(t) + v(t)
@@ -56,9 +79,9 @@ int SymplecticEuler(const double dt, double t, double *x, double *v, double (*f)
     return 0;
 }
 
-// int methode_RK4(const double h, double t, double *x, double *v, double (*f)(double, double, double))
 int RK4(const double h, double t, double *x, double *v, double (*f)(double, double, double))
 {
+    if ((f == NULL) || (x == NULL) || (v == NULL)) return -1;
     struct
     {
     	double tn;
@@ -85,8 +108,8 @@ int RK4(const double h, double t, double *x, double *v, double (*f)(double, doub
     P[3].tn = t + h;
     P[3].xn = (*x) + h*P[2].vn;
     P[3].vn = (*v) + h*P[2].an;
-    // P[3].xn = (*x) + 0.5f*h*P[2].vn;                // Meilleur coeficient que RK4 classique
-    // P[3].vn = (*v) + 0.5f*h*P[2].an;                // Meilleur coeficient que RK4 classique
+    // P[3].xn = (*x) + 0.5f*h*P[2].vn;                // Better coefficient than conventional RK4
+    // P[3].vn = (*v) + 0.5f*h*P[2].an;                // Better coefficient than conventional RK4
     P[3].an = (*f)(P[3].tn, P[3].xn, P[3].vn);
 
     (*x) = (*x) + h*(1.f/6.f)*(P[0].vn + 2.f*P[1].vn + 2.f*P[2].vn + P[3].vn);
@@ -97,9 +120,9 @@ int RK4(const double h, double t, double *x, double *v, double (*f)(double, doub
     return 0;
 }
 
-// int methode_RK(const double h, double t, double *x, double *v, double (*f)(double, double, double))
 int RK(const double h, double t, double *x, double *v, double (*f)(double, double, double))
 {
+    if ((f == NULL) || (x == NULL) || (v == NULL)) return -1;
 #ifndef q
 # define q 4
 #else
@@ -159,6 +182,7 @@ int RK(const double h, double t, double *x, double *v, double (*f)(double, doubl
 
 int Verlet(const double h, double t, double *x, double *v, double (*f)(double, double, double))
 {
+    if ((f == NULL) || (x == NULL) || (v == NULL)) return -1;
     struct
     {
 	double tn;
@@ -196,6 +220,7 @@ typedef struct
 
 int RKAdjCoef(const int q, dt_struct P[q], const double A[][q], const double *B, const double *C, const double h, double t, double *x, double *v, double (*f)(double, double, double))
 {
+    if ((f == NULL) || (x == NULL) || (v == NULL)) return -1;
     for (int i = 0; i < q; i++) {
 	P[i].tn = 0;
 	P[i].xn = 0;
@@ -236,6 +261,7 @@ int RKAdjCoef(const int q, dt_struct P[q], const double A[][q], const double *B,
 // But let in comment the way to go back
 int DOPRI45(double stepSize, double Time, double err, double *x, double *v, double (*f)(double, double, double))
 {
+    if ((f == NULL) || (x == NULL) || (v == NULL)) return -1;
 #ifndef q
 # define q 7
 #else
@@ -285,6 +311,8 @@ int DOPRI45(double stepSize, double Time, double err, double *x, double *v, doub
 	    (*x) = bx;
 	    (*v) = bv;
 	    dt = 0.1f * (dt) * pow(err/TE, 1.f/q);
+	    // could change for:
+	    // dt /= 5.f;
 	    if (dt < 1e-10) return -1;
 	}
 	pas = 0;
@@ -312,13 +340,13 @@ int DOPRI45(double stepSize, double Time, double err, double *x, double *v, doub
     	for (int i = 0; i < q; i++) {
     	    TE += (B5[i] - B4[i])*P[i].xn;
     	}
-    	TE = ABS(TE);
+    	TE = ABS_ODESOLVER(TE);
 
 	const double ErreurFinale = TE;
 	if (isnan(ErreurFinale)) return -1;
-	const double difErreur = ABS(ErreurDebut - ErreurFinale);
+	const double difErreur = ABS_ODESOLVER(ErreurDebut - ErreurFinale);
 	if (!firstTime)
-	    valeur = ABS(difErreur - DernierDifErreur);
+	    valeur = ABS_ODESOLVER(difErreur - DernierDifErreur);
 	DernierDifErreur = difErreur;
 	firstTime = 0;
     } while(valeur > err);
@@ -329,5 +357,48 @@ int DOPRI45(double stepSize, double Time, double err, double *x, double *v, doub
     return 0;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// Here are the differences/derivatives apply to the space parameters of the equations
+
+double Diff1Cent3p1DCont(double h, double x0, double (*f)(double))
+{
+    return (f(x0 + h) - f(x0 - h))/(2.f*h);
+}
+
+double Diff1Cent3p1D(double h, double f_ip1, double f_im1)
+{
+    return (f_ip1 - f_im1)/(2.f*h);
+}
+
+double Diff2Cent3p1DCont(double h, double x0, double (*f)(double))
+{
+    return (f(x0 + h) - f(x0) + f(x0 - h))/SQ_ODESOLVER(h);
+}
+
+double Diff2Cent3p1D(double h, double f_ip1, double f_i, double f_im1)
+{
+    return (f_ip1 - 2.f*f_i + f_im1)/SQ_ODESOLVER(h);
+}
+
+double Diff2Cent3p2D(double h, double f_ip1j, double f_ijp1, double f_ij, double f_ijm1, double f_im1j)
+{
+    // (f_ip1j - 2.f*f_ij + f_im1j)/SQ_ODESOLVER(h) + (f_ijp1 - 2.f*f_ij + f_ijm1)/SQ_ODESOLVER(h);
+    return (f_ip1j + f_im1j + f_ijp1 + f_ijm1 - 4.f*f_ij)/SQ_ODESOLVER(h);
+}
+
+double Diff2Cent5p2D(double h, double f_ip2j, double f_ip1j, double f_ijp2, double f_ijp1, double f_ij, double f_ijm1, double f_ijm2, double f_im1j, double f_im2j)
+{
+    return (-f_im2j + 16.f*f_ip1j - 30.f*f_ij + 16.f*f_im1j - f_ip2j)/(12.f*SQ_ODESOLVER(h)) + (-f_ijm2 + 16.f*f_ijp1 - 30.f*f_ij + 16.f*f_ijm1 - f_ijp2)/(12.f*SQ_ODESOLVER(h));
+}
+////////////////////////////////////////////////////////////////////////////////
+
+
 # endif // ODESOLVERLIB_IMPLEMENTATION
 #endif // ODESOLVERLIB_H_INCLUED
+
+/***********************************
+TODO:
+- Suppress time the parameter in ExplicitEuler, SymplecticEuler, RK4, RK, Verlet.
+- Redo this part to be coherent with the RK4 line 140
+- Find an other way than using pow() in the DOPRI45
+***********************************/

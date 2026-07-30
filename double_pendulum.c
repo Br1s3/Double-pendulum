@@ -13,9 +13,6 @@
 #define LENGTH_DRAG_BUFFER 500
 #define POW2(x) ((x)*(x))
 #define UNUSED(x) (void)(x)
-#ifndef ABS
-# define ABS(x) ((x < 0) ? -(x) : (x))
-#endif
 #define TEST_FILE(x, f)				\
 do {						\
     if (x) {					\
@@ -103,7 +100,7 @@ double get_pendulum_energy(Var_Dp Dp)
 {
     float T_v2 = (1.f/2.f)*(Dp.m1 + Dp.m2)*POW2(Dp.l1)*POW2(Dp.phi_1) + (1.f/2.f)*Dp.m2*POW2(Dp.l2)*POW2(Dp.phi_2) + Dp.m2*Dp.l1*Dp.l2*Dp.phi_1*Dp.phi_2*cos(Dp.theta_1 - Dp.theta_2);
     float V_v2 = -(Dp.m1 + Dp.m2)*Dp.g*Dp.l1*cos(Dp.theta_1) - Dp.m2*Dp.g*Dp.l2*cos(Dp.theta_2);
-    return ABS(T_v2 + V_v2);
+    return ABS_ODESOLVER(T_v2 + V_v2);
 }
 
 
@@ -157,9 +154,9 @@ int adaptive_method(double stepSize, double err, Var_Dp *Dp, double (*f)(double,
 
 	const double EnergieFinale = get_pendulum_energy(*Dp);
 	if (isnan(EnergieFinale)) return -1;
-	const double difEnergie = ABS(EnergieDebut - EnergieFinale);
+	const double difEnergie = ABS_ODESOLVER(EnergieDebut - EnergieFinale);
 	if (!firstTime)
-	    valeur = ABS(difEnergie - DernierDifEnergie);
+	    valeur = ABS_ODESOLVER(difEnergie - DernierDifEnergie);
 
 	DernierDifEnergie = difEnergie;
 	firstTime = 0;
@@ -319,7 +316,6 @@ int main(int argc, char *argv[])
     }
 
     Var_Dp1.e = get_pendulum_energy(Var_Dp1);
-
     Var_Dp2.e = get_pendulum_energy(Var_Dp2);
 
     double dt = 1.f/(FPS);

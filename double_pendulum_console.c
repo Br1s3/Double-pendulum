@@ -222,8 +222,8 @@ void tracage_double_pendule(int i, Double_pendule *Dp, Var_Dp VDp, char **cl)
     PrintLine(cl, WIDTH, HEIGHT, Dp->mass1.x, -Dp->mass1.y, Dp->mass2.x, -Dp->mass2.y, '/');
 
     // Masse du pedule
-    PrintCircle(cl, WIDTH, HEIGHT, Dp->mass1.x, -Dp->mass1.y, VDp.m1, '*');
-    PrintCircle(cl, WIDTH, HEIGHT, Dp->mass2.x, -Dp->mass2.y, VDp.m2, '*');
+    PrintCircle(cl, WIDTH, HEIGHT, Dp->mass1.x + WIDTH/2, -Dp->mass1.y + HEIGHT/2, VDp.m1, '*');
+    PrintCircle(cl, WIDTH, HEIGHT, Dp->mass2.x + WIDTH/2, -Dp->mass2.y + HEIGHT/2, VDp.m2, '*');
 
     // Ligne entre le centre et le bout du pendule
     Dp->bufDrag[0].x = Dp->mass2.x;
@@ -231,7 +231,7 @@ void tracage_double_pendule(int i, Double_pendule *Dp, Var_Dp VDp, char **cl)
 
 
     // Base du pendule
-    PrintCircle(cl, WIDTH, HEIGHT, 0, 0, 1, '#');
+    PrintCircle(cl, WIDTH, HEIGHT, WIDTH/2, HEIGHT/2, 1, '#');
 }
 
 Var_Dp Var_Dp1 = {.l1       = 1.0f,

@@ -210,8 +210,8 @@ void Draw_double_pendulum(int i, Double_pendulum *Dp, Var_Dp VDp, uint8_t ***cl)
     }
     
     // Third, draw the pendulum's masses
-    DrawCircle(cl, WIDTH, HEIGHT, Dp->mass1.x, -Dp->mass1.y, 5.f*VDp.m1, 0xFF000000);
-    DrawCircle(cl, WIDTH, HEIGHT, Dp->mass2.x, -Dp->mass2.y, 5.f*VDp.m2, 0xFF000000);
+    DrawCircle(cl, WIDTH, HEIGHT, Dp->mass1.x + WIDTH/2, -Dp->mass1.y + HEIGHT/2, 5.f*VDp.m1, 0xFF000000);
+    DrawCircle(cl, WIDTH, HEIGHT, Dp->mass2.x + WIDTH/2, -Dp->mass2.y + HEIGHT/2, 5.f*VDp.m2, 0xFF000000);
 }
 
 Var_Dp Var_Dp1 = {.l1       = 1.0f,
