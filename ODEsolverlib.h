@@ -1,3 +1,41 @@
+/* To use it:
+ *
+ *     #define ODESOLVERLIB_IMPLEMENTATION
+ *     #include "ODEsolverlib.h"
+ *
+ *
+ * Basic usage with a stiff equation:
+ * y' = -15y with y(0) = 1
+ * Who has for solution y(t) = exp(-15*t)
+ *
+ *     #define ODESOLVERLIB_IMPLEMENTATION
+ *     #include "ODEsolverlib.h"
+ *
+ *     double equation(double t, double y, double dy)
+ *     {
+ *         (void)t;
+ *         (void)y;
+ *         return -15.f * dy;
+ *     }
+ *
+ *
+ *     int main()
+ *     {
+ *         const double dt = 0.1f;
+ *         double tmp;   // Variable used to scale the first-order differential equation,
+ *                       // for the function that accepts a second-order differential equation.
+ *         double y = 1; // y(0) = 1
+ *
+ *         for (double t = 0; t < 1.f; t+=dt) {
+ *             if (RK4(dt, t, &tmp, &y, equation) < 0)
+ *                 fprintf(stderr, "ERROR: Some values are out of range\n");
+ *
+ *             printf("t = %lf, y(t) = %lf\n", t, y);
+ *         }
+ *         return 0;
+ *     }
+ */
+
 #ifndef ODESOLVERLIB_H_INCLUED
 #define ODESOLVERLIB_H_INCLUED
 #include <math.h>   // Used for: isnan(), pow()
