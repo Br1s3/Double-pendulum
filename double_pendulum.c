@@ -3,8 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define ODESOLVERLIB_IMPLEMENTATION
-#include "ODEsolverlib.h"
+#define DEVER_IMPLEMENTATION
+#include "dever.h"
 
 #define HEIGHT 600
 #define WIDTH 800

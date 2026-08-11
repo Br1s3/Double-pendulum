@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define ODESOLVERLIB_IMPLEMENTATION
-#include "ODEsolverlib.h"
+#define DEVER_IMPLEMENTATION
+#include "dever.h"
 #define GRAPHLIB_IMPLEMENTATION
 #include "graphlib.h"
 #define LIBIMAGEFILE_IMPLEMENTATION
