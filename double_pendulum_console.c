@@ -283,11 +283,12 @@ int main()
     // equ_var1_psi_1(double x, double th1, double y);
     // equ_var1_psi_2(double x, double th2, double y)
 
+    double t = 0;
     double dt = 1.f/(FPS*5.f);
     double epsilon = 0.001f;
     Double_pendule Dp1;
 
-    GRAPHLIB_MALLOC2D(char, console, HEIGHT, WIDTH);
+    GRAPHLIB_MALLOC2D(char, console, WIDTH, HEIGHT);
 
     for (int i = 0;;) {
 
@@ -298,9 +299,10 @@ int main()
 
 	tracage_double_pendule(i, &Dp1, Var_Dp1, console);
 
-	PrintConsoleSpace(console, WIDTH, HEIGHT);
+	PrintConsolePadded(console, WIDTH, HEIGHT);
 	// PrintConsole(console, WIDTH, HEIGHT);
 	usleep((unsigned int)(100000/FPS));
+	printf("t = %0.2lf    \n", t+=dt);
     }
     GRAPHLIB_FREE2D(console, HEIGHT);
 

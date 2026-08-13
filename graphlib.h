@@ -1,11 +1,57 @@
+/* To use it:
+ *
+ *     #define GRAPHLIB_IMPLEMENTATION
+ *     #include "graphlib.h"
+ *
+ * Basic usage:
+ *
+ *     #define GRAPHLIB_IMPLEMENTATION
+ *     #include "graphlib.h"
+ *
+ *     #define HEIGHT (9*2)
+ *     #define WIDTH (16*2)
+ *
+ *     int main()
+ *     {
+ *         GRAPHLIB_MALLOC2D(char, console, HEIGHT, WIDTH);
+ *         PrintRectangle(console, WIDTH, HEIGHT, 0, 0, WIDTH, HEIGHT, '#');
+ *         PrintRectangle(console, WIDTH, HEIGHT, 1, 1, WIDTH-2, HEIGHT-2, ' ');
+ *         PrintCircle(console, WIDTH, HEIGHT, WIDTH/2, HEIGHT/2, 5, '@');
+ *         PrintConsoleSpace(console, WIDTH, HEIGHT);
+ *         GRAPHLIB_FREE2D(console, HEIGHT);
+ *         return 0;
+ *     }
+ *
+ * The result:
+ * # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+ * #                                                             #
+ * #                                                             #
+ * #                                                             #
+ * #                               @                             #
+ * #                         @ @ @ @ @ @ @                       #
+ * #                       @ @ @ @ @ @ @ @ @                     #
+ * #                       @ @ @ @ @ @ @ @ @                     #
+ * #                       @ @ @ @ @ @ @ @ @                     #
+ * #                     @ @ @ @ @ @ @ @ @ @ @                   #
+ * #                       @ @ @ @ @ @ @ @ @                     #
+ * #                       @ @ @ @ @ @ @ @ @                     #
+ * #                       @ @ @ @ @ @ @ @ @                     #
+ * #                         @ @ @ @ @ @ @                       #
+ * #                               @                             #
+ * #                                                             #
+ * #                                                             #
+ * # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+ *
+ *
+ */
+
 #ifndef GRAPHLIB_H_INCLUED
 #define GRAPHLIB_H_INCLUED
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <errno.h>
-#include <stdint.h>
-#include "graphlib.h"
+#include <stdio.h>  // Used for: fprintf(), printf(), putchar()
+#include <stdlib.h> // Used for: exit(), malloc(), free()
+#include <string.h> // Used for: strerror()
+#include <errno.h>  // Used for: errno
+#include <stdint.h> // Used for: uint8_t, uint32_t
 
 
 // #define max(x, y) ((x)<(y) ? (y) : (x))
@@ -14,26 +60,23 @@
 #define DEC_GRAPHLIB(x, y) (((x)*(width+1)) + (y))
 #define ABS_GRAPHLIB(x) ((x) < 0 ? (-x) : (x))
 
+#define GRAPHLIB_MALLOC2D(type, name, W, H)               \
+type **name = (type **)malloc(sizeof(type *) * ((H)+1));  \
+TESTMALLOC(name);                                         \
+do {                                                      \
+    for (ssize_t i = 0; i < ((H)); i++) {                 \
+        name[i] = (type *)malloc(sizeof(type)*((W) + 1)); \
+        TESTMALLOC(name[i]);                              \
+    }                                                     \
+    name[(H)] = NULL;                                     \
+} while (0)
 
-#define GRAPHLIB_MALLOC2D(type, name, H, W)                     \
-    type **name = (type **)malloc(sizeof(type *) * ((H)+1));    \
-    TESTMALLOC(name);                                           \
-    do {                                                        \
-        for (ssize_t i = 0; i < ((H)); i++) {                   \
-            name[i] = (type *)malloc(sizeof(type)*((W) + 1));	\
-            TESTMALLOC(name[i]);                                \
-        }                                                       \
-    name[(H)] = NULL;                                           \
-    } while (0)
-
-
-#define GRAPHLIB_FREE2D(name, H)                                                     \
-    if (name == NULL) fprintf(stdout, "WARNING: %s is NULL, %d\n", #name, __LINE__); \
-    do {                                                                             \
-        for (ssize_t i = 0; i < (H); i++) free(name[i]);                             \
-        free(name);                                                                  \
-    } while (0)
-
+#define GRAPHLIB_FREE2D(name, H)                                                 \
+if (name == NULL) fprintf(stdout, "WARNING: %s is NULL, %d\n", #name, __LINE__); \
+do {                                                                             \
+    for (ssize_t i = 0; i < (H); i++) free(name[i]);                             \
+    free(name);                                                                  \
+} while (0)
 
 #define TESTMALLOC(x)                                                          \
 do                                                                             \
@@ -65,6 +108,7 @@ void PrintTriangle(char **pixels, short width, short height, int ax, int ay, int
 
 void PrintConsole(char **pixels, short width, short height);
 void PrintConsoleSpace(char **pixels, short width, short height);
+void PrintConsolePadded(char **pixels, short width, short height);
 
 
 void ClearDrawing(uint8_t ***pixels, short width, short height, const uint32_t fd);
@@ -81,7 +125,7 @@ void PrintConsole(char **pixels, short width, short height)
     char pixels_1D[(width+1) * height];
     for (i = 0; i < height; ++i) {
 	for (j = 0; j < width+1; ++j) {
-	    // TODO: Use a static variable to test if &pixels[i][j] == NULL 
+	    // TODO: Use a static variable to test if &pixels[i][j] == NULL
             if      (j < width)     pixels_1D[DEC_GRAPHLIB(i, j)] = pixels[i][j];
             else if (i < height-1)  pixels_1D[DEC_GRAPHLIB(i, j)] = '\n';
             else                    pixels_1D[DEC_GRAPHLIB(i, j)] = '\0';
@@ -106,13 +150,26 @@ void PrintConsoleSpace(char **pixels, short width, short height)
     }
 }
 
+void PrintConsolePadded(char **pixels, short width, short height)
+{
+    short i, j;
+    MOVETO_GRAPHLIB(0, 0);
+    for (i = 0; i < height; ++i) {
+	for (j = 0; j < width; ++j) {
+	    // TODO: Use a static variable to test if &pixels[i][j] == NULL
+	    putchar(pixels[i][j]);
+	    putchar(pixels[i][j]);
+	}
+	putchar('\n');
+    }
+}
 
 void ConsoleClear(char **pixels, short width, short height, const char clear)
 {
     short i, j;
     for (i = 0; i < height; ++i) {
 	for (j = 0; j < width; j++) {
-	    // TODO: Use a static variable to test if &pixels[i][j] == NULL 
+	    // TODO: Use a static variable to test if &pixels[i][j] == NULL
             pixels[i][j] = clear;
 	}
     }
@@ -123,7 +180,7 @@ void PrintRectangle(char **pixels, short width, short height, int x, int y, int 
     short i, j;
     for (i = 0; i < height; i++) {
 	for (j = 0; j < width; j++) {
-	    // TODO: Use a static variable to test if &pixels[i][j] == NULL 
+	    // TODO: Use a static variable to test if &pixels[i][j] == NULL
             if (((j >= x) && (j < x+largeur)) && ((i >= y) && (i < y+hauteur)))
 		pixels[i][j] = fd;
         }
@@ -256,7 +313,6 @@ TODO:
 	//     fprintf(stderr, "ERROR: Out of memorie\n");
 	//     exit(1);
     // }
-- Stop starting with the center like (pixels[i + height/2][j + width/2] = fd)
 - Modify t step with 3 if statement if (sqrt(h² + w²) > 1000) t+=0.0001 else reduce
 in PrintLine() and DrawLine()
 - Add DrawRectangle()
