@@ -382,28 +382,28 @@ https://github.com/myphysicslab/myphysicslab/blob/master/src/lab/model/AdaptiveS
 
 
 ## Website allowing to view the Fourier series
-> https://isaacvr.github.io/coding/fourier_transform/
+> - https://isaacvr.github.io/coding/fourier_transform/
 
 ## All to know about the ODE solvers lib
-> https://github.com/Br1s3/ODEsolverlib
+> - https://github.com/Br1s3/ODEsolverlib
 
 ## Help for the Makefile
-> https://makefiletutorial.com/
+> - https://makefiletutorial.com/
 
 ## Info about LaTeX
 
 _syntax_
 
-> https://fr.wikipedia.org/wiki/Aide:Formules_TeX
-> https://en.wikibooks.org/wiki/LaTeX/Mathematics
-> https://fr.overleaf.com/learn/latex/Matrices
+> - https://fr.wikipedia.org/wiki/Aide:Formules_TeX
+> - https://en.wikibooks.org/wiki/LaTeX/Mathematics
+> - https://fr.overleaf.com/learn/latex/Matrices
 
 _Website that render Latex_
 
-> https://quicklatex.com/
+> - https://quicklatex.com/
 
 
 ## Help to render things in Markdown
 
-> https://github.com/Snailedlt/Markdown-Videos/blob/main/README.md
-> https://github.com/sigma-py/ndim/blob/main/README.md
+> - https://github.com/Snailedlt/Markdown-Videos/blob/main/README.md
+> - https://github.com/sigma-py/ndim/blob/main/README.md
