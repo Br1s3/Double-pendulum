@@ -171,7 +171,7 @@ _Exemple in video in mp4 format_
 \end{aligned}
 ```
 
-### Finaly extract from the equations the acceleration of the double pendulum rods
+### 7. Finaly extract from the equations the acceleration of the double pendulum rods
 
 ```math
 \text{ The goal is to extract } \ddot{\theta}_1 \text{ and } \ddot{\theta}_2 \text{: } \quad
@@ -345,7 +345,7 @@ _Same as Lagrange method_
 }
 ```
 _At this point we got the same result as here: [Final equation form the Lagrange method](#6-Write-the-final-equation)._
-_So the next step will be exactly the same as [Matrix resolution](\Finaly-extract-from-the-equations-the-acceleration-of-the-double pendulum rods)_
+_So the next step will be exactly the same as [Matrix resolution](#7-Finaly-extract-from-the-equations-the-acceleration-of-the-double-pendulum-rods)._
 
 
 # Comparison between numerical methods to solve the double pendulum equations
