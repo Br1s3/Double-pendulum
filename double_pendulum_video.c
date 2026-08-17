@@ -4,8 +4,8 @@
 
 #define DEVER_IMPLEMENTATION
 #include "dever.h"
-#define GRAPHLIB_IMPLEMENTATION
-#include "graphlib.h"
+#define GLIPH_IMPLEMENTATION
+#include "gliph.h"
 #define LIBIMAGEFILE_IMPLEMENTATION
 #include "libImagefile.h"
 

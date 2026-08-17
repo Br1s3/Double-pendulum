@@ -5,8 +5,8 @@
 
 #define DEVER_IMPLEMENTATION
 #include "dever.h"
-#define GRAPHLIB_IMPLEMENTATION
-#include "graphlib.h"
+#define GLIPH_IMPLEMENTATION
+#include "gliph.h"
 
 #define FPS 60
 
@@ -221,14 +221,13 @@ void tracage_double_pendule(int i, Double_pendule *Dp, Var_Dp VDp, char **cl)
     PrintLine(cl, WIDTH, HEIGHT, 0, 0, Dp->mass1.x, -Dp->mass1.y, '/');
     PrintLine(cl, WIDTH, HEIGHT, Dp->mass1.x, -Dp->mass1.y, Dp->mass2.x, -Dp->mass2.y, '/');
 
-    // Masse du pedule
+    // Masse du pendule
     PrintCircle(cl, WIDTH, HEIGHT, Dp->mass1.x + WIDTH/2, -Dp->mass1.y + HEIGHT/2, VDp.m1, '*');
     PrintCircle(cl, WIDTH, HEIGHT, Dp->mass2.x + WIDTH/2, -Dp->mass2.y + HEIGHT/2, VDp.m2, '*');
 
     // Ligne entre le centre et le bout du pendule
     Dp->bufDrag[0].x = Dp->mass2.x;
     Dp->bufDrag[0].y = Dp->mass2.y;
-
 
     // Base du pendule
     PrintCircle(cl, WIDTH, HEIGHT, WIDTH/2, HEIGHT/2, 1, '#');
@@ -288,7 +287,7 @@ int main()
     double epsilon = 0.001f;
     Double_pendule Dp1;
 
-    GRAPHLIB_MALLOC2D(char, console, WIDTH, HEIGHT);
+    GLIPH_MALLOC2D(char, console, WIDTH, HEIGHT);
 
     for (int i = 0;;) {
 
@@ -304,7 +303,7 @@ int main()
 	usleep((unsigned int)(100000/FPS));
 	printf("t = %0.2lf    \n", t+=dt);
     }
-    GRAPHLIB_FREE2D(console, HEIGHT);
+    GLIPH_FREE2D(console, HEIGHT);
 
     puts("Programme terminé");
     return 0;
