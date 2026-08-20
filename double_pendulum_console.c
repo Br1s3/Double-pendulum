@@ -5,6 +5,8 @@
 
 #define DEVER_IMPLEMENTATION
 #include "dever.h"
+
+#define GLIPH_PADDING
 #define GLIPH_IMPLEMENTATION
 #include "gliph.h"
 
@@ -193,9 +195,9 @@ Vector2 overflow_protection_window(Vector2 a)
 }
 
 // void tracage_double_pendule(int i, Double_pendule *Dp, Color cl, Var_Dp VDp)
-void tracage_double_pendule(int i, Double_pendule *Dp, Var_Dp VDp, char **cl)
+void tracage_double_pendule(int i, Double_pendule *Dp, Var_Dp VDp, Screen cl)
 {
-    ConsoleClear(cl, WIDTH, HEIGHT, ' ');
+    ConsoleClear(cl, ' ');
 
     // Calcul des nouvelles coordonnées du pendule
     Dp->mass1.x = 10.f*VDp.l1*sin(VDp.theta_1);
@@ -214,23 +216,23 @@ void tracage_double_pendule(int i, Double_pendule *Dp, Var_Dp VDp, char **cl)
 
     // trainé de la trajectoire
     for (int j = 0; j < i-1; j++){
-	PrintLine(cl, WIDTH, HEIGHT, Dp->bufDrag[j].x, -Dp->bufDrag[j].y, Dp->bufDrag[j+1].x, -Dp->bufDrag[j+1].y, '`');
+	PrintLine(cl, Dp->bufDrag[j].x, -Dp->bufDrag[j].y, Dp->bufDrag[j+1].x, -Dp->bufDrag[j+1].y, '`');
     }
 
     // Tige du pendule
-    PrintLine(cl, WIDTH, HEIGHT, 0, 0, Dp->mass1.x, -Dp->mass1.y, '/');
-    PrintLine(cl, WIDTH, HEIGHT, Dp->mass1.x, -Dp->mass1.y, Dp->mass2.x, -Dp->mass2.y, '/');
+    PrintLine(cl, 0, 0, Dp->mass1.x, -Dp->mass1.y, '/');
+    PrintLine(cl, Dp->mass1.x, -Dp->mass1.y, Dp->mass2.x, -Dp->mass2.y, '/');
 
     // Masse du pendule
-    PrintCircle(cl, WIDTH, HEIGHT, Dp->mass1.x + WIDTH/2, -Dp->mass1.y + HEIGHT/2, VDp.m1, '*');
-    PrintCircle(cl, WIDTH, HEIGHT, Dp->mass2.x + WIDTH/2, -Dp->mass2.y + HEIGHT/2, VDp.m2, '*');
+    PrintCircle(cl, Dp->mass1.x + WIDTH/2, -Dp->mass1.y + HEIGHT/2, VDp.m1, '*');
+    PrintCircle(cl, Dp->mass2.x + WIDTH/2, -Dp->mass2.y + HEIGHT/2, VDp.m2, '*');
 
     // Ligne entre le centre et le bout du pendule
     Dp->bufDrag[0].x = Dp->mass2.x;
     Dp->bufDrag[0].y = Dp->mass2.y;
 
     // Base du pendule
-    PrintCircle(cl, WIDTH, HEIGHT, WIDTH/2, HEIGHT/2, 1, '#');
+    PrintCircle(cl, WIDTH/2, HEIGHT/2, 1, '#');
 }
 
 Var_Dp Var_Dp1 = {.l1       = 1.0f,
@@ -287,7 +289,7 @@ int main()
     double epsilon = 0.001f;
     Double_pendule Dp1;
 
-    GLIPH_MALLOC2D(char, console, WIDTH, HEIGHT);
+    GLIPH_INIT(console, WIDTH, HEIGHT);
 
     for (int i = 0;;) {
 
@@ -298,12 +300,10 @@ int main()
 
 	tracage_double_pendule(i, &Dp1, Var_Dp1, console);
 
-	PrintConsolePadded(console, WIDTH, HEIGHT);
-	// PrintConsole(console, WIDTH, HEIGHT);
+	PrintConsole(console);
 	usleep((unsigned int)(100000/FPS));
 	printf("t = %0.2lf    \n", t+=dt);
     }
-    GLIPH_FREE2D(console, HEIGHT);
 
     puts("Programme terminé");
     return 0;
