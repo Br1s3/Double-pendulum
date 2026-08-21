@@ -13,7 +13,7 @@
 #define FPS 60
 
 #define HEIGHT (9*5)
-#define WIDTH (10*7)
+#define WIDTH (10*8)
 
 #define LENGTH_DRAG_BUFFER 500
 #define FILEPATH "test.csv"
@@ -23,6 +23,7 @@
 # define ABS(x) ((x < 0) ? -(x) : (x))
 #endif
 
+#define CHAR_COLORED
 
 double equ_psi_1(double th1, double th2, double ph1, double ph2, double g, double l1, double l2, double m1, double m2)
 {
@@ -249,19 +250,6 @@ double equ_var1_psi_2(double x, double th2, double y)
 
 int main()
 {
-    // Var_Dp1 = {.l1       = 1.0f,
-    // 		      .l2       = 1.0f,
-    // 		      .m1       = 1.f,
-    // 		      .m2       = 1.f,
-    // 		      .g        = 9.8f,
-    // 		      .t        = 0,
-    // 		      .theta_1  = M_PI-0.1f,
-    // 		      .phi_1    = 0,
-    // 		      .psi_1    = 0,
-    // 		      .theta_2  = M_PI,
-    // 		      .phi_2    = 0,
-    // 		      .psi_2    = 0,
-    // };
     Var_Dp1.e = get_energie_pendule(Var_Dp1);
 
     // VARIABLE_PENDULUM_INIT;
@@ -283,8 +271,8 @@ int main()
 	if (i < LENGTH_DRAG_BUFFER) i++;
 
 	tracage_double_pendule(i, &Dp1, Var_Dp1, console);
-	// PrintConsole(console);
-	// usleep((unsigned int)(100000/FPS));
+
+#ifdef CHAR_COLORED
 	MOVETO_GLIPH(0,0);
 	for (int i = 0; i < console.h; i++) {
 	    for (int j = 0; j < console.w; j++) {
@@ -309,6 +297,11 @@ int main()
 	    putchar('\n');
 	}
 	usleep((unsigned int)(30000/FPS));
+
+#else
+	PrintConsole(console);
+	usleep((unsigned int)(100000/FPS));
+#endif
 	printf("t = %0.2lf    \n", t+=dt);
     }
 
