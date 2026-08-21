@@ -54,11 +54,107 @@
 #include <stdint.h> // Used for: uint8_t, uint32_t
 #include <unistd.h> // Used for: write()
 
+// Regular color
+#define BLACK    "\e[0;30m"
+#define RED      "\e[0;31m"
+#define GREEN    "\e[0;32m"
+#define YELLOW   "\e[0;33m"
+#define BLUE     "\e[0;34m"
+#define PURPLE   "\e[0;35m"
+#define CYAN     "\e[0;36m"
+#define WHITE    "\e[0;37m"
+
+// Bold
+#define BOLD_BLACK    "\e[1;30m"
+#define BOLD_RED      "\e[1;31m"
+#define BOLD_GREEN    "\e[1;32m"
+#define BOLD_YELLOW   "\e[1;33m"
+#define BOLD_BLUE     "\e[1;34m"
+#define BOLD_PURPLE   "\e[1;35m"
+#define BOLD_CYAN     "\e[1;36m"
+#define BOLD_WHITE    "\e[1;37m"
+
+
+// Underline
+#define UL_BLACK    "\e[4;30m"
+#define UL_RED      "\e[4;31m"
+#define UL_GREEN    "\e[4;32m"
+#define UL_YELLOW   "\e[4;33m"
+#define UL_BLUE     "\e[4;34m"
+#define UL_PURPLE   "\e[4;35m"
+#define UL_CYAN     "\e[4;36m"
+#define UL_WHITE    "\e[4;37m"
+
+// Background
+#define BG_BLACK   "\e[40m"
+#define BG_RED     "\e[41m"
+#define BG_GREEN   "\e[42m"
+#define BG_YELLOW  "\e[43m"
+#define BG_BLUE    "\e[44m"
+#define BG_PURPLE  "\e[45m"
+#define BG_CYAN    "\e[46m"
+#define BG_WHITE   "\e[47m"
+
+// High Intensity
+#define HI_BLACK  "\e[0;90m"
+#define HI_RED    "\e[0;91m"
+#define HI_GREEN  "\e[0;92m"
+#define HI_YELLOW "\e[0;93m"
+#define HI_BLUE   "\e[0;94m"
+#define HI_PURPLE "\e[0;95m"
+#define HI_CYAN   "\e[0;96m"
+#define HI_WHITE  "\e[0;97m"
+
+// Bold High Intensity
+#define BOLD_HI_BLACK  "\e[1;90m"
+#define BOLD_HI_RED    "\e[1;91m"
+#define BOLD_HI_GREEN  "\e[1;92m"
+#define BOLD_HI_YELLOW "\e[1;93m"
+#define BOLD_HI_BLUE   "\e[1;94m"
+#define BOLD_HI_PURPLE "\e[1;95m"
+#define BOLD_HI_CYAN   "\e[1;96m"
+#define BOLD_HI_WHITE  "\e[1;97m"
+
+// High Intensity backgrounds
+#define HI_BG_BLACK  "\e[0;100m"
+#define HI_BG_RED    "\e[0;101m"
+#define HI_BG_GREEN  "\e[0;102m"
+#define HI_BG_YELLOW "\e[0;103m"
+#define HI_BG_BLUE   "\e[0;104m"
+#define HI_BG_PURPLE "\e[0;105m"
+#define HI_BG_CYAN   "\e[0;106m"
+#define HI_BG_WHITE  "\e[0;107m"
+
+// Other style
+#define BOLD           "\e[1m"
+#define ITALIC         "\e[3m"
+#define BOLD_ITALIC    "\e[3m\e[1"
+#define UNDERLINE      "\e[4"
+#define STRICKETHROUGH "\e[9m"
+
+// Reset
+#define RESET "\e[0m"
+
+// Specific
+// R is inclued [0, 5], G is inclued [0, 5], B is inclued [0, 5]
+#define PRINT_BG_COLOR(R, G, B, c) printf("\e[48;5;%dm%c"RESET, R*36 + G*6 + B + 16, c)
+#define PRINT_CHAR_COLOR(R, G, B, c) printf("\e[38;5;%dm%c"RESET, R*36 + G*6 + B + 16, c)
+// Gray is inclued [0, 24]
+#define PRINT_BG_GRAYSHADE(G, c) printf("\e[48;5;%dm%c"RESET, G+232, c)
+#define PRINT_CHAR_GRAYSHADE(G, c) printf("\e[38;5;%dm%c"RESET, G+232, c)
+
+
 // #define MAX_GLIPH(x, y) ((x)<(y) ? (y) : (x))
 // #define MIN_GLIPH(x, y) ((x)>(y) ? (y) : (x))
 // #define CEIL_GLIPH(x) ((x) >= 0.5f ? 1 : 0)
 #define ABS_GLIPH(x) ((x) < 0 ? (-x) : (x))
-#define D2TOD1_GLIPH(x, y) (((x)*(pixels.w+1)) + (y))
+#define D2TOD1_GLIPH(x, y, W) (((y)*(W+1)) + (x))
+#ifdef D2TOD1
+# warning D2TOD1 has been undefined
+# undef D2TOD1
+#endif
+#define D2TOD1(x, y) D2TOD1_GLIPH(x, y, pixels.w)
+
 #define MOVETO_GLIPH(y, x) printf("\033[%d;%dH", (y), (x))
 #define MOVETO0_0_GLIPH  \
     static const char tab[] = "\033[0;0H"; \
@@ -67,6 +163,7 @@
 
 // This pixels2d simplify the convertion only for this file
 #ifdef pixels2d
+# warning pixels2d has been undefined
 # undef pixels2d
 #endif
 # define pixels2d ARRAYCONVERTD1TOD2_GLIPH(pixels._1d, pixels.w)
@@ -213,6 +310,7 @@ void PrintRectangle(Screen pixels, int x, int y, int width, int height, const ch
     x *=2;
     width*=2;
 #endif
+    
     for (i = 0; i < pixels.h; i++) {
 	for (j = 0; j < pixels.w; j++) {
             if (((j >= x) && (j < x+width)) && ((i >= y) && (i < y+height)))
@@ -255,7 +353,7 @@ void PrintLine(Screen pixels, int ax, int ay, int bx, int by, const char fd)
 
 void PrintCircle(Screen pixels, int x, int y, int radius, const char fd)
 {
-    int i, j;
+    short i, j;
     for (i = 0; i < pixels.h; i++) {
 	for (j = 0; j < pixels.w; j++) {
 #  ifdef GLIPH_PADDING
@@ -380,13 +478,8 @@ void DrawCircle(uint8_t ***pixels, short width, short height, int x, int y, int 
 
 /***********************************
 TODO:
-- Use a static variable to test if &pixels[i][j] == NULL like:
-    // if (&pixels[i][j] == NULL) {
-        //     fprintf(stderr, "ERROR: Out of memorie\n");
-        //     exit(1);
-    // }
-- Modify t step with 3 if statement if (sqrt(h² + w²) > 1000) t+=0.0001 else reduce
-in PrintLine() and DrawLine()
+- in PrintLine() and DrawLine():
+    - Modify t step to verify this condition: (step >= 1/sqrt((by-ay)² + (bx-ax)²))
 - Add DrawRectangle()
 - Line: 230:
     Change PrintDisk name by PrintCercle and vice vera

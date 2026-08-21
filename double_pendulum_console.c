@@ -56,22 +56,6 @@ typedef struct
 } Var_Dp;
 
 
-// #define VARIABLE_PENDULUM_INIT						
-//     double equ_var1_psi_1(double x, double th1, double y)		
-//     {									
-// 	UNUSED(x);							
-// 	UNUSED(y);							
-// 	return equ_psi_1(th1, Var_Dp1.theta_2, Var_Dp1.phi_1, Var_Dp1.phi_2, Var_Dp1.g, Var_Dp1.l1, Var_Dp1.l2, Var_Dp1.m1, Var_Dp1.m2); 
-//     }									
-//     double equ_var1_psi_2(double x, double th2, double y)		
-//     {									
-// 	UNUSED(x);							
-// 	UNUSED(y);							
-// 	return equ_psi_2(Var_Dp1.theta_1, th2, Var_Dp1.phi_1, Var_Dp1.phi_2, Var_Dp1.g, Var_Dp1.l1, Var_Dp1.l2, Var_Dp1.m1, Var_Dp1.m2); 
-//     }									
-//     do{}while(0)
-
-
 typedef struct
 {
     int x;
@@ -232,7 +216,7 @@ void tracage_double_pendule(int i, Double_pendule *Dp, Var_Dp VDp, Screen cl)
     Dp->bufDrag[0].y = Dp->mass2.y;
 
     // Base du pendule
-    PrintCircle(cl, WIDTH/2, HEIGHT/2, 1, '#');
+    // PrintCircle(cl, WIDTH/2, HEIGHT/2, 1, '#');
 }
 
 Var_Dp Var_Dp1 = {.l1       = 1.0f,
@@ -299,9 +283,32 @@ int main()
 	if (i < LENGTH_DRAG_BUFFER) i++;
 
 	tracage_double_pendule(i, &Dp1, Var_Dp1, console);
-
-	PrintConsole(console);
-	usleep((unsigned int)(100000/FPS));
+	// PrintConsole(console);
+	// usleep((unsigned int)(100000/FPS));
+	MOVETO_GLIPH(0,0);
+	for (int i = 0; i < console.h; i++) {
+	    for (int j = 0; j < console.w; j++) {
+		switch (console._1d[D2TOD1_GLIPH(j, i, console.w)]) {
+		case ' ':
+		    PRINT_BG_COLOR(0, 0, 0, ' ');
+		    break;
+		case '/':
+		    PRINT_BG_COLOR(5, 5, 5, ' ');
+		    break;
+		case '*':
+		    PRINT_BG_COLOR(5, 0, 0, ' ');
+		    break;
+		case '`':
+		    PRINT_BG_COLOR(0, 5, 0, ' ');
+		    break;
+		default:
+		    PRINT_BG_COLOR(0, 5, 5, ' ');
+		    break;
+		}
+	    }
+	    putchar('\n');
+	}
+	usleep((unsigned int)(30000/FPS));
 	printf("t = %0.2lf    \n", t+=dt);
     }
 
