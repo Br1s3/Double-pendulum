@@ -50,15 +50,19 @@ $ make clean
 
 ## Examples and illustrations
 
-_Exemple with raylib_
+_Example with raylib_
 
 [![Double-pendule](./picture/Double-pendule.png)](/picture)
 
-_Exemple with the console mode_
+_Example with the console mode_
 
 [![Double-pendule-console](./picture/Double-pendule-console.png)](/picture)
 
-_Exemple in video in mp4 format_
+_Second example with the console mode_
+
+[![Double-pendule-console](./picture/Double-pendule-console-v2.png)](/picture)
+
+_Example in video in mp4 format_
 
 [![Double-pendule-video](./picture/Double-pendule-video.gif)](/picture)
 
