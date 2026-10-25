@@ -74,32 +74,32 @@ $(PICTURE_DIR):
 	$(MD) $(PICTURE_DIR)
 
 $(BUILD_DIR)/simple_pendulum: simple_pendulum.c | $(BUILD_DIR)
-	$(CC) simple_pendulum.c -o $(BUILD_DIR)/simple_pendulum $(FLAGS) $(RAY_FLAGS)
+	$(CC) $< -o $@ $(FLAGS) $(RAY_FLAGS)
 
 $(BUILD_DIR)/double_pendulum: double_pendulum.c | $(BUILD_DIR)
-	$(CC) double_pendulum.c -o $(BUILD_DIR)/double_pendulum $(FLAGS) $(RAY_FLAGS)
+	$(CC) $< -o $@ $(FLAGS) $(RAY_FLAGS)
 
 $(BUILD_DIR)/double_pendulum_console: double_pendulum_console.c | $(BUILD_DIR)
-	$(CC) double_pendulum_console.c -o $(BUILD_DIR)/double_pendulum_console $(FLAGS) -lm
+	$(CC) $< -o $@ $(FLAGS) -lm
 
 $(BUILD_DIR)/double_pendulum_video: double_pendulum_video.c | $(BUILD_DIR) $(PICTURE_DIR)
-	$(CC) double_pendulum_video.c -o $(BUILD_DIR)/double_pendulum_video $(FLAGS) -lm
+	$(CC) $< -o $@ $(FLAGS) -lm
 
 
 
 play_video: $(PICTURE_DIR)/Double_pendulum.mp4
-	mpv $(PICTURE_DIR)/Double_pendulum.mp4 --loop-file=yes
+	mpv $< --loop-file=yes
 
 create_gif: $(PICTURE_DIR)/Double_pendulum.mp4
-	ffmpeg -i $(PICTURE_DIR)/Double_pendulum.mp4 -vf "fps=15,scale=500:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" $(PICTURE_DIR)/Double_pendulum.gif
+	ffmpeg -i $< -vf "fps=15,scale=500:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" $(PICTURE_DIR)/Double_pendulum.gif
 
 create_video: $(PICTURE_DIR)/Double_pendulum.mp4
 
 $(PICTURE_DIR)/Double_pendulum.mp4: $(PICTURE_DIR)/$(PICTURE_DB_SAMPLE)
-	ffmpeg -i $(PICTURE_DIR)/$(PICTURE_DB_PENDULUM) -r 60 $(PICTURE_DIR)/Double_pendulum.mp4
+	ffmpeg -i $(PICTURE_DIR)/$(PICTURE_DB_PENDULUM) -r 60 $@
 
 $(PICTURE_DIR)/$(PICTURE_DB_SAMPLE): $(BUILD_DIR)/double_pendulum_video
-	./$(BUILD_DIR)/double_pendulum_video
+	./$<
 
 clean:
 	$(RM) $(PICTURE_DIR)
