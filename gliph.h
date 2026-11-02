@@ -147,18 +147,14 @@
 // #define MAX_GLIPH(x, y) ((x)<(y) ? (y) : (x))
 // #define MIN_GLIPH(x, y) ((x)>(y) ? (y) : (x))
 // #define CEIL_GLIPH(x) ((x) >= 0.5f ? 1 : 0)
+#ifndef STDOUT_FILENO
+# define STDOUT_FILENO 1
+#endif // Needed for certain compiler standards
 #define ABS_GLIPH(x) ((x) < 0 ? (-x) : (x))
-#define D2TOD1_GLIPH(x, y, W) (((y)*(W+1)) + (x))
-#ifdef D2TOD1
-# warning D2TOD1 has been undefined
-# undef D2TOD1
-#endif
-#define D2TOD1(x, y) D2TOD1_GLIPH(x, y, pixels.w)
-
+#define D2TOD1_GLIPH(x, y, W) (((y)*((W)+1)) + (x))
 #define MOVETO_GLIPH(y, x) printf("\033[%d;%dH", (y), (x))
 #define MOVETO0_0_GLIPH  \
-    static const char tab[] = "\033[0;0H"; \
-    if (write(stdout->_fileno, tab, 7) < 0) return -1
+    if (write(STDOUT_FILENO, "\033[0;0H", 7) < 0) return -1
 #define ARRAYCONVERTD1TOD2_GLIPH(T, W) ((char (*)[W+1])T)
 
 // This pixels2d simplify the convertion only for this file
@@ -198,48 +194,44 @@ do                                                                             \
 
 typedef struct
 {
-    int x, y;
-}COORD;
-
-typedef struct
-{
     float x, y;
 }COORDF;
 
 typedef struct
 {
     char *_1d;
-    const int w;
-    const int h;
+    const short w;
+    const short h;
 } Screen;
 
-#define GLIPH_ALLOC(name, W, H)                                    \
-    char *__screen1d = (char *)malloc(sizeof(char) * ((W+1)*H+1)); \
-    TESTALLOC(__screen1d);                                         \
-    Screen name = {._1d=__screen1d, .w=W, .h=H};                   \
-    do {                                                           \
-        for (int i = 0; i < H; i++) {                              \
-            ((char (*)[W+1])name._1d)[i][W] = '\n';                \
-        }                                                          \
+#define GLIPH_ALLOC(name, W, H)                                        \
+    char *__screen1d = (char *)malloc(sizeof(char) * (((W)+1)*(H)+1)); \
+    TESTALLOC(__screen1d);                                             \
+    Screen name = {._1d=__screen1d, .w=(W), .h=(H)};                   \
+    do {                                                               \
+        for (int i = 0; i < (H); i++) {                                \
+            ((char (*)[(W)+1])name._1d)[i][(W)] = '\n';                \
+        }                                                              \
     } while (0)
+
 #define GLIPH_FREE(name) free(name._1d)
 
-#define GLIPH_INIT(name, W, H)                        \
-    char __screen1d[H*(W+1)+1];                       \
-    Screen name = {._1d=__screen1d, .w=W, .h=H};      \
-    do {                                              \
-        for (int i = 0; i < H; i++) {                 \
-            ((char (*)[W+1])name._1d)[i][W] = '\n';   \
-        }                                             \
+#define GLIPH_INIT(name, W, H)                          \
+    char __screen1d[(H)*((W)+1)+1];                     \
+    Screen name = {._1d=__screen1d, .w=(W), .h=(H)};    \
+    do {                                                \
+        for (int i = 0; i < (H); i++) {                 \
+            ((char (*)[(W)+1])name._1d)[i][(W)] = '\n'; \
+        }                                               \
     } while (0)
 
 
 void ConsoleClear(Screen pixels, const char clear);
 
-void PrintRectangle(Screen pixels, int x, int y, int largeur, int hauteur, const char fd);
-void PrintCircle(Screen pixels, int x, int y, int radius, const char fd);
-void PrintLine(Screen pixels, int ax, int ay, int bx, int by, const char fd);
-void PrintTriangle(Screen pixels, int ax, int ay, int bx, int by, int cx, int cy, const char fd);
+void PrintRectangle(Screen pixels, short x, short y, short width, short height, const char fd);
+void PrintCircle(Screen pixels, short x, short y, short radius, const char fd);
+void PrintLine(Screen pixels, short ax, short ay, short bx, short by, const char fd);
+void PrintTriangle(Screen pixels, short ax, short ay, short bx, short by, short cx, short cy, const char fd);
 
 int PrintConsole(Screen pixels);
 
@@ -255,7 +247,7 @@ void DrawCircle(uint8_t ***pixels, short width, short height, int x, int y, int 
 int PrintConsole(Screen pixels)
 {
     MOVETO_GLIPH(0, 0);
-    int i, j;
+    unsigned short i, j;
     for (i = 0; i < pixels.h; ++i) {
 	for (j = 0; j < pixels.w; ++j) {
 	    putchar(pixels2d[i][j]);
@@ -266,12 +258,12 @@ int PrintConsole(Screen pixels)
     return 0;
 }
 
-# elif defined(GLIPH_CHARPADDED)
+#  elif defined(GLIPH_CHARPADDED)
 // To compensate the width/height ratio this print double the same char printed
 int PrintConsole(Screen pixels)
 {
     MOVETO_GLIPH(0, 0);
-    int i, j;
+    unsigned short i, j;
     for (i = 0; i < pixels.h; ++i) {
 	for (j = 0; j < pixels.w; ++j) {
 	    putchar(pixels2d[i][j]);
@@ -287,7 +279,7 @@ int PrintConsole(Screen pixels)
 int PrintConsole(Screen pixels)
 {
     MOVETO0_0_GLIPH;
-    return write(stdout->_fileno, pixels._1d, (pixels.w+1)*pixels.h);
+    return write(STDOUT_FILENO, pixels._1d, (pixels.w+1)*pixels.h);
 }
 #  endif
 
@@ -301,16 +293,16 @@ void ConsoleClear(Screen pixels, const char clear)
     }
 }
 
-void PrintRectangle(Screen pixels, int x, int y, int width, int height, const char fd)
+void PrintRectangle(Screen pixels, short x, short y, short width, short height, const char fd)
 {
-    int i, j;
+    short i, j;
 #ifdef GLIPH_PADDING
     // Problem with the bounderies
     x -= pixels.w/4;
     x *=2;
     width*=2;
 #endif
-    
+
     for (i = 0; i < pixels.h; i++) {
 	for (j = 0; j < pixels.w; j++) {
             if (((j >= x) && (j < x+width)) && ((i >= y) && (i < y+height)))
@@ -319,7 +311,7 @@ void PrintRectangle(Screen pixels, int x, int y, int width, int height, const ch
     }
 }
 
-void PrintLine(Screen pixels, int ax, int ay, int bx, int by, const char fd)
+void PrintLine(Screen pixels, short ax, short ay, short bx, short by, const char fd)
 {
     COORDF a, b, AB;
     const float midH = (float)pixels.h/2.f;
@@ -335,9 +327,9 @@ void PrintLine(Screen pixels, int ax, int ay, int bx, int by, const char fd)
        // // double dt = 1.f/((ABS_GLIPH(bx-ax) + ABS_GLIPH(by-ay))*0.7);
        // for (double t = 0; t < 1; t+=dt) {
 
-    double x, y;
-    int Yaxe, Xaxe;
-    for (double t = 0; t < 1; t+=0.01) {
+    float x, y;
+    unsigned short Yaxe, Xaxe;
+    for (float t = 0; t < 1; t+=0.01) {
 #  ifdef GLIPH_PADDING
         x = (AB.x*t + a.x)*2;
 #  else
@@ -351,7 +343,7 @@ void PrintLine(Screen pixels, int ax, int ay, int bx, int by, const char fd)
     }
 }
 
-void PrintCircle(Screen pixels, int x, int y, int radius, const char fd)
+void PrintCircle(Screen pixels, short x, short y, short radius, const char fd)
 {
     short i, j;
     for (i = 0; i < pixels.h; i++) {
@@ -380,7 +372,7 @@ void PrintCircle(Screen pixels, int x, int y, int radius, const char fd)
 // }
 
 
-void PrintTriangle(Screen pixels, int ax, int ay, int bx, int by, int cx, int cy, const char fd)
+void PrintTriangle(Screen pixels, short ax, short ay, short bx, short by, short cx, short cy, const char fd)
 {
     COORDF a, b, c;
     a.x = ax;
@@ -445,9 +437,9 @@ void DrawLine(uint8_t ***pixels, short width, short height, int ax, int ay, int 
     AB.y = b.y - a.y;
     // TODO: Modify t step with 3 if statement if (sqrt(h² + w²) > 1000) t+=0.0001 else reduce
 
-    for (double t = 0; t < 1; t+=0.01) {
-	double x = (AB.x*t + a.x);
-	double y = (AB.y*t + a.y);
+    for (float t = 0; t < 1; t+=0.01) {
+	float x = (AB.x*t + a.x);
+	float y = (AB.y*t + a.y);
         if (ABS_GLIPH(x*(midW)) > midW-1 || ABS_GLIPH(y*(midH)) > midH-1) break;
         pixels[(int)(midH*(1 - y))][(int)(midW*(1 + x))][0] = fd>>(24); // 8*3
         pixels[(int)(midH*(1 - y))][(int)(midW*(1 + x))][1] = fd>>(16); // 8*2
